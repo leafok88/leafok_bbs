@@ -1,0 +1,31 @@
+BODY
+{
+    FONT-SIZE: 14px;
+    background-color: #f3f3f3;
+    MARGIN: 20px 5px;
+    COLOR: sienna;
+}
+P
+{
+    FONT-SIZE: 14px
+}
+TD
+{
+	color:#909090;
+	background-color:#fafbfc;
+	font-family: 楷体;
+	font-size:16px;
+}
+A
+{
+    FONT-SIZE: 16px;
+    TEXT-DECORATION: none
+}
+A:link,A:visited,A:active
+{
+    COLOR: #228b22;
+}
+A:hover
+{
+    COLOR: red;
+}
