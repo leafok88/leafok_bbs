@@ -320,7 +320,7 @@
 				$result_set["return"]["code"] = -1;
 				array_push($result_set["return"]["errorFields"], array(
 					"id" => "prompt",
-					"errMsg" => "本版连续发表主题数量达到上限",
+					"errMsg" => "本版连续发表文章数量达到上限",
 				));
 		
 				mysqli_close($db_conn);
