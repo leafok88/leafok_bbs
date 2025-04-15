@@ -26,11 +26,13 @@
 
 	if ($enable)
 	{
-		$sql = "UPDATE user_pubinfo SET photo_enable = 1 WHERE UID = $p_id";
+		$sql = "UPDATE user_pubinfo SET photo_enable = 1 WHERE UID = $p_id
+				AND photo = 999 AND photo_enable = 0 AND photo_ext <> ''";
 	}
 	else
 	{
-		$sql = "UPDATE user_pubinfo SET photo_ext = '' WHERE UID = $p_id";
+		$sql = "UPDATE user_pubinfo SET photo_ext = '' WHERE UID = $p_id
+				AND photo = 999 AND photo_enable = 0 AND photo_ext <> ''";
 	}
 
 	$rs = mysqli_query($db_conn, $sql);
