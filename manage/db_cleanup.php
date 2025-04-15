@@ -206,6 +206,36 @@ if (file_exists("../bbs/upload"))
 	closedir($handle); 
 }
 
+//Delete expired upload photo
+$sql = "SELECT UID, photo_ext FROM user_pubinfo
+		WHERE photo = 999 AND photo_enable = 1";
+$rs = mysqli_query($db_conn, $sql);
+if ($rs == false)
+{
+	echo("Query user photo error" . mysqli_error($db_conn));
+	exit();
+}
+
+$file_reserved = array();
+while ($row = mysqli_fetch_array($rs))
+{
+	array_push($file_reserved, "face_" . $row["UID"] . "." . $row["photo_ext"]);
+}
+mysqli_free_result($rs);
+
+if (file_exists("../bbs/images/face/upload_photo"))
+{
+	$handle = opendir("../bbs/images/face/upload_photo"); 
+	while (false !== ($file = readdir($handle))) 
+	{
+		if ($file != "." && $file != ".." && !in_array($file, $file_reserved))
+		{
+			unlink("../bbs/images/face/upload_photo/$file");
+		} 
+	}
+	closedir($handle); 
+}
+
 //Purge dead ID
 $life_list = "-1";
 foreach ($BBS_life_immortal as $life)
