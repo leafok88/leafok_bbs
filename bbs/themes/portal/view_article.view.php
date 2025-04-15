@@ -83,7 +83,7 @@ TD.content
 			$filename = $attachment["filename"];
 			$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
 ?>
-			<img src="../www/images/dl.gif"><a class="s2" href="../bbs/dl_file.php?aid=<? echo $attachment["aid"]; ?>" target="_target"><? echo $filename; ?></a> (<? echo $attachment["size"]; ?>字节)
+						<img src="../www/images/dl.gif"><a class="s2" href="../bbs/dl_file.php?aid=<? echo $attachment["aid"]; ?>" target="_target"><? echo $filename; ?></a> (<? echo $attachment["size"]; ?>字节)
 <?
 			if ($attachment["check"] == 0)
 			{
@@ -101,7 +101,7 @@ TD.content
 					case "tif":
 					case "tiff":
 ?>
-					<img onmousewheel="return bbs_img_zoom(event, this)" src="../bbs/dl_file.php?aid=<? echo $attachment["aid"]; ?>">
+						<br /><img onmousewheel="return bbs_img_zoom(event, this)" src="../bbs/dl_file.php?aid=<? echo $attachment["aid"]; ?>">
 <?
 						break;
 				}

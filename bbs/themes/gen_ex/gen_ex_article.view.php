@@ -155,7 +155,7 @@
 				case "tif":
 				case "tiff":
 ?>
-						<img onmousewheel="return bbs_img_zoom(event, this)" src="<? echo $section_path; ?>../attachment/<? echo $attachment["aid"] . ".$ext"; ?>">
+						<br /><img onmousewheel="return bbs_img_zoom(event, this)" src="<? echo $section_path; ?>../attachment/<? echo $attachment["aid"] . ".$ext"; ?>">
 <?
 					break;
 			}

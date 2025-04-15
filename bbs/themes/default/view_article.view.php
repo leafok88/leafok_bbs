@@ -523,7 +523,7 @@ window.addEventListener("load", () => {
 					case "tif":
 					case "tiff":
 ?>
-					<img onmousewheel="return bbs_img_zoom(event, this)" src="dl_file.php?aid=<? echo $attachment["aid"]; ?>">
+					<br /><img onmousewheel="return bbs_img_zoom(event, this)" src="dl_file.php?aid=<? echo $attachment["aid"]; ?>">
 <?
 						break;
 				}
