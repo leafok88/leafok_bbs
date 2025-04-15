@@ -1,2 +1,3 @@
 # leafok_bbs
-LeafOK BBS
+See README
+
