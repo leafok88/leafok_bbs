@@ -40,7 +40,7 @@ function photo_path(int $uid, mysqli $db_conn) : string | false
 		} 
 		else
 		{
-			$path = "images/face/upload_photo/check.gif";
+			$path = "images/face/check.gif";
 		}
 	} 
 
