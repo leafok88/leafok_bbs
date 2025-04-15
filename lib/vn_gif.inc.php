@@ -13,11 +13,11 @@ function VN_gif_display($str)
 	$background_color = imagecolorallocate ($im, 230, 230, 230);
 	for ($i=0;$i<strlen($str);$i++)
 	{
-	    $text_color = imagecolorallocate ($im, 30 + mt_rand(0, 100), 30 + mt_rand(0, 100), 30 + mt_rand(0, 100));
-	    imagestring ($im, 10 + mt_rand(0, 4), $i * 14 + mt_rand(5, 10), mt_rand(2, 7), $str[$i], $text_color);
-    }
-    
-    //output image
+		$text_color = imagecolorallocate ($im, 30 + mt_rand(0, 100), 30 + mt_rand(0, 100), 30 + mt_rand(0, 100));
+		imagestring ($im, 10 + mt_rand(0, 4), $i * 14 + mt_rand(5, 10), mt_rand(2, 7), $str[$i], $text_color);
+	}
+	
+	//output image
 	header ("Content-type: image/png");
 	imagepng ($im);
 }
@@ -28,12 +28,12 @@ function VN_gen_str($len, $display = true)
 	for ($i = 0; $i < $len; $i++)
 	{
 		mt_srand(intval(microtime(true) * 1000000));
-	    $num = mt_rand(0, 61);
-	    $str .= chr($num < 10 ? (ord("0") + $num) : ($num < 36 ? (ord("A") + $num - 10) : (ord("a") + $num - 36)));
+		$num = mt_rand(0, 61);
+		$str .= chr($num < 10 ? (ord("0") + $num) : ($num < 36 ? (ord("A") + $num - 10) : (ord("a") + $num - 36)));
 	}
 	if ($display)
 	{
-    	VN_gif_display($str);
+		VN_gif_display($str);
 	}
 	return $str;
 } 
