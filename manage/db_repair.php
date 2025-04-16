@@ -21,7 +21,7 @@ if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) && !isset($_SERVER["argc"]))
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>修复BBS数据库</title>
+<title>数据修复</title>
 <link rel="stylesheet" href="css/default.css" type="text/css">
 </head>
 <body>

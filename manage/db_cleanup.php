@@ -19,7 +19,7 @@ if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S) && !isset($_SERVER
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>整理BBS数据库</title>
+<title>数据清理</title>
 <link rel="stylesheet" href="css/default.css" type="text/css">
 </head>
 <body>
