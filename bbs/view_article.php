@@ -486,7 +486,8 @@
 			$aid_list .= ", $k";
 		}
 
-		$sql = "SELECT AID FROM view_article_log WHERE AID IN ($aid_list) AND UID = " . $_SESSION["BBS_uid"];
+		$sql = "SELECT AID FROM view_article_log
+				WHERE AID IN ($aid_list) AND UID = " . $_SESSION["BBS_uid"];
 	
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)

@@ -108,7 +108,7 @@
 
 	$sql = "UPDATE bbs SET visible = 0, reply_count = 0" .
 			($uid == $_SESSION["BBS_uid"] ? "" : ", m_del = 1") .
-			" WHERE (AID = $id OR TID = $id) AND visible";
+			" WHERE (AID = $id OR TID = $id) AND visible FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

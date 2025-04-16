@@ -93,12 +93,12 @@ window.addEventListener("load", () => {
 		<form method="post" id="reg_form" name="reg_form" action="#">
 			<p style="font-weight: bold; font-size: 16px; color: red; font-family: 楷体">新用户注册</p>
 			<p><span id="err_msg_prompt" name="err_msg" style="color: red"></span></p>
-			<table border="1" cellpadding="10" cellspacing="0" width="700" bgcolor="#ffdead">
+			<table border="1" cellpadding="10" cellspacing="0" width="1050" bgcolor="#ffdead">
 				<tr>
-					<td width="26%" align="right">
+					<td width="25%" align="right">
 						用户名
 					</td>
-					<td width="74%">
+					<td width="75%">
 						<span id="err_msg_username" name="err_msg" style="color: red;"></span><input id="username" name="username" value="">
 						<font color="red">*</font>
 						5-12位英文子母、数字的组合，必须以字母开头，不可更改
@@ -200,7 +200,7 @@ window.addEventListener("load", () => {
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-					<span id="err_msg_agreement" name="err_msg" style="color: red;"></span><textarea rows="15" cols="80"><?
+					<span id="err_msg_agreement" name="err_msg" style="color: red;"></span><textarea rows="15" cols="130"><?
 	$buffer = file_get_contents("./doc/license/" . (new DateTime($BBS_license_dt))->format("Ymd") . ".txt");
 	echo (LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, false, 1024));
 						?></textarea>

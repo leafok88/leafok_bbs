@@ -71,7 +71,8 @@
 
 	while ($row = mysqli_fetch_array($rs))
 	{
-		$sql = "SELECT last_exp, exp_left FROM user_score WHERE UID = " . $row["UID"];
+		$sql = "SELECT last_exp, exp_left FROM user_score WHERE UID = " .
+				$row["UID"] . " FOR UPDATE";
 
 		$rs_score = mysqli_query($db_conn, $sql);
 		if ($rs_score == false)

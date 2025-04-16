@@ -134,7 +134,8 @@
 	$user_type = 0;
 
 	$sql = "SELECT UID, major FROM section_master
-			WHERE SID = $sid AND enable AND (NOW() BETWEEN begin_dt AND end_dt)";
+			WHERE SID = $sid AND enable AND (NOW() BETWEEN begin_dt AND end_dt)
+			FOR UPDATE";
 	
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

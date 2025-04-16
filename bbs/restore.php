@@ -48,7 +48,7 @@
 	}
 
 
-	$sql = "SELECT TID, SID, visible, m_del FROM bbs WHERE AID = $id";
+	$sql = "SELECT TID, SID, visible, m_del FROM bbs WHERE AID = $id FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
@@ -107,7 +107,7 @@
 
 	if ($tid != 0)
 	{
-		$sql = "SELECT AID FROM bbs WHERE AID = $tid AND visible = 1";
+		$sql = "SELECT AID FROM bbs WHERE AID = $tid AND visible = 1 FOR UPDATE";
 
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)

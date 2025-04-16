@@ -36,7 +36,7 @@ function send_mail_do($db_conn)
 	}
 
 	$sql = "SELECT id, fromemail, fromname, toemail, toname, subject, body
-			FROM email WHERE complete = 0 ORDER BY id DESC";
+			FROM email WHERE complete = 0 ORDER BY id DESC FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

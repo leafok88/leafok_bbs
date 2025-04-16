@@ -48,7 +48,8 @@
 		exit(json_encode($result_set));
 	}
 
-	$sql = "SELECT UID, TID, SID, transship, excerption FROM bbs WHERE AID = $id AND visible";
+	$sql = "SELECT UID, TID, SID, transship, excerption FROM bbs
+			WHERE AID = $id AND visible FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

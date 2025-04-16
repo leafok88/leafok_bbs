@@ -168,7 +168,7 @@
 			FROM user_list WHERE username = '$username' AND
 			(password = MD5('$password') OR password = SHA2('$password', 256) OR
 			temp_password = '$password')
-			AND enable";
+			AND enable FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

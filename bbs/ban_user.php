@@ -206,7 +206,7 @@
 
 	// Check active ban
 	$sql = "SELECT BID FROM ban_user_list WHERE UID = $uid
-			AND SID = $sid AND enable";
+			AND SID = $sid AND enable FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

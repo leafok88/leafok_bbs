@@ -80,7 +80,7 @@
 	mysqli_free_result($rs);
 
 	$sql = "SELECT ID FROM friend_list WHERE UID = " .
-			$_SESSION["BBS_uid"] . " AND fUID = $uid";
+			$_SESSION["BBS_uid"] . " AND fUID = $uid FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
@@ -122,7 +122,7 @@
 		if ($set == 1)
 		{
 			$sql = "INSERT INTO friend_list(UID, fUID) VALUES(".
-				$_SESSION["BBS_uid"].", $uid)";
+					$_SESSION["BBS_uid"].", $uid)";
 
 			$ret = mysqli_query($db_conn, $sql);
 			if ($ret == false)

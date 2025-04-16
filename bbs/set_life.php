@@ -69,7 +69,8 @@
 
 	$sql = "SELECT life FROM user_list
 			INNER JOIN user_pubinfo ON user_list.UID = user_pubinfo.UID
-			WHERE user_list.UID = $uid AND user_list.enable";
+			WHERE user_list.UID = $uid AND user_list.enable
+			FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

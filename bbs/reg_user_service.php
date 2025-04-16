@@ -171,7 +171,7 @@
 	}
 
 	// Check availability of username and nickname
-	$sql = "SELECT UID FROM user_list WHERE username = '$username'";
+	$sql = "SELECT UID FROM user_list WHERE username = '$username' FOR UPDATE";
 	
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
@@ -193,7 +193,7 @@
 	}
 	mysqli_free_result($rs);
 
-	$sql = "SELECT UID FROM user_nickname WHERE nickname = '$nickname'";
+	$sql = "SELECT UID FROM user_nickname WHERE nickname = '$nickname' FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
@@ -215,7 +215,7 @@
 	}
 	mysqli_free_result($rs);
 	
-	$sql = "SELECT UID FROM user_pubinfo WHERE email = '$email'";
+	$sql = "SELECT UID FROM user_pubinfo WHERE email = '$email' FOR UPDATE";
 	
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

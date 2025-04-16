@@ -135,7 +135,8 @@
 		exit(json_encode($result_set));
 	}
 
-	$sql = "SELECT nickname, email FROM user_pubinfo WHERE UID = " . $_SESSION["BBS_uid"];
+	$sql = "SELECT nickname, email FROM user_pubinfo WHERE UID = " . $_SESSION["BBS_uid"] .
+			" FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
@@ -266,7 +267,7 @@
 	// Update email
 	if ($old_email != $email)
 	{
-		$sql = "SELECT UID FROM user_pubinfo WHERE email = '$email'";
+		$sql = "SELECT UID FROM user_pubinfo WHERE email = '$email' FOR SHARE";
 
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)

@@ -8,7 +8,7 @@ function score_change(int $uid, int $score_change, string $reason, mysqli $db_co
 		return 0; // OK if no change
 	}
 
-	$sql = "SELECT score FROM user_score WHERE UID = $uid";
+	$sql = "SELECT score FROM user_score WHERE UID = $uid FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
@@ -34,7 +34,7 @@ function score_change(int $uid, int $score_change, string $reason, mysqli $db_co
 	}
 	else
 	{
-		$sql = "INSERT INTO user_score (UID, score) VALUES($uid, $score_change)";
+		$sql = "INSERT INTO user_score(UID, score) VALUES($uid, $score_change)";
 
 		$ret = mysqli_query($db_conn, $sql);
 		if ($ret == false)
@@ -45,7 +45,7 @@ function score_change(int $uid, int $score_change, string $reason, mysqli $db_co
 
 	mysqli_free_result($rs);
 
-	$sql = "INSERT INTO user_score_log (UID, score_change, reason, dt)
+	$sql = "INSERT INTO user_score_log(UID, score_change, reason, dt)
 			VALUES($uid, $score_change, '" .
 			mysqli_real_escape_string($db_conn, $reason) . "', NOW())";
 

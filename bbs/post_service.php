@@ -221,7 +221,7 @@
 		}
 		else // Reply article
 		{
-			$sql = "SELECT TID, SID, title, `lock` FROM bbs WHERE AID = $reply_id AND visible";
+			$sql = "SELECT TID, SID, title, `lock` FROM bbs WHERE AID = $reply_id AND visible FOR UPDATE";
 			
 			$rs = mysqli_query($db_conn, $sql);
 			if ($rs == false)
@@ -255,7 +255,7 @@
 
 			if ($tid != 0) // Article to be replied is not the head of topic thread
 			{
-				$sql = "SELECT SID, title, `lock` FROM bbs WHERE AID = $tid AND visible";
+				$sql = "SELECT SID, title, `lock` FROM bbs WHERE AID = $tid AND visible FOR UPDATE";
 
 				$rs = mysqli_query($db_conn, $sql);
 				if ($rs == false)
@@ -348,7 +348,7 @@
 	}
 	else // Modify article
 	{
-		$sql = "SELECT TID, UID, SID, excerption FROM bbs WHERE AID = $id AND visible";
+		$sql = "SELECT TID, UID, SID, excerption FROM bbs WHERE AID = $id AND visible FOR UPDATE";
 
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
@@ -622,7 +622,7 @@
 		if ($reply_id > 0)
 		{
 			$sql = "UPDATE bbs SET reply_count = reply_count + 1,
-					last_reply_dt = now(), last_reply_UID=" . $_SESSION["BBS_uid"] .
+					last_reply_dt = NOW(), last_reply_UID=" . $_SESSION["BBS_uid"] .
 					", last_reply_username = '" . $_SESSION["BBS_username"] .
 					"', last_reply_nickname = '$nickname' WHERE Aid = $tid";
 

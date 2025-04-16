@@ -50,7 +50,7 @@
 
 	// Check topic
 	$sql = "SELECT UID, SID, excerption FROM bbs
-			WHERE AID = $id AND TID = 0 AND visible";
+			WHERE AID = $id AND TID = 0 AND visible FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

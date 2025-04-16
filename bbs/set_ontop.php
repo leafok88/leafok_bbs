@@ -48,7 +48,9 @@
 		exit(json_encode($result_set));
 	}
 
-	$sql = "SELECT UID, SID, ontop FROM bbs WHERE AID = $id AND TID = 0 AND visible";
+	$sql = "SELECT UID, SID, ontop FROM bbs
+			WHERE AID = $id AND TID = 0 AND visible
+			FOR UPDATE";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

@@ -95,7 +95,7 @@
 
 	if ($current_dir != "") // Not root
 	{
-		$sql = "SELECT FID, name FROM ex_dir WHERE dir = '$current_dir' AND enable";
+		$sql = "SELECT FID, name FROM ex_dir WHERE dir = '$current_dir' AND enable FOR SHARE";
 
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
@@ -148,7 +148,7 @@
 				exit(json_encode($result_set));
 			}
 
-			$sql = "SELECT FID FROM ex_dir WHERE SID = $sid AND dir = '$current_dir$dir/'";
+			$sql = "SELECT FID FROM ex_dir WHERE SID = $sid AND dir = '$current_dir$dir/' FOR UPDATE";
 
 			$rs = mysqli_query($db_conn, $sql);
 			if ($rs == false)
@@ -231,7 +231,7 @@
 				$parent_dir = substr($current_dir, 0, strrpos("/" . $current_dir, "/", -2));
 				$current_dir_len = strlen($current_dir);
 
-				$sql = "SELECT FID, dir FROM ex_dir WHERE SID = $sid AND dir LIKE '$current_dir%'";
+				$sql = "SELECT FID, dir FROM ex_dir WHERE SID = $sid AND dir LIKE '$current_dir%' FOR UPDATE";
 
 				$rs = mysqli_query($db_conn, $sql);
 				if ($rs == false)
@@ -303,7 +303,7 @@
 				exit(json_encode($result_set));
 			}
 
-			$sql = "SELECT FID FROM ex_dir WHERE SID = $sid AND dir LIKE '$current_dir%'";
+			$sql = "SELECT FID FROM ex_dir WHERE SID = $sid AND dir LIKE '$current_dir%' FOR UPDATE";
 
 			$rs = mysqli_query($db_conn, $sql);
 			if ($rs == false)
