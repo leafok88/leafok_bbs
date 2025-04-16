@@ -1,20 +1,19 @@
 <?
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/common.inc.php";
-?>
-<?
-$sql = "SELECT section_config.SID, section_config.CID, section_config.sname,
-		section_config.title AS s_title, section_class.title AS c_title FROM section_config
-		INNER JOIN section_class ON section_config.CID=section_class.CID
-		WHERE section_config.enable AND section_class.enable
-		AND section_config.read_user_level <= 1
-		ORDER BY section_class.sort_order, section_config.sort_order";
-$rs = mysqli_query($db_conn, $sql);
-if ($rs == false)
-{
-	echo ("Query section error: " . mysqli_error($db_conn));
-	exit();
-}
+
+	$sql = "SELECT section_config.SID, section_config.CID, section_config.sname,
+			section_config.title AS s_title, section_class.title AS c_title FROM section_config
+			INNER JOIN section_class ON section_config.CID=section_class.CID
+			WHERE section_config.enable AND section_class.enable
+			AND section_config.read_user_level <= 1
+			ORDER BY section_class.sort_order, section_config.sort_order";
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		echo ("Query section error: " . mysqli_error($db_conn));
+		exit();
+	}
 ?>
 <html>
 	<head>
@@ -48,10 +47,10 @@ if ($rs == false)
 					</td>
 				</tr>
 <?
-$last_cid = -1;
+	$last_cid = -1;
 
-while ($row = mysqli_fetch_array($rs))
-{
+	while ($row = mysqli_fetch_array($rs))
+	{
 ?>
 				<tr>
 					<td align="center">
@@ -65,8 +64,12 @@ while ($row = mysqli_fetch_array($rs))
 					</td>
 				</tr>
 <?
-	$last_cid = $row["CID"];
-}
+		$last_cid = $row["CID"];
+	}
+
+	mysqli_free_result($rs);
+
+	mysqli_close($db_conn);
 ?>
 				<tr height="10">
 					<td colspan="3" align="center">
@@ -83,7 +86,3 @@ while ($row = mysqli_fetch_array($rs))
 		</center>
 	</body>
 </html>
-<?
-mysqli_free_result($rs);
-mysqli_close($db_conn);
-?>

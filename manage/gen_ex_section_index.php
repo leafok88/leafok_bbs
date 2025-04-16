@@ -1,62 +1,62 @@
 <?
-if (!isset($_SERVER["argc"]) || $_SERVER["argc"] != 2)
-{
-	echo "Invalid usage";
-	exit();
-}
+	if (!isset($_SERVER["argc"]) || $_SERVER["argc"] != 2)
+	{
+		echo "Invalid usage";
+		exit();
+	}
 
-if (strrpos($_SERVER["argv"][0], "/") !== false)
-{
-	chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));
-}
+	if (strrpos($_SERVER["argv"][0], "/") !== false)
+	{
+		chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));
+	}
 
-require_once "../lib/db_open.inc.php";
-require_once "../lib/common.inc.php";
+	require_once "../lib/db_open.inc.php";
+	require_once "../lib/common.inc.php";
 
-$sid = intval($_SERVER["argv"][1]);
+	$sid = intval($_SERVER["argv"][1]);
 
-$sql = "SELECT SID, title FROM section_config WHERE
-		SID = $sid AND enable LIMIT 1";
-$rs = mysqli_query($db_conn, $sql);
-if ($rs == false)
-{
-	echo ("Query section error: " . mysqli_error($db_conn));
-	exit();
-}
-if ($row = mysqli_fetch_array($rs))
-{
-	$sid = $row["SID"];
-	$section_title = $row["title"];
-}
-else
-{
-	echo ("版块不存在！");
-	exit();
-}
-mysqli_free_result($rs);
+	$sql = "SELECT SID, title FROM section_config WHERE
+			SID = $sid AND enable LIMIT 1";
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		echo ("Query section error: " . mysqli_error($db_conn));
+		exit();
+	}
+	if ($row = mysqli_fetch_array($rs))
+	{
+		$sid = $row["SID"];
+		$section_title = $row["title"];
+	}
+	else
+	{
+		echo ("版块不存在！");
+		exit();
+	}
+	mysqli_free_result($rs);
 
-$sql = "SELECT dir, name, SUM(cc) AS cc FROM (
-		SELECT dir, name, COUNT(bbs.AID) AS cc FROM bbs
-		LEFT JOIN ex_file ON bbs.AID = ex_file.AID
-		LEFT JOIN ex_dir ON ex_file.FID = ex_dir.FID
-		WHERE bbs.SID = $sid AND TID = 0 AND visible AND gen_ex
-		AND ex_dir.SID = $sid AND ex_dir.enable
-		GROUP BY dir, name
-		UNION SELECT dir, name, 0 AS cc FROM ex_dir
-		LEFT JOIN ex_file ON ex_dir.FID = ex_file.FID
-		LEFT JOIN bbs ON ex_file.AID = bbs.AID
-		WHERE ex_dir.SID = $sid AND ex_dir.enable
-		AND TID IS NULL
-		UNION SELECT NULL, NULL, 0 AS cc
-		ORDER BY dir ) AS r1
-		GROUP BY dir, name ORDER BY dir";
+	$sql = "SELECT dir, name, SUM(cc) AS cc FROM (
+			SELECT dir, name, COUNT(bbs.AID) AS cc FROM bbs
+			LEFT JOIN ex_file ON bbs.AID = ex_file.AID
+			LEFT JOIN ex_dir ON ex_file.FID = ex_dir.FID
+			WHERE bbs.SID = $sid AND TID = 0 AND visible AND gen_ex
+			AND ex_dir.SID = $sid AND ex_dir.enable
+			GROUP BY dir, name
+			UNION SELECT dir, name, 0 AS cc FROM ex_dir
+			LEFT JOIN ex_file ON ex_dir.FID = ex_file.FID
+			LEFT JOIN bbs ON ex_file.AID = bbs.AID
+			WHERE ex_dir.SID = $sid AND ex_dir.enable
+			AND TID IS NULL
+			UNION SELECT NULL, NULL, 0 AS cc
+			ORDER BY dir ) AS r1
+			GROUP BY dir, name ORDER BY dir";
 
-$rs = mysqli_query($db_conn, $sql);
-if ($rs == false)
-{
-	echo ("Query index error: " . mysqli_error($db_conn));
-	exit();
-}
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		echo ("Query index error: " . mysqli_error($db_conn));
+		exit();
+	}
 ?>
 <html>
 	<head>
@@ -84,10 +84,10 @@ if ($rs == false)
 					</td>
 				</tr>
 <?
-while ($row = mysqli_fetch_array($rs))
-{
-	$level = substr_count(($row["dir"] ? $row["dir"] : ""), "/");
-	$prefix = str_repeat("|<span style=\"visibility: hidden;\">---</span>", ($level ? $level - 1 : 0)) . ($level ? "|---" : "");
+	while ($row = mysqli_fetch_array($rs))
+	{
+		$level = substr_count(($row["dir"] ? $row["dir"] : ""), "/");
+		$prefix = str_repeat("|<span style=\"visibility: hidden;\">---</span>", ($level ? $level - 1 : 0)) . ($level ? "|---" : "");
 ?>
 				<tr height="10">
 					<td>
@@ -99,7 +99,10 @@ while ($row = mysqli_fetch_array($rs))
 					</td>
 				</tr>
 <?
-}
+	}
+	mysqli_free_result($rs);
+
+	mysqli_close($db_conn);
 ?>
 				<tr height="10">
 					<td colspan="3" align="center">
@@ -129,7 +132,3 @@ while ($row = mysqli_fetch_array($rs))
 		</center>
 	</body>
 </html>
-<?
-mysqli_free_result($rs);
-mysqli_close($db_conn);
-?>
