@@ -68,7 +68,7 @@ const instance = axios.create({
 		</p>
 		<center>
 			<form method="post" id="reset_form" name="reset_form" action="javascript: reset_pass(reset_form);">
-				<table cellSpacing="0" cellPadding="10" width="200" border="0" style="WIDTH: 200px">
+				<table cellSpacing="0" cellPadding="10" width="300" border="0">
 					<tr>
 						<td>
 							<p align="center">

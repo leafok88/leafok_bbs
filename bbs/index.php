@@ -193,7 +193,7 @@ window.addEventListener("load", () => {
 	</tr>
 	<tr id="tr_ch_passwd" style="visibility: <? echo ($ch_passwd ? "visible" : "collapse"); ?>;">
 		<td></td>
-    	<td colspan="2" class="t1" align="left">
+    	<td colspan="2" class="t1" align="center">
 			<font color=blue>密码为6-12个英文字母和数字的组合，必须同时包含大写、小写字母和数字，不能包含用户名</font>
 		</td>
 		<td></td>
