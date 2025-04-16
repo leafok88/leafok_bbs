@@ -1,30 +1,41 @@
 <?
 if (!isset($_BBS_PRIV_CLASS_INIT_))
 {
-	$_BBS_PRIV_CLASS_INIT_=1;
+	$_BBS_PRIV_CLASS_INIT_ = 1;
 
-	define("S_NONE",0x0);
-	define("S_LIST",0x1);
-	define("S_GETEXP",0x2);
-	define("S_POST",0x4);
-	define("S_MSG",0x8);
-	define("S_MAN_S",0x20);
-	define("S_MAN_M",0x60);	//(0x40 | 0x20)
-	define("S_ADMIN",0xe0);	//(0x80 | 0x40 | 0x20)
-	define("S_ALL",0xff);
-	define("S_DEFAULT",0x3);	//0x1 | 0x2
+	define("S_NONE", 0x0);
+	define("S_LIST", 0x1);
+	define("S_GETEXP", 0x2);
+	define("S_POST", 0x4);
+	define("S_MSG", 0x8);
+	define("S_MAN_S", 0x20);
+	define("S_MAN_M", 0x60);	//(0x40 | 0x20)
+	define("S_ADMIN", 0xe0);	//(0x80 | 0x40 | 0x20)
+	define("S_ALL", 0xff);
+	define("S_DEFAULT", 0x3);	//0x1 | 0x2
 	
-	define("P_GUEST",0x0);	//游客
-	define("P_USER",0x1);	//普通用户
-//	define("P_AUTH_USER",0x2);	// Reserved
-	define("P_MAN_S",0x4);	//副版主
-	define("P_MAN_M",0x8);	//正版主
-//	define("P_MAN_C",0x10);	// Reserved
-	define("P_ADMIN_S",0x20);	//副系统管理员
-	define("P_ADMIN_M",0x40);	//主系统管理员
+	define("P_GUEST", 0x0);	//游客
+	define("P_USER", 0x1);	//普通用户
+//	define("P_AUTH_USER", 0x2);	// Reserved
+	define("P_MAN_S", 0x4);	//副版主
+	define("P_MAN_M", 0x8);	//正版主
+	define("P_MAN_C", 0x10);	// Reserved
+	define("P_ADMIN_S", 0x20);	//副系统管理员
+	define("P_ADMIN_M", 0x40);	//主系统管理员
 
 	class user_priv
 	{
+		static $user_level_list = array(
+			P_GUEST,
+			P_USER,
+//			P_AUTH_USER,
+			P_MAN_S,
+			P_MAN_M,
+//			P_MAN_C,
+			P_ADMIN_S,
+			P_ADMIN_M,
+		);
+
 		var $uid;
 		var $level;
 		var $g_priv;
@@ -172,32 +183,37 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 			return 0;
 		}
 
-		function levelname() : string
+		static function s_levelname(int $level) : string
 		{
 			$ret = "游客";
 
-			if ($this->level & P_ADMIN_M)
+			if ($level & P_ADMIN_M)
 			{
 				$ret = "主系统管理员";
 			}
-			else if ($this->level & P_ADMIN_S)
+			else if ($level & P_ADMIN_S)
 			{
 				$ret = "副系统管理员";
 			}
-			else if ($this->level & P_MAN_M)
+			else if ($level & P_MAN_M)
 			{
 				$ret = "正版主";
 			}
-			else if ($this->level & P_MAN_S)
+			else if ($level & P_MAN_S)
 			{
 				$ret = "副版主";
 			}
-			else if ($this->level & P_USER)
+			else if ($level & P_USER)
 			{
 				$ret = "普通用户";
 			}
 
 			return $ret;
+		}
+
+		function levelname() : string
+		{
+			return user_priv::s_levelname($this->level);
 		}
 	}
 }

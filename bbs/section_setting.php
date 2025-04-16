@@ -2,6 +2,7 @@
 	require_once "../lib/db_open.inc.php";
 	require_once "./section_list.inc.php";
 	require_once "./session_init.inc.php";
+	require_once "./user_priv.inc.php";
 	require_once "./theme.inc.php";
 
 	force_login();
@@ -42,9 +43,18 @@
 	{
 		$result_set["data"] = array(
 			"sid" => $sid,
+			"cid" => $row["CID"],
+			"sname" => $row["sname"],
+			"title" => $row["title"],
+			"exp_get" => $row["exp_get"],
+			"recommend" => $row["recommend"],
+			"read_user_level" => $row["read_user_level"],
+			"write_user_level" => $row["write_user_level"],
 			"announcement" => $row["announcement"],
 			"comment" => $row["comment"],
 			"ex_update" => $row["ex_update"],
+			"sort_order" => $row["sort_order"],
+			"class_sections" => array(),
 			"section_hierachy" => array(),
 			"masters" => array(),
 		);
@@ -88,6 +98,30 @@
 	}
 	mysqli_free_result($rs);
 
+	// Load sections in current class
+	$sql = "SELECT SID, title, sort_order FROM section_config WHERE CID = " .
+			$result_set["data"]["cid"] . " AND enable ORDER BY sort_order";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Query section list error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	while ($row = mysqli_fetch_array($rs))
+	{
+		array_push($result_set["data"]["class_sections"], array(
+			"sid" => $row["SID"],
+			"title" => $row["title"],
+			"sort_order" => $row["sort_order"],
+		));
+	}
+	mysqli_free_result($rs);
+			
 	// Load section list
 	$ret = load_section_list($result_set["data"]["section_hierachy"],
 		function (array $section, array $filter_param) : bool

@@ -50,8 +50,15 @@ function section_setting(f)
 {
 	instance.post('section_setting_service.php', {
 		sid: <? echo $result_set["data"]["sid"]; ?>,
+		sname: f.sname.value,
+		title: f.title.value,
 		comment: f.textarea_comment.value,
 		announcement: f.textarea_announcement.value,
+		exp_get: (f.exp_get.checked ? "1" : "0"),
+		recommend: (f.recommend.checked ? "1" : "0"),
+		read_user_level: f.read_user_level.value,
+		write_user_level: f.write_user_level.value,
+		sort_order: f.sort_order.value,
 		ex_update: (f.ex_update.checked ? "1" : "0"),
 	})
 	.then(function (response) {
@@ -215,6 +222,45 @@ window.addEventListener("load", () => {
 			document.location = "section_setting.php?sid=" + s.value + "&ts=" + Date.now();
 		}
 	});
+
+<?
+	$user_level_types = array("read_user_level", "write_user_level");
+
+	foreach ($user_level_types as $t)
+	{
+?>
+	var l = document.getElementById("<? echo $t; ?>");
+	var found = false;
+	for (i = 0; !found && i < l.options.length; i++)
+	{
+		if (l.options[i].value == <? echo $result_set["data"][$t]; ?>)
+		{
+			l.selectedIndex = i;
+			found = true;
+		}
+	}
+
+	for (i = 0; !found && i < l.options.length; i++)
+	{
+		if (l.options[i].value >= <? echo $result_set["data"][$t]; ?>)
+		{
+			l.selectedIndex = i;
+			found = true;
+		}
+	}
+<?
+	}
+?>
+
+	var s_sort = document.getElementById("sort_order");
+	for (i = 0; i < s_sort.options.length; i++)
+	{
+		if (s_sort.options[i].value == <? echo $result_set["data"]["sort_order"]; ?>)
+		{
+			s_sort.selectedIndex = i;
+			break;
+		}
+	}
 });
 
 </script>
@@ -227,7 +273,7 @@ window.addEventListener("load", () => {
 		<table border="1" cellpadding="10" cellspacing="0" width="1050" bgcolor="#ffdead">
 			<tr>
 				<td width="25%" align="right">
-					版块名称
+					操作版块
 				</td>
 				<td width="75%">
 					<select id="section_switch" name="section_switch" size="1">
@@ -249,6 +295,28 @@ window.addEventListener("load", () => {
 				</td>
 			</tr>
 			<tr>
+				<td width="25%" align="right">
+					版块名称
+				</td>
+				<td width="75%">
+					<span id="err_msg_sname" name="err_msg" style="color: red;"></span>
+					<input id="sname" name="sname" size="20" value="<? echo htmlspecialchars($result_set["data"]["sname"], ENT_QUOTES | ENT_HTML401, 'UTF-8'); ?>"
+						<? echo ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) ? "" : "disabled"); ?>
+					<br />1-20位大小写字母、数字、下划线的组合，必须以字母开头
+				</td>
+			</tr>
+			<tr>
+				<td width="25%" align="right">
+					版块标题
+				</td>
+				<td width="75%">
+					<span id="err_msg_title" name="err_msg" style="color: red;"></span>
+					<input id="title" name="title" size="20" value="<? echo htmlspecialchars($result_set["data"]["title"], ENT_QUOTES | ENT_HTML401, 'UTF-8'); ?>"
+						<? echo ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) ? "" : "disabled"); ?>
+					<br />长度不超过10个全角字符，不能包含空格和HTML特殊语义字符
+				</td>
+			</tr>
+			<tr>
 				<td align="right">
 					版块介绍
 				</td>
@@ -266,6 +334,61 @@ window.addEventListener("load", () => {
 					<span id="err_msg_announcement" name="err_msg" style="color: red;"></span>
 					<textarea id="textarea_announcement" name="textarea" cols="80" rows="5"><? echo htmlspecialchars($result_set["data"]["announcement"], ENT_HTML401, 'UTF-8'); ?></textarea>
 					<br />限3行以内，每行不超过150字符
+				</td>
+			</tr>
+			<tr>
+				<td width="25%" align="right">
+					版块属性
+				</td>
+				<td width="75%">
+					<span id="err_msg_flag" name="err_msg" style="color: red;"></span>
+					<input type="checkbox" id="exp_get" name="exp_get" <? echo ($result_set["data"]["exp_get"] ? "checked" : ""); ?>
+						<? echo ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) ? "" : "disabled"); ?>>经验&nbsp;&nbsp;&nbsp;
+					<input type="checkbox" id="recommend" name="recommend" <? echo ($result_set["data"]["recommend"] ? "checked" : ""); ?>
+						<? echo ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) ? "" : "disabled"); ?>>推荐&nbsp;&nbsp;&nbsp;
+					<select id="read_user_level" name="read_user_level" size="1"
+						<? echo ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) ? "" : "disabled"); ?>>
+<?
+	foreach (user_priv::$user_level_list as $level)
+	{
+?>
+						<option value="<? echo $level; ?>"><? echo user_priv::s_levelname($level); ?></option>
+<?
+	}
+?>
+					</select>可读&nbsp;&nbsp;&nbsp;
+					<select id="write_user_level" name="write_user_level" size="1"
+						<? echo ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) ? "" : "disabled"); ?>>
+<?
+	foreach (user_priv::$user_level_list as $level)
+	{
+		if ($level < P_USER) // Guests are not allowed to write
+		{
+			continue;
+		}
+?>
+						<option value="<? echo $level; ?>"><? echo user_priv::s_levelname($level); ?></option>
+<?
+	}
+?>
+					</select>可写&nbsp;&nbsp;&nbsp;
+					位于
+					<select id="sort_order" name="sort_order" size="1"
+						<? echo ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) ? "" : "disabled"); ?>>
+<?
+	$class_sections = $result_set["data"]["class_sections"];
+	for ($i = 0; $i < count($class_sections); $i++)
+	{
+?>
+						<option value="<? echo ($i + 1); ?>">
+							<? echo $class_sections[$i]["title"]; ?>
+							<? echo ($i + 1 < $result_set["data"]["sort_order"] ? "之前" : ($i + 1 > $result_set["data"]["sort_order"] ? "之后" : "")); ?>
+
+						</option>
+<?
+	}
+?>
+					</select><br />
 				</td>
 			</tr>
 <?
