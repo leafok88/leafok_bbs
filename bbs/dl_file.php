@@ -1,58 +1,74 @@
 <?
 	require_once "../lib/db_open.inc.php";
-?>
-<?
-set_time_limit(3600);
+	require_once "../bbs/session_init.inc.php";
 
-if (!isset($_GET["aid"]))
-	$aid=0;
-else
-	$aid=intval($_GET["aid"]);
+	$aid = (isset($_GET["aid"]) ? intval($_GET["aid"]) : 0);
+	$force = (isset($_GET["force"]) && $_GET["force"] == "1");
 
-if (!isset($_GET["force"]))
-	$force=0;
-else
-	$force=intval($_GET["force"]);
+	if ($force && !$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
+	{
+		header('HTTP/1.0 403 Forbidden');
+		echo ("Invalid usage");
+		exit();
+	}
 
-$rs=mysql_query("select * from upload_file where AID=$aid and deny=0 and deleted=0")
-	or die("Query dl error!");
-if($row=mysql_fetch_array($rs))
-{
-	$filename=$row["filename"];
-	$size=$row["size"];
-	$check=$row["check"];
-	$url="./upload/$aid";
-	$ext=strtolower(substr($filename,(strrpos($filename,".") ? strrpos($filename,".")+1 : 0)));
-}
-else
-{
-	echo ("记录不存在！");
-	exit();
-}
-mysql_free_result($rs);
+	$sql = "SELECT * FROM upload_file WHERE AID = $aid AND deny = 0 AND deleted = 0";
 
-mysql_close($db_conn);
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		header('HTTP/1.0 500 Internal Server Error');
+		echo "Query upload error: " . mysqli_error($db_conn);
+		exit();
+	}
 
-if ($check==0 && $force==0)
-{
-	echo ("文件未审核！");
-	exit();
-}
+	if ($row = mysqli_fetch_array($rs))
+	{
+		$filename = $row["filename"];
+		$size = $row["size"];
+		$check = $row["check"];
+		$url = "./upload/$aid";
+		$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
+	}
+	else
+	{
+		header('HTTP/1.0 404 Not Found');
+		echo ("File not exists");
+		exit();
+	}
+	mysqli_free_result($rs);
 
-if (!file_exists($url))
-{
-	echo ("文件不存在！");
-	exit();
-}
+	mysqli_close($db_conn);
 
-$file = fopen($url,"rb")
-	or die ("Open file error!");
-Header("Content-type: application/octet-stream");
-Header("Accept-Ranges: bytes");
-Header("Accept-Length: ".filesize($url));
-Header("Content-Disposition: attachment; filename=".$filename);
-while (!feof ($file)) {
-	echo fread($file,1024);
-}
-fclose ($file);
+	if (!$check && !$force)
+	{
+		header('HTTP/1.0 403 Forbidden');
+		echo ("Not approved yet");
+		exit();
+	}
+
+	if (!file_exists($url))
+	{
+		header('HTTP/1.0 404 Not Found');
+		echo ("File not found");
+		exit();
+	}
+
+	if (!($file = fopen($url, "rb")))
+	{
+		header('HTTP/1.0 404 Not Found');
+		echo ("Open file error");
+		exit();
+	}
+
+	header("Content-type: application/octet-stream");
+	header("Accept-Ranges: bytes");
+	header("Accept-Length: " . filesize($url));
+	header("Content-Disposition: attachment; filename=" . $filename);
+
+	while (!feof($file)) {
+		echo fread($file, 4096);
+	}
+
+	fclose ($file);
 ?>
