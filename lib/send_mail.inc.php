@@ -118,7 +118,11 @@ function send_mail($from, $fromname, $to, $toname, $subject, $body, $db_conn)
 		return false;
 	}
 
-	//send_mail_do($db_conn);
+	if (send_mail_do($db_conn) < 0)
+	{
+		return false;
+	}
+
 	return true;
 }
 ?>
