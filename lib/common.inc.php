@@ -84,12 +84,14 @@
 	$BBS_score_transfer_fee		=	0.1; // 10%
 	$BBS_nickname_change_fee	=	2;
 	
+	$BBS_stat_gen_interval		= 	60 * 60 * 8; // 8 hours
+
 	$BBS_user_purge_duration	=	7;
 	$BBS_article_purge_duration	=	180;
 	$BBS_normal_log_retention	=	60;
 	$BBS_critical_log_retention	=	365;
 	$BBS_user_msg_retention		=	60;
-	$BBS_new_article_period		=	14600; // 40 years
+	$BBS_new_article_period		=	365 * 40; // 40 years
 
 	// PHP CLI path
 	$PHP_bin					=	"php";
