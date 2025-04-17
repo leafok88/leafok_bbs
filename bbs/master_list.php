@@ -97,7 +97,7 @@ TD
 	}
 	mysqli_free_result($rs);
 
-	mysql_close($db_conn);
+	mysqli_close($db_conn);
 ?>
 	</TABLE>
 </center>
