@@ -1,30 +1,34 @@
 <?
 	require_once "../lib/db_open.inc.php";
 	require_once "../bbs/session_init.inc.php";
-?>
-<?
-if (isset($_POST["page"]))
-	$page=intval($_POST["page"]);
-else
-	$page=1;
 
-$line=20;
+	force_login();
 
-force_login();
+	$page = isset($_POST["page"]) ? intval($_POST["page"]) : 1;
+	if ($page <= 0)
+	{
+		$page = 1;
+	}
 
-if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
-{
-	echo ("没有权限！");
-	exit();
-} 
+	$line = 20;
 
-$rs=mysql_query("select bbs_article_op.MID,bbs.AID,bbs.TID,".
-	"bbs.username,bbs_article_op.type,bbs_article_op.op_dt,".
-	"bbs_article_op.op_ip from (bbs_article_op left join bbs on ".
-	"bbs_article_op.AID=bbs.AID) where bbs_article_op.type in ".
-	"('A','M','X') order by bbs_article_op.MID desc limit ".($page-1)*$line.
-	",".$line)
-	or die("Query data error!");
+	if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
+	{
+		echo ("没有权限！");
+		exit();
+	}
+
+	$sql = "SELECT MID, bbs.AID, bbs.TID, username, type, op_dt, op_ip
+			FROM bbs_article_op INNER JOIN bbs ON bbs_article_op.AID = bbs.AID
+			WHERE type IN ('A','M','X')
+			ORDER BY MID DESC LIMIT " . ($page - 1) * $line . ", " . $line;
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		echo ("Query data error: " . mysqli_error($db_conn));
+		exit();
+	}
 ?>
 <html>
 	<head>
@@ -39,8 +43,8 @@ $rs=mysql_query("select bbs_article_op.MID,bbs.AID,bbs.TID,".
 		<form action="article_audit.php" method="post" name="scope" id="scope">
 			请输入页号：<input name="page" id="page" value="<? echo $page; ?>" size="3">
 			<input type="submit" name="submit" value="显示">
-			<input type="submit" name="decrease" value="<" onclick="(scope.page.value)--;">
-			<input type="submit" name="increase" value=">" onclick="(scope.page.value)++;">
+			<input type="submit" name="decrease" value="<" onclick="scope.page.value--;">
+			<input type="submit" name="increase" value=">" onclick="scope.page.value++;">
 		</form>
 		<center>
 			<table cols=4 border="1" width="95%">
@@ -61,48 +65,50 @@ $rs=mysql_query("select bbs_article_op.MID,bbs.AID,bbs.TID,".
 						用户操作
 					</td>
 				</tr>
-<? 
-while($row=mysql_fetch_array($rs))
-{
+<?
+	while ($row = mysqli_fetch_array($rs))
+	{
 ?>
 				<tr height=20>
 					<td align="middle">
 						<? echo $row["MID"]; ?>
 					</td>
 					<td align="middle">
-						<? echo $row["op_dt"]."<br>".$row["op_ip"]; ?>
+						<? echo $row["op_dt"] . "<br>" . $row["op_ip"]; ?>
 					</td>
 					<td align="middle">
 						<? echo $row["username"]; ?>
 					</td>
 					<td align="middle">
-						<a href="/bbs/view_article.php?trash=1&id=<? echo $row["AID"]; ?>#<? echo $row["AID"]; ?>" target=_blank><? echo $row["TID"]."/".$row["AID"]; ?></a>
+						<a href="../bbs/view_article.php?trash=1&id=<? echo $row["AID"] . "#" . $row["AID"]; ?>" target=_blank>
+							<? echo $row["TID"] . "/" . $row["AID"]; ?>
+						</a>
 					</td>
 					<td align="middle">
 <?
-	switch($row["type"])
-	{
-		case "A":
-			echo ("发表");
-			break;
-		case "M":
-			echo ("修改");
-			break;
-		case "X":
-			echo ("版主删除");
-			break;
-		default:
-			echo ("未知");
-			break;
-	}
+		switch($row["type"])
+		{
+			case "A":
+				echo ("发表");
+				break;
+			case "M":
+				echo ("修改");
+				break;
+			case "X":
+				echo ("版主删除");
+				break;
+			default:
+				echo ("未知");
+				break;
+		}
 ?>
 					</td>
 				</tr>
-<? 
-} 
+<?
+	}
+	mysqli_free_result($rs);
 
-mysql_free_result($rs);
-mysql_close($db_conn);
+	mysqli_close($db_conn);
 ?>
 			</table>
 		</center>
