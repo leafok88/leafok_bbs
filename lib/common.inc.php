@@ -89,7 +89,7 @@
 	$BBS_normal_log_retention	=	60;
 	$BBS_critical_log_retention	=	365;
 	$BBS_user_msg_retention		=	60;
-	$BBS_new_article_period		=	14;
+	$BBS_new_article_period		=	14600; // 40 years
 
 	// PHP CLI path
 	$PHP_bin					=	"php";
