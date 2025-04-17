@@ -25,236 +25,225 @@ TD
 		<center>
 <?
 	//All
-	$rs=mysql_query("select count(UID) as c_user from user_list where enable")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(UID) AS c_user FROM user_list WHERE enable")
 		or die("Query user error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_user_all=$row["c_user"];
+		$c_user_all = $row["c_user"];
 	}
 	else
 	{
-		$c_user_all=0;
+		$c_user_all = 0;
 	}
 	
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(AID) as c_topic from bbs where TID=0 and visible")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_topic FROM bbs WHERE TID = 0 AND visible")
 		or die("Query topic error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_topic_all=$row["c_topic"];
+		$c_topic_all = $row["c_topic"];
 	}
 	else
 	{
-		$c_topic_all=0;
+		$c_topic_all = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(AID) as c_article from bbs where visible")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_article FROM bbs WHERE visible")
 		or die("Query article error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_article_all=$row["c_article"];
+		$c_article_all = $row["c_article"];
 	}
 	else
 	{
-		$c_article_all=0;
+		$c_article_all = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select sum(view_count) as s_view from bbs where TID=0")
+	$rs = mysqli_query($db_conn, "SELECT SUM(view_count) AS s_view FROM bbs WHERE TID = 0")
 		or die("Query view error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$s_view_all=intval($row["s_view"]);
+		$s_view_all = intval($row["s_view"]);
 	}
 	else
 	{
-		$s_view_all=0;
+		$s_view_all = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select max(ID) as c_login from user_login_log")
+	$rs = mysqli_query($db_conn, "SELECT MAX(ID) AS c_login FROM user_login_log")
 		or die("Query login error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_login_all=$row["c_login"];
+		$c_login_all = $row["c_login"];
 	}
 	else
 	{
-		$c_login_all=0;
+		$c_login_all = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select max(VID) as c_visit from visit_log")
+	$rs = mysqli_query($db_conn, "SELECT MAX(VID) AS c_visit FROM visit_log")
 		or die("Query login error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_visit_all=$row["c_visit"];
+		$c_visit_all = $row["c_visit"];
 	}
 	else
 	{
-		$c_visit_all=0;
+		$c_visit_all = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
 	//Week
-	$rs=mysql_query("select count(user_list.UID) as c_user from user_list".
-		" left join user_reginfo on user_list.UID=user_reginfo.UID where".
-		" user_list.enable and user_reginfo.signup_dt>".
-		"subdate(now(),interval 7 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(user_list.UID) AS c_user FROM user_list
+		INNER JOIN user_reginfo ON user_list.UID = user_reginfo.UID
+		WHERE enable AND signup_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 		or die("Query user error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_user_week=$row["c_user"];
+		$c_user_week = $row["c_user"];
 	}
 	else
 	{
-		$c_user_week=0;
+		$c_user_week = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(AID) as c_topic from bbs where".
-		" TID=0 and visible and sub_dt>".
-		"subdate(now(),interval 7 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_topic FROM bbs
+		WHERE TID = 0 AND visible AND sub_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 		or die("Query topic error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_topic_week=$row["c_topic"];
+		$c_topic_week = $row["c_topic"];
 	}
 	else
 	{
-		$c_topic_week=0;
+		$c_topic_week = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(AID) as c_article from bbs where".
-		" visible and sub_dt>".
-		"subdate(now(),interval 7 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_article FROM bbs
+		WHERE visible AND sub_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 		or die("Query article error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_article_week=$row["c_article"];
+		$c_article_week = $row["c_article"];
 	}
 	else
 	{
-		$c_article_week=0;
+		$c_article_week = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select sum(view_count) as s_view from bbs where".
-		" TID=0 and sub_dt>".
-		"subdate(now(),interval 7 day)")
+	$rs = mysqli_query($db_conn, "SELECT SUM(view_count) AS s_view FROM bbs
+		WHERE TID = 0 AND sub_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 		or die("Query view error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$s_view_week=intval($row["s_view"]);
+		$s_view_week = intval($row["s_view"]);
 	}
 	else
 	{
-		$s_view_week=0;
+		$s_view_week = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(ID) as c_login from user_login_log".
-		" where login_dt>".
-		"subdate(now(),interval 7 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(ID) AS c_login FROM user_login_log
+		WHERE login_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 		or die("Query login error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_login_week=$row["c_login"];
+		$c_login_week = $row["c_login"];
 	}
 	else
 	{
-		$c_login_week=0;
+		$c_login_week = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(VID) as c_visit from visit_log".
-		" where dt>".
-		"subdate(now(),interval 7 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(VID) AS c_visit FROM visit_log
+		WHERE dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 		or die("Query login error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_visit_week=$row["c_visit"];
+		$c_visit_week = $row["c_visit"];
 	}
 	else
 	{
-		$c_visit_week=0;
+		$c_visit_week = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
 	//Day
-	$rs=mysql_query("select count(user_list.UID) as c_user from user_list".
-		" left join user_reginfo on user_list.UID=user_reginfo.UID where".
-		" user_list.enable and user_reginfo.signup_dt>".
-		"subdate(now(),interval 1 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(user_list.UID) AS c_user FROM user_list
+		INNER JOIN user_reginfo ON user_list.UID = user_reginfo.UID
+		WHERE enable AND signup_dt > SUBDATE(NOW(), INTERVAL 1 DAY)")
 		or die("Query user error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_user_day=$row["c_user"];
+		$c_user_day = $row["c_user"];
 	}
 	else
 	{
-		$c_user_day=0;
+		$c_user_day = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(AID) as c_topic from bbs where".
-		" TID=0 and visible and sub_dt>".
-		"subdate(now(),interval 1 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_topic FROM bbs
+		WHERE TID = 0 AND visible AND sub_dt > SUBDATE(NOW(), INTERVAL 1 DAY)")
 		or die("Query topic error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_topic_day=$row["c_topic"];
+		$c_topic_day = $row["c_topic"];
 	}
 	else
 	{
-		$c_topic_day=0;
+		$c_topic_day = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(AID) as c_article from bbs where".
-		" visible and sub_dt>".
-		"subdate(now(),interval 1 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_article FROM bbs
+		WHERE visible AND sub_dt > SUBDATE(NOW(), INTERVAL 1 DAY)")
 		or die("Query article error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_article_day=$row["c_article"];
+		$c_article_day = $row["c_article"];
 	}
 	else
 	{
-		$c_article_day=0;
+		$c_article_day = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(ID) as c_login from user_login_log".
-		" where login_dt>".
-		"subdate(now(),interval 1 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(ID) AS c_login FROM user_login_log
+		WHERE login_dt > SUBDATE(NOW(), INTERVAL 1 DAY)")
 		or die("Query login error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_login_day=$row["c_login"];
+		$c_login_day = $row["c_login"];
 	}
 	else
 	{
-		$c_login_day=0;
+		$c_login_day = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 
-	$rs=mysql_query("select count(VID) as c_visit from visit_log".
-		" where dt>".
-		"subdate(now(),interval 1 day)")
+	$rs = mysqli_query($db_conn, "SELECT COUNT(VID) AS c_visit FROM visit_log
+		WHERE dt > SUBDATE(NOW(), INTERVAL 1 DAY)")
 		or die("Query login error!");
-	if ($row=mysql_fetch_array($rs))
+	if ($row = mysqli_fetch_array($rs))
 	{
-		$c_visit_day=$row["c_visit"];
+		$c_visit_day = $row["c_visit"];
 	}
 	else
 	{
-		$c_visit_day=0;
+		$c_visit_day = 0;
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
 ?>
 			<TABLE WIDTH="98%" BORDER="1" CELLSPACING="1" CELLPADDING="1" style="color:green;">
 				<TR>
@@ -323,97 +312,95 @@ TD
 					<TD colspan="2">浏览文章数</TD>
 				</TR>
 <?
-	$rs_section=mysql_query("select SID,section_class.title as t_class,".
-		"section_config.title as t_section,section_config.exp_get,".
-		"section_config.recommend from section_class left join section_config on".
-		" section_class.CID=section_config.CID".
-		" where section_class.enable and section_config.enable".
-		" order by section_class.sort_order,".
-		" section_config.sort_order")
+	$rs_section = mysqli_query($db_conn, "SELECT SID, section_class.title AS t_class,
+		section_config.title AS t_section, exp_get, recommend FROM section_class
+		INNER JOIN section_config ON section_class.CID = section_config.CID
+		WHERE section_class.enable AND section_config.enable
+		ORDER BY section_class.sort_order, section_config.sort_order")
 		or die("Query section error!");
 
-	while($row_section=mysql_fetch_array($rs_section))
+	while ($row_section = mysqli_fetch_array($rs_section))
 	{
-		$rs=mysql_query("select count(AID) as c_topic from bbs where".
-			" TID=0 and SID=".$row_section["SID"]." and visible")
+		$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_topic FROM bbs
+			WHERE TID = 0 AND SID = " . $row_section["SID"] . " AND visible")
 			or die("Query topic error!");
-		if ($row=mysql_fetch_array($rs))
+		if ($row = mysqli_fetch_array($rs))
 		{
-			$c_topic=$row["c_topic"];
+			$c_topic = $row["c_topic"];
 		}
 		else
 		{
-			$c_topic=0;
+			$c_topic = 0;
 		}
-		mysql_free_result($rs);
+		mysqli_free_result($rs);
 
-		$rs=mysql_query("select count(AID) as c_article from bbs where".
-			" SID=".$row_section["SID"]." and visible")
+		$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_article FROM bbs
+			WHERE SID = " . $row_section["SID"] . " AND visible")
 			or die("Query article error!");
-		if ($row=mysql_fetch_array($rs))
+		if ($row = mysqli_fetch_array($rs))
 		{
-			$c_article=$row["c_article"];
+			$c_article = $row["c_article"];
 		}
 		else
 		{
-			$c_article=0;
+			$c_article = 0;
 		}
-		mysql_free_result($rs);
+		mysqli_free_result($rs);
 
-		$rs=mysql_query("select sum(view_count) as s_view from bbs where".
-			" TID=0 and SID=".$row_section["SID"])
+		$rs = mysqli_query($db_conn, "SELECT SUM(view_count) AS s_view FROM bbs
+			WHERE TID = 0 AND SID = " . $row_section["SID"])
 			or die("Query view error!");
-		if ($row=mysql_fetch_array($rs))
+		if ($row = mysqli_fetch_array($rs))
 		{
-			$s_view=intval($row["s_view"]);
+			$s_view = intval($row["s_view"]);
 		}
 		else
 		{
-			$s_view=0;
+			$s_view = 0;
 		}
-		mysql_free_result($rs);
+		mysqli_free_result($rs);
 
-		$rs=mysql_query("select count(AID) as c_topic from bbs where".
-			" TID=0 and SID=".$row_section["SID"]." and sub_dt>'".
-			date("Y-m-d H:i:s",time()-60*60*24*7)."'")
+		$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_topic FROM bbs
+			WHERE TID = 0 AND SID = " . $row_section["SID"] .
+			" AND sub_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 			or die("Query topic error!");
-		if ($row=mysql_fetch_array($rs))
+		if ($row = mysqli_fetch_array($rs))
 		{
-			$c_topic_p=$row["c_topic"];
+			$c_topic_p = $row["c_topic"];
 		}
 		else
 		{
-			$c_topic_p=0;
+			$c_topic_p = 0;
 		}
-		mysql_free_result($rs);
+		mysqli_free_result($rs);
 
-		$rs=mysql_query("select count(AID) as c_article from bbs where".
-			" SID=".$row_section["SID"]." and sub_dt>'".
-			date("Y-m-d H:i:s",time()-60*60*24*7)."'")
+		$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_article FROM bbs
+			WHERE SID = " . $row_section["SID"] .
+			" AND sub_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 			or die("Query article error!");
-		if ($row=mysql_fetch_array($rs))
+		if ($row = mysqli_fetch_array($rs))
 		{
-			$c_article_p=$row["c_article"];
+			$c_article_p = $row["c_article"];
 		}
 		else
 		{
-			$c_article_p=0;
+			$c_article_p = 0;
 		}
-		mysql_free_result($rs);
+		mysqli_free_result($rs);
 
-		$rs=mysql_query("select sum(view_count) as s_view from bbs where".
-			" TID=0 and SID=".$row_section["SID"]." and sub_dt>'".
-			date("Y-m-d H:i:s",time()-60*60*24*7)."'")
+		$rs = mysqli_query($db_conn, "SELECT SUM(view_count) AS s_view FROM bbs
+			WHERE TID = 0 AND SID = " . $row_section["SID"] .
+			" AND sub_dt > SUBDATE(NOW(), INTERVAL 7 DAY)")
 			or die("Query view error!");
-		if ($row=mysql_fetch_array($rs))
+		if ($row = mysqli_fetch_array($rs))
 		{
-			$s_view_p=intval($row["s_view"]);
+			$s_view_p = intval($row["s_view"]);
 		}
 		else
 		{
-			$s_view_p=0;
+			$s_view_p = 0;
 		}
-		mysql_free_result($rs);
+		mysqli_free_result($rs);
 ?>
 				<TR>
 					<TD><? echo $row_section["t_class"]." / ".$row_section["t_section"]; ?></TD>
@@ -427,9 +414,9 @@ TD
 				</TR>
 <?
 	}
-	mysql_free_result($rs_section);
+	mysqli_free_result($rs_section);
 
-	mysql_close($db_conn);
+	mysqli_close($db_conn);
 ?>
 				<TR>
 					<TD colspan=8 style="text-align:left; color:brown;">
