@@ -4,6 +4,17 @@
 
 	force_login();
 
+	$result_set = array(
+		"return" => array(
+			"code" => 0,
+			"message" => "",
+			"errorFields" => array(),
+		),
+		"data" => array(
+			"article_ops" => array(),
+		),
+	);
+
 	$page = isset($_POST["page"]) ? intval($_POST["page"]) : 1;
 	if ($page <= 0)
 	{
@@ -14,8 +25,11 @@
 
 	if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
 	{
-		echo ("没有权限！");
-		exit();
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "没有权限";
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
 	}
 
 	$sql = "SELECT MID, bbs.AID, bbs.TID, username, type, op_dt, op_ip
@@ -26,9 +40,28 @@
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
 	{
-		echo ("Query data error: " . mysqli_error($db_conn));
-		exit();
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Query data error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
 	}
+
+	while ($row = mysqli_fetch_array($rs))
+	{
+		array_push($result_set["data"]["article_ops"], array(
+			"mid" => $row["MID"],
+			"aid" => $row["AID"],
+			"tid" => $row["TID"],
+			"username" => $row["username"],
+			"op_dt" => $row["op_dt"],
+			"op_ip" => $row["op_ip"],
+			"type" => $row["type"],
+		));
+	}
+	mysqli_free_result($rs);
+
+	mysqli_close($db_conn);
 ?>
 <html>
 	<head>
@@ -66,27 +99,27 @@
 					</td>
 				</tr>
 <?
-	while ($row = mysqli_fetch_array($rs))
+	foreach ($result_set["data"]["article_ops"] as $article_op)
 	{
 ?>
 				<tr height=20>
 					<td align="middle">
-						<? echo $row["MID"]; ?>
+						<? echo $article_op["mid"]; ?>
 					</td>
 					<td align="middle">
-						<? echo $row["op_dt"] . "<br>" . $row["op_ip"]; ?>
+						<? echo $article_op["op_dt"] . "<br>" . $article_op["op_ip"]; ?>
 					</td>
 					<td align="middle">
-						<? echo $row["username"]; ?>
+						<? echo $article_op["username"]; ?>
 					</td>
 					<td align="middle">
-						<a href="../bbs/view_article.php?trash=1&id=<? echo $row["AID"] . "#" . $row["AID"]; ?>" target=_blank>
-							<? echo $row["TID"] . "/" . $row["AID"]; ?>
+						<a href="../bbs/view_article.php?trash=1&id=<? echo $article_op["aid"] . "#" . $article_op["aid"]; ?>" target=_blank>
+							<? echo $article_op["tid"] . "/" . $article_op["aid"]; ?>
 						</a>
 					</td>
 					<td align="middle">
 <?
-		switch($row["type"])
+		switch($article_op["type"])
 		{
 			case "A":
 				echo ("发表");
@@ -106,9 +139,6 @@
 				</tr>
 <?
 	}
-	mysqli_free_result($rs);
-
-	mysqli_close($db_conn);
 ?>
 			</table>
 		</center>

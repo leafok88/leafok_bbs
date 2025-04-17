@@ -1,20 +1,56 @@
 <?
 	require_once "../lib/db_open.inc.php";
 	require_once "../bbs/session_init.inc.php";
-?>
-<?
-force_login();
 
-if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
-{
-	echo ("没有权限！");
-	exit();
-}
+	force_login();
 
-$rs=mysql_query("select upload_file.*,username from upload_file left join".
-	" user_list on upload_file.UID=user_list.UID where upload_file.check=0".
-	" and upload_file.deleted=0")
-	or die("Query data error!");
+	$result_set = array(
+		"return" => array(
+			"code" => 0,
+			"message" => "",
+			"errorFields" => array(),
+		),
+		"data" => array(
+			"upload_files" => array(),
+		),
+	);
+
+	if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
+	{
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "没有权限";
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	$sql = "SELECT upload_file.*, username FROM upload_file
+			INNER JOIN user_list ON upload_file.UID = user_list.UID
+			WHERE `check` = 0 AND deleted = 0";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Query data error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	while ($row = mysqli_fetch_array($rs))
+	{
+		array_push($result_set["data"]["upload_files"], array(
+			"aid" => $row["AID"],
+			"ref_aid" => $row["ref_AID"],
+			"username" => $row["username"],
+			"filename" => $row["filename"],
+			"size" => $row["size"],
+		));
+	}
+	mysqli_free_result($rs);
+
+	mysqli_close($db_conn);
 ?>
 <html>
 	<head>
@@ -27,39 +63,44 @@ $rs=mysql_query("select upload_file.*,username from upload_file left join".
 			BBS附件审核
 		</p>
 		<center>
-			<table cols=4 border="1" width="95%">
+			<table cols="4" border="1" width="95%" cellpadding="5">
 				<tr style="font-weight:bold;" height=20>
-					<td width="40%" align="center">
+					<td width="30%" align="center">
 						用户
 					</td>
-					<td width="40%" align="middle">
+					<td width="20%" align="middle">
+						关联文章
+					</td>
+					<td width="30%" align="middle">
 						附件
 					</td>
-					<td width="10%" align="center">
+					<td width="20%" align="center">
 						处理
 					</td>
 				</tr>
-<? 
-while($row=mysql_fetch_array($rs))
-{
+<?
+	foreach ($result_set["data"]["upload_files"] as $upload_file)
+	{
 ?>
 				<tr height=20>
 					<td align="middle">
-						<? echo $row["username"]; ?>
+						<? echo $upload_file["username"]; ?>
 					</td>
 					<td align="middle">
-						<a href="/bbs/dl_file.php?aid=<? echo $row["AID"]; ?>&force=1" target=_blank><? echo $row["filename"]; ?></a> (<? echo $row["size"]; ?>)
+						<a href="../bbs/view_article.php?trash=1&id=<? echo $upload_file["ref_aid"] . "#" . $upload_file["ref_aid"]; ?>" target=_blank>
+							<? echo $upload_file["ref_aid"]; ?>
+						</a>
 					</td>
 					<td align="middle">
-						<a href="upload_process.php?enable=yes&p_id=<? echo $row["AID"]; ?>">通过</a><br>
-						<a href="upload_process.php?enable=no&p_id=<? echo $row["AID"]; ?>" onclick="return window.confirm('真的要删除吗？');">删除</a>
+						<a href="/bbs/dl_file.php?aid=<? echo $upload_file["aid"]; ?>&force=1" target=_blank><? echo $upload_file["filename"]; ?></a> (<? echo $upload_file["size"]; ?>字节)
+					</td>
+					<td align="middle">
+						<a href="upload_process.php?enable=1&aid=<? echo $upload_file["aid"]; ?>">通过</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="upload_process.php?enable=0&aid=<? echo $upload_file["aid"]; ?>" onclick="return window.confirm('真的要删除吗？');">删除</a>
 					</td>
 				</tr>
-<? 
-} 
-mysql_free_result($rs);
-
-mysql_close($db_conn);
+<?
+	}
 ?>
 			</table>
 		</center>
