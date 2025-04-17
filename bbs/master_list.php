@@ -2,7 +2,6 @@
 	require_once "../lib/db_open.inc.php";
 	require_once "./session_init.inc.php";
 ?>
-
 <html>
 <head>
 <meta HTTP-EQUIV="Content-Type" Content="text-html; charset=UTF-8">
@@ -40,29 +39,45 @@ TD
 			</TD>
 		</TR>
 <?
-	$rs=mysql_query("SELECT user_list.username,section_config.title,".
-		"section_master.begin_dt,section_master.end_dt,section_master.major,".
-		"user_pubinfo.last_login_dt FROM (section_master".
-		" left join section_config on section_master.SID=section_config.SID)".
-		" left join user_list on section_master.UID=user_list.UID".
-		" left join user_pubinfo on section_master.UID=user_pubinfo.UID".
-		" where section_master.enable=1 and section_config.enable=1".
-		" order by user_list.UID,section_master.begin_dt,section_master.MID")
-		or die("Query data error!");
-	$last_user = "";
-	while($row=mysql_fetch_array($rs))
+	$sql = "SELECT username, section_config.title, begin_dt, end_dt, major, last_login_dt
+			FROM section_master INNER JOIN section_config ON section_master.SID = section_config.SID
+			INNER JOIN user_list ON section_master.UID = user_list.UID
+			INNER JOIN user_pubinfo ON section_master.UID = user_pubinfo.UID
+			WHERE section_master.enable AND section_config.enable
+			ORDER BY user_list.UID, begin_dt, MID";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
 	{
-		$days_left=round((time()-strtotime($row["last_login_dt"]))/60/60/24);
-		if ($days_left<=3)
-			$status="<font color=green>很勤快</font>";
-		if ($days_left>3 && $days_left<=7)
+		echo "Query data error: " . mysqli_error($db_conn);
+		exit();
+	}
+
+	$last_user = "";
+	while ($row = mysqli_fetch_array($rs))
+	{
+		$days_left = (new DateTimeImmutable($row["last_login_dt"]))->diff(new DateTimeImmutable("now"))->days;
+
+		if ($days_left <= 3)
+		{
+			$status = "<font color=green>很勤快</font>";
+		}
+		else if ($days_left<=7)
+		{
 			$status="<font color=orange>比较勤快</font>";
-		if ($days_left>7 && $days_left<=15)
+		}
+		else if ($days_left<=15)
+		{
 			$status="<font color=blue>有点偷懒</font>";
-		if ($days_left>15 && $days_left<=30)
+		}
+		else if ($days_left<=30)
+		{
 			$status="<font color=red>失职";
-		if ($days_left>30)
+		}
+		else
+		{
 			$status="<font color=white>严重失职</font>";
+		}
 ?>
 		<TR>
 			<TD>
@@ -80,7 +95,8 @@ TD
 		</TR>
 <?
 	}
-	mysql_free_result($rs);
+	mysqli_free_result($rs);
+
 	mysql_close($db_conn);
 ?>
 	</TABLE>
