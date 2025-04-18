@@ -1,149 +1,195 @@
 <?
 	require_once "../lib/db_open.inc.php";
-	require_once "./session_init.inc.php";
 	require_once "../lib/lml.inc.php";
-?>
-<?
-force_login();
+	require_once "./session_init.inc.php";
+	require_once "./theme.inc.php";
 
-$pagen=10;
+	force_login();
 
-if (isset($_GET["mid"]))
-	$mid=intval($_GET["mid"]);
-else
-	$mid=1;
+	$uid = (isset($_GET["uid"]) ? intval($_GET["uid"]) : 0);
+	$sent = (isset($_GET["sent"]) && $_GET["sent"] == "1");
+	$page = (isset($_GET["page"]) ? intval($_GET["page"]) : 1);
+	$rpp = (isset($_GET["rpp"]) ? intval($_GET["rpp"]) : 10);
 
-$rs=mysql_query("select count(MID) as m_count from bbs_msg where toUID=".
-	$_SESSION["BBS_uid"]." and (not deleted)")
-	or die("Query msg count error!");
-$row=mysql_fetch_array($rs);
-$total_msg=$row["m_count"];
-mysql_free_result($rs);
+	if (!in_array($rpp, $BBS_msg_rpp_options))
+	{
+		$rpp = $BBS_msg_rpp_options[0];
+	}
 
-$rs=mysql_query("select count(MID) as m_count from bbs_msg where toUID=".
-	$_SESSION["BBS_uid"]." and new and (not deleted)")
-	or die("Query msg count error!");
-$row=mysql_fetch_array($rs);
-$new_msg_count=$row["m_count"];
-mysql_free_result($rs);
+	$result_set = array(
+		"return" => array(
+			"code" => 0,
+			"message" => "",
+			"errorFields" => array(),
+		)
+	);
 
-if ($mid<1 || $mid>$total_msg)
-	$mid=1;
+	$nickname = "";
+	if ($uid > 0)
+	{
+		$sql = "SELECT nickname FROM user_pubinfo WHERE UID = $uid";
 
-?>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>查看消息——收件箱</title>
-		<link rel="stylesheet" href="css/default.css" type="text/css">
-		<script type="text/javascript" src="../js/nw_open.js"></script>
-		<script type="text/javascript" src="../js/bbs_msg_fun.js"></script>
-	</head>
-	<body>
-		<center>
-		<form action="delete_msg.php" method="post" name="delete_msg" id="delete_msg">
-		<input type="hidden" name="box" value="inbox">
-		<table cols="2" border="0" cellpadding="5" cellspacing="0" width="90%">
-			<tr bgcolor="#ffdead" height="20">
-				<td width="70%" align="left">
-					<a class="s2" href="read_send_msg.php">已发送消息</a>&nbsp;
-					<? if ($new_msg_count>0)
-{
-?>您有<span style="color:red;"><? echo $new_msg_count; ?></span>条新消息<? }
-  else
-{
-?>您没有新消息<? } ?>&nbsp;
-				</td>
-				<td width="30%" align="right">
-					共有<span style="color:red;"><? echo $total_msg; ?></span>条消息
-				</td>
-			</tr>
-			<? 
-$color[0]="#faf5f5";
-$color[1]="#f0f0f0";
-$count=0;
+		$rs = mysqli_query($db_conn, $sql);
+		if ($rs == false)
+		{
+			$result_set["return"]["code"] = -2;
+			$result_set["return"]["message"] = "Query user error: " . mysqli_error($db_conn);
 
-$rs=mysql_query("select bbs_msg.*,user_pubinfo.nickname from bbs_msg left join".
-	" user_pubinfo on bbs_msg.fromUID=user_pubinfo.UID where toUID=".
-	$_SESSION["BBS_uid"]." and (not deleted) order by new desc,mid desc limit ".($mid-1).",$pagen")
-	or die("Query msg error!");
+			mysqli_close($db_conn);
+			exit(json_encode($result_set));
+		}
 
-while($row=mysql_fetch_array($rs))
-{
-?>
-			<tr bgcolor="<? echo $color[1]; ?>">
-				<td align="left">
-					发送人：<a class="s2" href="show_profile.php?uid=<? echo $row["fromUID"]; ?>" target=_blank title="查看作者资料"><? echo $row["nickname"]; ?></a>
-					&nbsp;&nbsp;发送时间：<? echo $row["send_dt"]; ?>&nbsp;&nbsp;<? if ($row["new"])
-{
-?><img src="images/new.gif"><?   } ?>
-				</td>
-				<td align="right">
-					<a class="s2" href="" onclick="return NW_open('send_msg.php?uid=<? echo $row["fromUID"]; ?>','bbs_msg',500,300);">回复消息</a>
-					<input type="checkbox" name="delete_msg_id[]" value="<? echo $row["MID"]; ?>">
-				</td>
-			</tr>
-			<tr bgcolor="<? echo $color[0]; ?>">
-				<td colspan="2" align="left">
-					<? echo LML(htmlspecialchars($row["content"], ENT_HTML401, 'UTF-8'),true); ?>
-				</td>
-			</tr>
-<?
-	mysql_query("update bbs_msg set new=0 where MID=".$row["MID"])
-		or die("Update msg error!");
-} 
-mysql_free_result($rs);
-mysql_close($db_conn);
-?>
-			<tr bgcolor="#ffdead" height="5">
-				<td colspan="2">
-				</td>
-			</tr>
-			<tr><td align="left">
-<? 
-if ($mid > 1)
-{
-?>
-	<a class="s7" href="read_msg.php?mid=1">&lt;&lt;首页</a>&nbsp;<a class="s7" href="read_msg.php?mid=<? echo $mid-$pagen; ?>">上一页</a>&nbsp;
-<? 
-}
-else
-{
-?>
-	<font color="999999">&lt;&lt;首页&nbsp;上一页&nbsp;</font>
-<? 
-}
+		if ($row = mysqli_fetch_array($rs))
+		{
+			$nickname = $row["nickname"];
+		}
+		else
+		{
+			$result_set["return"]["code"] = -1;
+			$result_set["return"]["message"] = "用户不存在";
+		}
+		mysqli_free_result($rs);
+	}
 
-if ($mid+$pagen <= $total_msg)
-{
+	$unread_msg_count = 0;
+	if (!$sent)
+	{
+		$sql = "SELECT COUNT(MID) AS msg_count FROM bbs_msg WHERE " . ($sent ? "fromUID" : "toUID") .
+				" = " .	$_SESSION["BBS_uid"] . " AND new AND " . ($sent ? "s_deleted" : "deleted") . " = 0";
+
+		$rs = mysqli_query($db_conn, $sql);
+		if ($rs == false)
+		{
+			$result_set["return"]["code"] = -2;
+			$result_set["return"]["message"] = "Query msg count error: " . mysqli_error($db_conn);
+
+			mysqli_close($db_conn);
+			exit(json_encode($result_set));
+		}
+
+		if ($row = mysqli_fetch_array($rs))
+		{
+			$unread_msg_count = $row["msg_count"];
+		}
+		mysqli_free_result($rs);
+	}
+
+
+	$sql = "SELECT COUNT(MID) AS msg_count FROM bbs_msg WHERE " . ($sent ? "fromUID" : "toUID") .
+			" = " . $_SESSION["BBS_uid"] . " AND " . ($sent ? "s_deleted" : "deleted") . " = 0";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Query msg count error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	$toa = 0;
+	if ($row = mysqli_fetch_array($rs))
+	{
+		$toa = $row["msg_count"];
+	}
+	mysqli_free_result($rs);
+
+	$page_total = ceil($toa / $rpp);
+	if ($page > $page_total)
+	{
+		$page = $page_total;
+	}
+
+	if ($page <= 0)
+	{
+		$page = 1;
+	}
+
+	// Fill up result data
+	$result_set["data"] = array(
+		"uid" => $uid,
+		"nickname" => $nickname,
+		"sent" => $sent,
+		"page" => $page,
+		"rpp" => $rpp,
+		"page_total" => $page_total,
+		"msg_count" => $toa,
+		"unread_msg_count" => $unread_msg_count,
+
+		"messages" => array(),
+	);
+
+	$sql = "SELECT bbs_msg.*, nickname FROM bbs_msg LEFT JOIN user_pubinfo ON " .
+			($sent ? "toUID" : "fromUID") . " = user_pubinfo.UID WHERE " .
+			($sent ? "fromUID" : "toUID") . " = " . $_SESSION["BBS_uid"] .
+			" AND " . ($sent ? "s_deleted" : "deleted") .
+			" = 0 ORDER BY MID DESC LIMIT " .
+			(($page - 1) * $rpp) . ", $rpp";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Query message error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	$unread_mid_list = "-1";
+	while ($row = mysqli_fetch_array($rs))
+	{
+		array_push($result_set["data"]["messages"], array(
+			"mid" => $row["MID"],
+			"uid" => ($sent ? $row["toUID"] : $row["fromUID"]),
+			"content" => $row["content"],
+			"send_dt" => (new DateTimeImmutable($row["send_dt"]))->setTimezone($_SESSION["BBS_user_tz"]),
+			"new" => $row["new"],
+			"nickname" => $row["nickname"],
+		));
+		
+		if (!$sent && $row["new"])
+		{
+			$unread_mid_list .= (", " . $row["MID"]);
+		}
+
+	}
+	mysqli_free_result($rs);
+
+	if (!$sent && $unread_mid_list != "-1")
+	{
+		$sql = "UPDATE bbs_msg SET new = 0 WHERE MID IN ($unread_mid_list)";
+
+		$rs = mysqli_query($db_conn, $sql);
+		if ($rs == false)
+		{
+			$result_set["return"]["code"] = -2;
+			$result_set["return"]["message"] = "Update message error: " . mysqli_error($db_conn);
+	
+			mysqli_close($db_conn);
+			exit(json_encode($result_set));
+		}
+	}
+
+	mysqli_close($db_conn);
+
+	// Cleanup
+	unset($uid);
+	unset($nickname);
+	unset($sent);
+	unset($page);
+	unset($rpp);
+	unset($page_total);
+	unset($toa);
+	unset($unread_msg_count);
+	unset($unread_mid_list);
+
+	// Output with theme view
+	$theme_view_file = get_theme_file("view/read_msg", $_SESSION["BBS_theme_name"]);
+	if ($theme_view_file == null)
+	{
+		exit(json_encode($result_set)); // Output data in Json
+	}
+	include $theme_view_file;
 ?>
-	<a class="s7" href="read_msg.php?mid=<? echo $mid+$pagen; ?>">下一页</a>&nbsp;<a class="s7" href="read_msg.php?mid=<? echo $total_msg-$pagen+1; ?>">尾页&gt;&gt;</a>&nbsp;
-<? 
-}
-else
-{
-?>
-	<font color="999999">下一页&nbsp;尾页&gt;&gt;</font>
-<? 
-}
-?>
-			</td>
-			<td align="right">
-				<a class="s2" onclick="delete_msg.submit();" href="#">删除</a>
-				<input type="checkbox" name="check_all" id="check_all" onclick="setCheckboxes('delete_msg',this.checked);">全选
-			</td></tr>
-			<tr>
-			<td align="left">
-				<a class="s2" onclick="return window.confirm('真的要删除吗？');" href="delete_sys_msg.php">删除全部系统消息</a>
-			</td>
-			<td align="right">
-				<a class="s2" onclick="return window.confirm('真的要删除吗？');" href="delete_msg.php?all=1&box=inbox">删除全部</a>
-			</td></tr>
-		</table>
-		</form>
-	</center>
-	<p align="center">
-		[<a class="s2" href="javascript:self.close()">关闭窗口</a>]
-	</p>
-	</body>
-</html>

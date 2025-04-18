@@ -2,94 +2,64 @@
 	require_once "../lib/db_open.inc.php";
 	require_once "./common_lib.inc.php";
 	require_once "./session_init.inc.php";
-?>
-<? 
-if ($_SESSION["BBS_uid"]==0)
-{
-	error_msg("您无权删除消息！",true);
-	exit();
-}
 
-if (isset($_POST["box"]))
-{
-	$box=trim($_POST["box"]);
-}
-else
-{
-	if (isset($_GET["box"]))
-		$box=trim($_GET["box"]);
-	else
-		$box="";
-}
+	$data = json_decode(file_get_contents("php://input"), true);
 
-switch($box)
-{
-	case "inbox":
-		$box_type=1;
-		break;
-	case "sent":
-		$box_type=2;
-		break;
-	default:
-		echo ("未指定信箱类型！");
-		exit();
-}
+	$sent = (isset($data["sent"]) && $data["sent"] == "1");
+	$msg_id = (isset($data["delete_msg_id"]) ? $data["delete_msg_id"] : array());
 
-if (isset($_POST["delete_msg_id"]))
-	$msg_id=$_POST["delete_msg_id"];
-else
-	$msg_id=array();
+	$result_set = array(
+		"return" => array(
+			"code" => 0,
+			"message" => "",
+			"errorFields" => array(),
+		)
+	);
 
-if (isset($_GET["all"]))
-	$del_all=1;
-else
-	$del_all=0;
+	header("Content-Type:application/json; charset=utf-8");
 
-foreach($msg_id as $mid)
-{
-	switch($box_type)
+	if ($_SESSION["BBS_uid"] == 0)
 	{
-		case 1:
-			mysql_query("update bbs_msg set deleted=1 where MID=$mid".
-				" and toUID=".$_SESSION["BBS_uid"]." and (not deleted)")
-				or die("delete msg error!");
-			break;
-		case 2:
-			mysql_query("update bbs_msg set s_deleted=1 where MID=$mid".
-				" and fromUID=".$_SESSION["BBS_uid"]." and (not s_deleted)")
-				or die("delete msg error!");
-			break;
-	}
-}
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "没有登录";
 
-if($del_all)
-{
-	switch($box_type)
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	$msg_id_list = "-1";
+	foreach($msg_id as $mid)
 	{
-		case 1:
-			mysql_query("update bbs_msg set deleted=1 where".
-				" toUID=".$_SESSION["BBS_uid"]." and (not deleted)")
-				or die("delete msg error!");
-			break;
-		case 2:
-			mysql_query("update bbs_msg set s_deleted=1 where".
-				" fromUID=".$_SESSION["BBS_uid"]." and (not s_deleted)")
-				or die("delete msg error!");
-			break;
+		$msg_id_list .= (", " . $mid);
 	}
-}
 
-mysql_close($db_conn);
+	if ($msg_id_list == "-1")
+	{
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "没有选中消息";
 
-switch($box_type)
-{
-	case 1:
-		$redir="read_msg.php";
-		break;
-	case 2:
-		$redir="read_send_msg.php";
-		break;
-}
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
 
-header ("Location: $redir");
+	if ($msg_id_list != "-1")
+	{
+		$sql = "UPDATE bbs_msg SET " . ($sent ? "s_deleted" : "deleted") .
+				" = 1 WHERE MID IN ($msg_id_list) AND " .
+				($sent ? "fromUID" : "toUID") . " = " . $_SESSION["BBS_uid"] .
+				" AND " . ($sent ? "s_deleted" : "deleted") . " = 0";
+	
+		$rs = mysqli_query($db_conn, $sql);
+		if ($rs == false)
+		{
+			$result_set["return"]["code"] = -2;
+			$result_set["return"]["message"] = "Delete message error: " . mysqli_error($db_conn);
+	
+			mysqli_close($db_conn);
+			exit(json_encode($result_set));
+		}
+	}
+
+	mysqli_close($db_conn);
+	exit(json_encode($result_set));
 ?>

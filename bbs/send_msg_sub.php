@@ -1,66 +1,91 @@
 <?
+	require_once "../lib/common.inc.php";
 	require_once "../lib/db_open.inc.php";
+	require_once "../lib/str_process.inc.php";
 	require_once "./common_lib.inc.php";
 	require_once "./session_init.inc.php";
 	require_once "./check_sub.inc.php";
-?>
-<? 
-if (!$_SESSION["BBS_priv"]->checkpriv(0,S_MSG))
-{
-	error_msg("您无权发送消息！",true);
-	exit();
-} 
 
-$to_uid=intval($_POST["uid"]);
-$to_content=$_POST["content"];
+	$data = json_decode(file_get_contents("php://input"), true);
 
-$to_content=check_badwords($to_content, "[bwf]");
-$to_content=mysqli_real_escape_string($db_conn, $to_content);
+	$uid = (isset($data["uid"]) ? intval($data["uid"]) : 0);
+	$content = (isset($data["content"]) ? $data["content"] : "");
 
-$rs_to=mysql_query("select UID from user_pubinfo where UID=$to_uid")
-	or die("Query to info error!");
-if (!($row_to=mysql_fetch_array($rs_to)))
-{
-	error_msg("用户不存在",true);
-	exit();
-} 
-mysql_free_result($rs_to);
+	$result_set = array(
+		"return" => array(
+			"code" => 0,
+			"message" => "",
+			"errorFields" => array(),
+		)
+	);
 
-mysql_query("insert into bbs_msg(fromUID,toUID,content,send_dt,send_ip)".
-	" values(".$_SESSION["BBS_uid"].",$to_uid,'$to_content',now(),'".
-	client_addr()."')")
-	or die("insert msg error!");
+	header("Content-Type:application/json; charset=utf-8");
 
-mysql_close($db_conn);
-?>
-<HTML>
-	<HEAD>
-		<META HTTP-EQUIV="Content-Type" Content="text-html; charset=UTF-8">
-		<TITLE>发送消息完毕</TITLE>
-		<link rel="stylesheet" href="css/default.css" type="text/css">
-	</HEAD>
-	<body>
-		<P align="center">
-			发送成功！
-		</P>
-		<p align="center">
-			<a class="s7" id="close_text" href="javascript:self.close();">[3秒后关闭]</a>
-		</p>
-	</body>
-<script type="text/javascript">
-time_out = 3;
-
-function auto_close()
-{
-	time_out--;
-	if (time_out <= 0)
+	// Validate input data
+	if ($_SESSION["BBS_uid"] == 0)
 	{
-		self.clearInterval(timer);
-		self.close();
-	}
-	self.document.all("close_text").innerText = "[" + time_out + "秒后关闭]";
-}
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "没有登录";
 
-timer = self.setInterval(auto_close, 1000);
-</script>
-</HTML>
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	if (!$_SESSION["BBS_priv"]->checkpriv(0, S_MSG) || $uid == $BBS_sys_uid)
+	{
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "没有权限";
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	} 
+
+	$r_content = check_badwords(split_line($content, "", 256, 10), "****");
+	if ($content != $r_content)
+	{
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "内容不符合要求";
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	// Secure SQL statement
+	$content = mysqli_real_escape_string($db_conn, $content);
+
+	$sql = "SELECT UID FROM user_list WHERE UID = $uid";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Query user error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	if (mysqli_num_rows($rs) == 0)
+	{
+		$result_set["return"]["code"] = -1;
+		$result_set["return"]["message"] = "用户不存在";
+	}
+	mysqli_free_result($rs);
+
+	$sql = "INSERT INTO bbs_msg(fromUID, toUID, content, send_dt, send_ip)
+			VALUES(" . $_SESSION["BBS_uid"] . ", $uid, '$content', NOW(),'" .
+			client_addr() . "')";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Insert msg error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	mysqli_close($db_conn);
+	exit(json_encode($result_set));
+?>

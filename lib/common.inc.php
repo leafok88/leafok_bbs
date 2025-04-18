@@ -30,6 +30,13 @@
 		20,
 	);
 
+	$BBS_msg_rpp_options		=	array(
+		5,
+		10,
+		20,
+		30,
+	);
+
 	$BBS_exp					= array(
 		PHP_INT_MIN,	// 0
 		50,				// 1
