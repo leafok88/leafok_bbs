@@ -132,10 +132,10 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 							$tag_result = "</span>";
 							break;
 						case "align":
-							$tag_result = "<p align=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
+							$tag_result = "\n<p align=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
 							break;
 						case "/align":
-							$tag_result = "</p>";
+							$tag_result = "</p>\n";
 							break;
 						case "image":
 							if ($use_proxy)
