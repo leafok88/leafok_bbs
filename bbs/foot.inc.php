@@ -28,7 +28,7 @@ if ($_SESSION["BBS_uid"]>0)
 	| <a class="s4" href="upload_manage.php" target=_blank>上传管理</a>
 <?
 }
-if (isset($result_set) && $_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_MAN_S))
+if (isset($result_set) && isset($result_set["data"]["sid"]) && $_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_MAN_S))
 {
 ?>
 	| <a class="s4" href="section_setting.php?sid=<? echo $result_set["data"]["sid"]; ?>" target=_blank>版块设定</a>
