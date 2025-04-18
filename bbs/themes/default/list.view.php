@@ -332,7 +332,7 @@ window.addEventListener("load", () => {
 		<td colspan="3"></td></tr>
 	<tr valign="top">
 		<form action="list.php" method="get" id="change_page" name="change_page">
-		<td width="40%" style="color:#909090">
+		<td width="40%" style="color: #909090">
 			<input type="hidden" id="sid" name="sid" value="<? echo $result_set["data"]["sid"]; ?>">
 			<input type="hidden" id="reply" name="reply" value="<? echo $result_set["data"]["reply"]; ?>">
 			<input type="hidden" id="ex" name="ex" value="<? echo $result_set["data"]["ex"]; ?>">

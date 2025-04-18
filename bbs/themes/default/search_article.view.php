@@ -204,7 +204,7 @@ function ch_rpp()
 		<td colspan="3"></td>
 	</tr>
 	<tr valign="top">
-		<td width="40%" align="left" style="color:#909090">
+		<td width="40%" align="left" style="color: #909090">
 		<form action="search_article.php" method="GET" id="search_form" name="search_form">
 			<a name="cp"></a>
 			<input type="hidden" id="uid" name="uid" value="<? echo $result_set["data"]["uid"];?>">

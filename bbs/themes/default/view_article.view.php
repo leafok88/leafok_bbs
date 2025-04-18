@@ -361,7 +361,7 @@ window.addEventListener("load", () => {
 		if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG) && $_SESSION["BBS_uid"] != $article["uid"])
 		{
 ?>
-					<img src="images/mail.gif" width="16" height="16"><a class="s4" href="" onclick="return NW_open('send_msg.php?uid=<? echo $article["uid"]; ?>', 'send_msg', 500, 300);" title="给作者发消息">消息</a>
+					<img src="images/mail.gif" width="16" height="16"><a class="s4" href="read_msg.php?sent=1&uid=<? echo $article["uid"]; ?>" target=_blank title="给作者发消息">消息</a>
 <?
 		}
 		if ($article["visible"])
@@ -447,10 +447,10 @@ window.addEventListener("load", () => {
 			</tr>
 			<tr>
 				<td align="center">
-					昵称：&nbsp;<span style="color:#909090;"><? echo htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8'); ?></span>
+					昵称：&nbsp;<span style="color: #909090;"><? echo htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8'); ?></span>
 				</td>
 				<td class="body">
-					<span style="color:#606060;">来自：</span>&nbsp;<span style="color:#909090; "><? echo $article["sub_ip"]; ?></span>
+					<span style="color:#606060;">来自：</span>&nbsp;<span style="color: #909090; "><? echo $article["sub_ip"]; ?></span>
 				</td>
 				<td>
 				</td>
@@ -460,17 +460,17 @@ window.addEventListener("load", () => {
 					经验值：&nbsp;<span style="color:red;"><? echo $article["exp"]; ?></span>
 				</td>
 				<td class="body">
-					<span style="color:#606060;">发贴时间：</span>&nbsp;<span style="color:#909090; "><? echo $article["sub_dt"]->format("Y年m月d日 H:i:s (\U\T\C P)"); ?></span>
+					<span style="color:#606060;">发贴时间：</span>&nbsp;<span style="color: #909090; "><? echo $article["sub_dt"]->format("Y年m月d日 H:i:s (\U\T\C P)"); ?></span>
 				</td>
 				<td>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">
-					等级：&nbsp;<span style="color:#909090;"><? echo user_level($article["exp"]); ?></span>
+					等级：&nbsp;<span style="color: #909090;"><? echo user_level($article["exp"]); ?></span>
 				</td>
 				<td class="body">
-					<span style="color:#606060;">长度：</span>&nbsp;<span style="color:#909090; "><? echo $article["length"]; ?>字</span>
+					<span style="color:#606060;">长度：</span>&nbsp;<span style="color: #909090; "><? echo $article["length"]; ?>字</span>
 				</td>
 				<td>
 				</td>
@@ -478,7 +478,7 @@ window.addEventListener("load", () => {
 			<tr height="2">
 				<td>
 				</td>
-				<td style="background-color:#909090;">
+				<td style="background-color: #909090;">
 				</td>
 				<td>
 				</td>
@@ -556,7 +556,7 @@ window.addEventListener("load", () => {
 				</td>
 			</tr>
 			<tr>
-				<td width="40%" style="color:#909090">
+				<td width="40%" style="color: #909090">
 				<form action="view_article.php" method="get" id="change_page" name="change_page">
 					<input type="hidden" id="id" name="id" value="<? echo $result_set["data"]["id"]; ?>">
 					<input type="hidden" id="ex" name="ex" value="<? echo $result_set["data"]["ex"]; ?>">

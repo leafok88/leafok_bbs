@@ -242,7 +242,7 @@ while ($row = mysqli_fetch_array($rs))
 	if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG))
 	{
 ?>
-						<a class="s2" href="" onclick="return NW_open('send_msg.php?uid=<? echo $row["UID"]; ?>', 'send_msg', 500, 300);">发送消息</a>
+						<a class="s2" href="read_msg.php?sent=1&uid=<? echo $row["UID"]; ?>" target=_blank>发送消息</a>
 <?
 	}
 ?>
@@ -267,7 +267,7 @@ mysqli_free_result($rs);
 				</tr>
 				<tr>
 				<form action="search_user.php" method="get" id="change_page" name="change_page">
-					<td width="30%" style="color:#909090">
+					<td width="30%" style="color: #909090">
 					每页<select size="1" id="rpp" name="rpp" onchange="ch_rpp();">
 <?
 	foreach ($BBS_list_rpp_options as $v)

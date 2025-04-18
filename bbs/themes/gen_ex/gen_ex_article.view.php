@@ -67,7 +67,7 @@
 					<td width="5%">
 					</td>
 					<td width="90%" class="body">
-						<span style="color:#606060; ">作者：</span>&nbsp;<span style="color:#909090; "><? echo htmlspecialchars($article["username"], ENT_HTML401, 'UTF-8'); ?> (<? echo htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8'); ?>)</span>
+						<span style="color:#606060; ">作者：</span>&nbsp;<span style="color: #909090; "><? echo htmlspecialchars($article["username"], ENT_HTML401, 'UTF-8'); ?> (<? echo htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8'); ?>)</span>
 					</td>
 					<td width="5%">
 					</td>
@@ -76,7 +76,7 @@
 					<td>
 					</td>
 					<td class="body">
-						<span style="color:#606060; ">标题：</span>&nbsp;<span style="color:#909090; "><? echo split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></span><? if ($article["transship"]) { ?><font color="red">[转载]</font><? } ?>
+						<span style="color:#606060; ">标题：</span>&nbsp;<span style="color: #909090; "><? echo split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></span><? if ($article["transship"]) { ?><font color="red">[转载]</font><? } ?>
 					</td>
 					<td>
 					</td>
@@ -85,7 +85,7 @@
 					<td>
 					</td>
 					<td class="body">
-						<span style="color:#606060; ">来自：</span>&nbsp;<span style="color:#909090; "><? echo $article["sub_ip"]; ?></span>
+						<span style="color:#606060; ">来自：</span>&nbsp;<span style="color: #909090; "><? echo $article["sub_ip"]; ?></span>
 					</td>
 					<td>
 					</td>
@@ -94,7 +94,7 @@
 					<td>
 					</td>
 					<td class="body">
-						<span style="color:#606060; ">发贴时间：</span>&nbsp;<span style="color:#909090; "><? echo $article["sub_dt"]->format("Y年m月d日 H:i:s (\U\T\C P)"); ?></span>
+						<span style="color:#606060; ">发贴时间：</span>&nbsp;<span style="color: #909090; "><? echo $article["sub_dt"]->format("Y年m月d日 H:i:s (\U\T\C P)"); ?></span>
 					</td>
 					<td>
 					</td>
@@ -103,7 +103,7 @@
 					<td>
 					</td>
 					<td class="body">
-						<span style="color:#606060; ">长度：</span>&nbsp;<span style="color:#909090; "><? echo $article["length"]; ?>字</span>
+						<span style="color:#606060; ">长度：</span>&nbsp;<span style="color: #909090; "><? echo $article["length"]; ?>字</span>
 					</td>
 					<td>
 					</td>
@@ -111,7 +111,7 @@
 				<tr height="2">
 					<td>
 					</td>
-					<td style="background-color:#909090; ">
+					<td style="background-color: #909090; ">
 					</td>
 					<td>
 					</td>

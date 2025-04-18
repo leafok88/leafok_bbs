@@ -246,7 +246,7 @@ window.addEventListener("load", () => {
 					昵称：
 				</td>
 				<td>
-					<span style="color:#909090; ">
+					<span style="color: #909090; ">
 						<? echo $result_set["data"]["nickname"]; ?>
 					</span>
 				</td>
@@ -425,10 +425,10 @@ window.addEventListener("load", () => {
 				</td>
 				<td>
 <?
-	if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG))
+	if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG) && $result_set["data"]["uid"] != $BBS_sys_uid)
 	{
 ?>
-					<a class="s2" href="" onclick="return NW_open('send_msg.php?uid=<? echo $result_set["data"]["uid"]; ?>', 'bbs_msg', 500, 300);">发送消息</a>
+					<a class="s2" href="read_msg.php?sent=1&uid=<? echo $result_set["data"]["uid"]; ?>" target=_blank>发送消息</a>
 <?
 	}
 
