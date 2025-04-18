@@ -1,3 +1,10 @@
+<?
+	// Prevent load standalone
+	if (!isset($result_set))
+	{
+		exit();
+	}
+?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
