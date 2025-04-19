@@ -1,8 +1,8 @@
 BODY
 {
-    background-color: #f3f3f3;
-    MARGIN: 20px 5px;
-    COLOR: sienna;
+	background-color: #f3f3f3;
+	MARGIN: 20px 5px;
+	COLOR: sienna;
 }
 TD.title
 {
@@ -15,117 +15,117 @@ TD.body
 }
 INPUT,SELECT,TEXTAREA
 {
-    COLOR: green;
-    BACKGROUND-COLOR: #faf5f5
+	COLOR: green;
+	BACKGROUND-COLOR: #faf5f5
 }
 BODY,P,TD,A.s0,A.s2,A.s7,A.s8,A.s9
 {
-    FONT-SIZE: 14px;
+	FONT-SIZE: 14px;
 }
 TD.title,TD.body,A.s3,A.s4,A.s6,A.s10
 {
-    FONT-SIZE: 16px;
+	FONT-SIZE: 16px;
 }
 A.s1,A.s5
 {
-    FONT-SIZE: 18px;
+	FONT-SIZE: 18px;
 }
 TD.title,TD.body,A.s1,A.s4,A.s5,A.s6
 {
-    FONT-FAMILY: 楷体;
+	FONT-FAMILY: 楷体;
 }
 A.s0:link,A.s0:visited,A.s0:active
 {
-    COLOR: blue;
-    TEXT-DECORATION: none
+	COLOR: blue;
+	TEXT-DECORATION: none
 }
 A.s0:hover
 {
-    COLOR: red;
-    TEXT-DECORATION: underline overline
+	COLOR: red;
+	TEXT-DECORATION: underline overline
 }
 A.s1:link,A.s1:visited,A.s1:active
 {
-    COLOR: #ff0033;
-    TEXT-DECORATION: none
+	COLOR: #ff0033;
+	TEXT-DECORATION: none
 }
 A.s1:hover
 {
-    COLOR: green;
-    TEXT-DECORATION: none
+	COLOR: green;
+	TEXT-DECORATION: none
 }
 A.s2:link,A.s2:visited,A.s2:active
 {
-    COLOR: #228b22;
-    TEXT-DECORATION: none
+	COLOR: #228b22;
+	TEXT-DECORATION: none
 }
 A.s2:hover
 {
-    COLOR: red;
-    TEXT-DECORATION: none
+	COLOR: red;
+	TEXT-DECORATION: none
 }
 A.s3:link,A.s3:visited,A.s3:active
 {
-    COLOR: #228b22;
-    TEXT-DECORATION: none
+	COLOR: #228b22;
+	TEXT-DECORATION: none
 }
 A.s3:hover
 {
-    COLOR: red;
-    TEXT-DECORATION: none
+	COLOR: red;
+	TEXT-DECORATION: none
 }
 A.s4:link,A.s4:visited,A.s4:active
 {
-    COLOR: #303030;
-    TEXT-DECORATION: none
+	COLOR: #303030;
+	TEXT-DECORATION: none
 }
 A.s4:hover
 {
-    COLOR: black;
-    TEXT-DECORATION: underline
+	COLOR: black;
+	TEXT-DECORATION: underline
 }
 A.s5:link,A.s5:visited,A.s5:active
 {
-    COLOR: green;
-    TEXT-DECORATION: none
+	COLOR: green;
+	TEXT-DECORATION: none
 }
 A.s5:hover
 {
-    COLOR: red;
-    TEXT-DECORATION: none
+	COLOR: red;
+	TEXT-DECORATION: none
 }
 A.s6:link,A.s6:visited,A.s6:active
 {
-    COLOR: orange;
-    TEXT-DECORATION: none
+	COLOR: orange;
+	TEXT-DECORATION: none
 }
 A.s6:hover
 {
-    COLOR: blue;
-    TEXT-DECORATION: none
+	COLOR: blue;
+	TEXT-DECORATION: none
 }
 A.s7:link,A.s7:visited,A.s7:active
 {
-    COLOR: blue;
-    TEXT-DECORATION: none
+	COLOR: blue;
+	TEXT-DECORATION: none
 }
 A.s7:hover
 {
-    COLOR: red;
-    TEXT-DECORATION: underline
+	COLOR: red;
+	TEXT-DECORATION: underline
 }
 A.s8:link,A.s8:visited,A.s8:active,A.s9
 {
-    COLOR: black;
-    TEXT-DECORATION: none
+	COLOR: black;
+	TEXT-DECORATION: none
 }
 A.s8:hover
 {
-    COLOR: red;
-    TEXT-DECORATION: none
+	COLOR: red;
+	TEXT-DECORATION: none
 }
 A.s10
 {
-    COLOR: #303030;
-    TEXT-DECORATION: none
+	COLOR: #303030;
+	TEXT-DECORATION: none
 }

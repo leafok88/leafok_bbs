@@ -1,39 +1,39 @@
 BODY
 {
-    FONT-SIZE: 14px;
-    BACKGROUND-IMAGE: url(/images/bg.jpg);
-    MARGIN: 20px 5px;
-    COLOR: sienna;
+	FONT-SIZE: 14px;
+	BACKGROUND-IMAGE: url(/images/bg.jpg);
+	MARGIN: 20px 5px;
+	COLOR: sienna;
 }
 P
 {
-    FONT-SIZE: 14px
+	FONT-SIZE: 14px
 }
 TD
 {
-    FONT-SIZE: 14px
+	FONT-SIZE: 14px
 }
 A:link
 {
-    FONT-SIZE: 14px;
-    COLOR: blue;
-    TEXT-DECORATION: none
+	FONT-SIZE: 14px;
+	COLOR: blue;
+	TEXT-DECORATION: none
 }
 A:visited
 {
-    FONT-SIZE: 14px;
-    COLOR: blue;
-    TEXT-DECORATION: none
+	FONT-SIZE: 14px;
+	COLOR: blue;
+	TEXT-DECORATION: none
 }
 A:active
 {
-    FONT-SIZE: 14px;
-    COLOR: blue;
-    TEXT-DECORATION: none
+	FONT-SIZE: 14px;
+	COLOR: blue;
+	TEXT-DECORATION: none
 }
 A:hover
 {
-    FONT-SIZE: 14px;
-    COLOR: red;
-    TEXT-DECORATION: underline overline
+	FONT-SIZE: 14px;
+	COLOR: red;
+	TEXT-DECORATION: underline overline
 }
