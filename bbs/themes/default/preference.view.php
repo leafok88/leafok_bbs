@@ -10,10 +10,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>更改个人设定</title>
 <link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
-<script type="text/javascript" src="../js/nw_open.js"></script>
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">
+function NW_open(url, name, w, h)
+{
+	hwnd = window.open(url, name, "width=" + w + ", height=" + h + ", top=0, left=0, toolbar=no, scrollbars=yes, menubar=no, statusbar=0, location=no");
+	hwnd.focus();
+	return false;
+}
+
 function tz_select(s, value)
 {
 	for (i = 0; i < s.options.length; i++)
