@@ -47,7 +47,6 @@ TR.t1
 	background-color: #f0f5f5;
 }
 </style>
-<script type="text/javascript" src="../js/nw_open.js"></script>
 <script type="text/javascript">
 cur_cid=0;
 

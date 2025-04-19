@@ -10,7 +10,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>更改用户资料</title>
 <link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
-<script type="text/javascript" src="../js/nw_open.js"></script>
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">

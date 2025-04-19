@@ -10,7 +10,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查看消息——<? echo ($result_set["data"]["sent"] ? "发件箱" : "收件箱"); ?></title>
 <link rel="stylesheet" href="css/default.css" type="text/css">
-<script type="text/javascript" src="../js/nw_open.js"></script>
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">

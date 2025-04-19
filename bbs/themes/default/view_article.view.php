@@ -41,7 +41,6 @@ TD.content_deleted
 	text-decoration: line-through;
 }
 </style>
-<script type="text/javascript" src="/js/nw_open.js"></script>
 <script type="text/javascript" src="../js/img_adjust.js"></script>
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>

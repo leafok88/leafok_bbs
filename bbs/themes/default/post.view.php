@@ -10,7 +10,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>发表文章</title>
 <link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
-<script type="text/javascript" src="../js/nw_open.js"></script>
 <script type="text/javascript" src="<? echo get_theme_file('js/lml_assistant'); ?>"></script>
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>

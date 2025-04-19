@@ -76,7 +76,6 @@ TD.topic:hover
 }
 </style>
 
-<script type="text/javascript" src="../js/nw_open.js"></script>
 <script type="text/javascript">
 function ch_page(page)
 {
