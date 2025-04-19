@@ -1,0 +1,17 @@
+/bbs/cache
+/bbs/doc
+/bbs/upload
+/bbs/images/face/upload_photo
+/conf
+/gen_ex/[0-9]*
+/gen_ex/pack
+/gen_ex/static
+/gen_ex/attachment
+/gen_ex/index.html
+/gen_ex/readme.txt
+/images
+/scripts
+/stat
+/www
+/index.php
+/robots.txt
