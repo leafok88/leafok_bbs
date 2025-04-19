@@ -69,7 +69,7 @@
 			什么是LML代码？
 		</p>
 		<p style="FONT-SIZE: 16px">
-			LML代码是一种只能在本论坛使用的伪HTML代码，通过它可以实现部分HTML语言所能实现的特殊效果，例如改变字体大小、颜色，插入超级链接、图片，实现特效等。如果要详细了解LML代码的使用方法，请查看<A class="s5" href="doc/lml.htm" target="_blank">详细使用说明</A>。
+			LML代码是一种只能在本论坛使用的伪HTML代码，通过它可以实现部分HTML语言所能实现的特殊效果，例如改变字体大小、颜色，插入超级链接、图片，实现特效等。如果要详细了解LML代码的使用方法，请查看<A class="s5" href="lml.htm" target="_blank">详细使用说明</A>。
 		</p>
 		<p align="right">
 			<A class="s2" href="#top">返回页首</A>
