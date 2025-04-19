@@ -73,16 +73,6 @@ CREATE TABLE `bbs_content` (
   `content` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `bbs_ex_dl` (
-  `ID` mediumint NOT NULL,
-  `SID` smallint NOT NULL DEFAULT '0',
-  `url` varchar(255) DEFAULT NULL,
-  `dl_count` mediumint NOT NULL DEFAULT '0',
-  `dl_type` char(1) NOT NULL DEFAULT 'C',
-  `filename` varchar(50) DEFAULT NULL,
-  `enable` tinyint UNSIGNED NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 CREATE TABLE `bbs_msg` (
   `MID` int NOT NULL,
   `fromUID` mediumint NOT NULL DEFAULT '0',
@@ -361,11 +351,6 @@ ALTER TABLE `bbs_content`
   ADD PRIMARY KEY (`CID`),
   ADD KEY `AID` (`AID`);
 
-ALTER TABLE `bbs_ex_dl`
-  ADD PRIMARY KEY (`ID`),
-  ADD UNIQUE KEY `SID` (`SID`),
-  ADD KEY `dl_type` (`dl_type`);
-
 ALTER TABLE `bbs_msg`
   ADD PRIMARY KEY (`MID`),
   ADD KEY `fromUID` (`fromUID`),
@@ -504,9 +489,6 @@ ALTER TABLE `bbs_article_op`
 
 ALTER TABLE `bbs_content`
   MODIFY `CID` int NOT NULL AUTO_INCREMENT;
-
-ALTER TABLE `bbs_ex_dl`
-  MODIFY `ID` mediumint NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `bbs_msg`
   MODIFY `MID` int NOT NULL AUTO_INCREMENT;
