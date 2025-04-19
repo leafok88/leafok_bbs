@@ -20,15 +20,15 @@ INPUT,SELECT,TEXTAREA
 }
 BODY,P,TD,A.s0,A.s2,A.s7,A.s8,A.s9
 {
-    FONT-SIZE: 12px;
+    FONT-SIZE: 14px;
 }
 TD.title,TD.body,A.s3,A.s4,A.s6,A.s10
 {
-    FONT-SIZE: 14px;
+    FONT-SIZE: 16px;
 }
 A.s1,A.s5
 {
-    FONT-SIZE: 16px;
+    FONT-SIZE: 18px;
 }
 TD.title,TD.body,A.s1,A.s4,A.s5,A.s6
 {
