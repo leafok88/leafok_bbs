@@ -37,16 +37,4 @@ function user_exp_change(int $uid, int $exp_change, mysqli $db_conn = null) : my
 	return $ret;
 }
 
-//Display error message in a pop-up window
-function error_msg($msg, $back=false, $close=false)
-{
-	$ret = "<script language=\"JavaScript\">\n".
-		"	alert(\"".str_replace("\n","\\\n",$msg)."\");\n".
-		($back?"	history.go(-1);\n":"").
-		($close?"	self.close();\n":"").
-		"</script>";
-	
-	echo $ret;
-}
-
 ?>
