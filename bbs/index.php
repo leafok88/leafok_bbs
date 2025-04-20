@@ -98,6 +98,7 @@ function check_user(f)
 			case 3: // Login forbidden
 				errorFieldMap.set("err_msg_prompt", ret.return.message);
 				refresh_err_msg(errorFieldMap);
+				vn_refresh(document.getElementById("vn_img"));
 				break;
 			case 4:
 				errorFieldMap.set("err_msg_prompt", "本站《用户许可协议》已更新，需要您的确认");

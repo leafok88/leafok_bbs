@@ -307,6 +307,8 @@
 			exit(json_encode($result_set));
 		}
 
+		$_SESSION["BBS_vn_str"] = ""; // Force change vn_str
+
 		$result_set["return"]["code"] = 3;
 		$result_set["return"]["message"] = "用户名或密码不正确";
 
