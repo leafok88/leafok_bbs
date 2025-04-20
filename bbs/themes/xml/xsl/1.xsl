@@ -152,7 +152,7 @@ textarea.content
 					    <xsl:element name="img">
 						    <xsl:attribute name="src">/bbs/images/expression/<xsl:value-of select="ExpressionIcon"/>.gif</xsl:attribute>
 					    </xsl:element>
-	            <xsl:value-of select="ArticleTitle "/>
+	            <font color="gray"><xsl:value-of select="ArticleTitle "/></font>
           	</td>
             <td align="center">
 	            	来自：<xsl:value-of select="PostIP"/>
