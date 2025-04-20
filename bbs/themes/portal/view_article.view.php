@@ -72,7 +72,9 @@ TD.content
 					<td></td>
 				</tr>
 				<tr>
-					<td class="content"><? echo LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, true, 110); ?></td>
+					<td class="content">
+						<pre><? echo LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, true, 110); ?></pre>
+					</td>
 				</tr>
 				<tr>
 					<td>

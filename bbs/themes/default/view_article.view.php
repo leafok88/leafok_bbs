@@ -487,7 +487,7 @@ window.addEventListener("load", () => {
 					<img src="<? echo $article["photo_path"]; ?>" border="0">
 				</td>
 				<td id="content_<? echo $article["aid"]; ?>" class="<? echo ($article["visible"] ? "content_normal" : "content_deleted"); ?>">
-					<? echo LML(htmlspecialchars((isset($article["content"]) ? $article["content"] : ""), ENT_HTML401, 'UTF-8'), true, true, 80); ?>
+					<pre><? echo LML(htmlspecialchars((isset($article["content"]) ? $article["content"] : ""), ENT_HTML401, 'UTF-8'), true, true, 80); ?></pre>
 				</td>
 				<td>
 				</td>

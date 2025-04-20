@@ -120,7 +120,7 @@
 					<td>
 					</td>
 					<td style="font-size: 16px; ">
-						<? echo LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, true, 80); ?>
+						<pre><? echo LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, true, 80); ?></pre>
 					</td>
 					<td>
 					</td>

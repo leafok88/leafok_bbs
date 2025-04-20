@@ -253,7 +253,7 @@ function split_long_str(string $str, string &$pre, int $width = 76, bool $html_t
 
 		if ($c == "\n")
 		{
-			$str_r .= ($html_tag ? "<br />" : "\n");
+			$str_r .= "\n";
 			$pre = 0;
 			continue;
 		}
@@ -272,48 +272,30 @@ function split_long_str(string $str, string &$pre, int $width = 76, bool $html_t
 		}
 		if (!$html_tag_begin)
 		{
-			if ($html_tag && $c == " ")
+			//Process UTF-8 Chinese characters
+			$v1 = ord($c);
+			if (($v1 & 0b10000000) == 0b10000000) //head of multi-byte character
 			{
-				//Replace space as non-blocking space for paragraph indent
-				if ($pre == 0)
+				$v2 = ($v1 & 0b01111000) << 1;
+				while ($v2 & 0b10000000)
 				{
-					$c = "&nbsp;";
-					$pre = 1;
-					while ($i + 1 < $len && $str[$i + 1] == " ")
-					{
-						$c .= "&nbsp;";
-						$pre++;
-						$i++;
-					}
+					$i++;
+					$v3 = $str[$i];
+					$c .= $v3;
+					$v2 = ($v2 & 0b01111111 ) << 1;
 				}
+
+				// Each UTF-8 CJK character should use two character length for display
+				if ($pre + 2 > $width)
+				{
+					$str_r .= "\n";
+					$pre = 0;
+				}
+				$pre += 2;
 			}
 			else
 			{
-				//Process UTF-8 Chinese characters
-				$v1 = ord($c);
-				if (($v1 & 0b10000000) == 0b10000000) //head of multi-byte character
-				{
-					$v2 = ($v1 & 0b01111000) << 1;
-					while ($v2 & 0b10000000)
-					{
-						$i++;
-						$v3 = $str[$i];
-						$c .= $v3;
-						$v2 = ($v2 & 0b01111111 ) << 1;
-					}
-
-					// Each UTF-8 CJK character should use two character length for display
-					if ($pre + 2 > $width)
-					{
-						$str_r .= ($html_tag ? "<br />" : "\n");
-						$pre = 0;
-					}
-					$pre += 2;
-				}
-				else
-				{
-					$pre++;
-				}
+				$pre++;
 			}
 		}
 		if ($html_tag && $c == ">")
@@ -323,7 +305,7 @@ function split_long_str(string $str, string &$pre, int $width = 76, bool $html_t
 
 		if ($pre > $width)
 		{
-			$str_r .= ($html_tag ? "<br />" : "\n");
+			$str_r .= "\n";
 			$pre = 1;
 		}
 

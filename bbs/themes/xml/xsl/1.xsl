@@ -18,7 +18,7 @@
 textarea.content
 {	overflow-y:visible;
 	border:0px;
-	font-size:9pt;
+	font-size:12pt;
 	font-family:Fixedsys 宋体;
 	line-height:150%;
 	overflow:visible;
@@ -164,7 +164,7 @@ textarea.content
             <td>
   	        </td>
             <td colspan="3">
-                <xsl:value-of select="Content" disable-output-escaping="yes"/>
+                <pre><xsl:value-of select="Content" disable-output-escaping="yes"/></pre>
             </td>
             <td>
   	        </td>
