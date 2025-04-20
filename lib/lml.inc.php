@@ -258,14 +258,6 @@ function split_long_str(string $str, string &$pre, int $width = 76, bool $html_t
 			continue;
 		}
 
-		if (!$html_tag && $c == "<" && preg_match('/^<br[ ]*[\/]?>/', substr($str, $i, 10), $matches) == 1)
-		{
-			$str_r .= "\n";
-			$pre = 0;
-			$i += (strlen($matches[0]) - 1);
-			continue;
-		}
-
 		if ($html_tag && $c == "<")
 		{
 			$html_tag_begin = true;
