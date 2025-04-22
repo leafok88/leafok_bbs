@@ -41,7 +41,7 @@ if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
 <?
 }
 ?>
-	| <a class="s4" href="get_help.php" target=_blank>常见问题</a> |
+	| <a class="s4" href="get_help.htm" target=_blank>常见问题</a> |
 </p>
 <p align="center" style="color:gray;">
 	Copyright &copy; <? echo $BBS_copyright_duration; ?> <a class="s8" href="/" target=_blank><? echo $BBS_name . "(" . $BBS_host_name . ")"; ?></a> All Rights Reserved<br />
