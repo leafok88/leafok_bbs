@@ -43,7 +43,7 @@ TD.head,TD.favor,TD.reply,TD.dark,TD.topic
 	border-left: #d0d3F0 1px solid;
 	border-bottom: #d0d3F0 1px solid;
 }
-TD.head
+TD.head,PRE.announcement
 {
 	font-family: 楷体;
 	color: blue;
@@ -200,9 +200,7 @@ window.addEventListener("load", () => {
 	<tr>
 		<td class="dark"><img src="images/announce.gif" width="18" height="18" alt="本版公告"></td>
 		<td class="head">
-<? 
-		echo (LML(htmlspecialchars($result_set["data"]["announcement"], ENT_HTML401, 'UTF-8'), true));
-?>
+			<pre class="announcement"><? echo LML(htmlspecialchars($result_set["data"]["announcement"], ENT_HTML401, 'UTF-8'), true, true, 100); ?></pre>
 		</td>
 	</tr>
 <?
