@@ -131,27 +131,26 @@ window.addEventListener("load", () => {
 					<td align="left" style="color: blue;">
 						<marquee direction="left" height="25" scrollamount="2" scrolldelay="10" onmouseover="stop()" onmouseout="start()">
 <?
-$sql = "SELECT AID, title, sub_dt FROM bbs
-		WHERE TID = 0 AND SID = 4 AND visible AND excerption
-		AND (sub_dt >= SUBDATE(NOW(), INTERVAL 28 DAY))
-		ORDER BY ontop DESC, sub_dt DESC";
+	$sql = "SELECT AID, title, sub_dt FROM bbs
+			WHERE TID = 0 AND SID = 4 AND visible AND excerption
+			AND (sub_dt >= SUBDATE(NOW(), INTERVAL 28 DAY))
+			ORDER BY ontop DESC, sub_dt DESC";
 
-$rs = mysqli_query($db_conn, $sql);
-if ($rs == false)
-{
-	echo("Query data error: " . mysqli_error($db_conn));
-	exit();
-}
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		echo("Query data error: " . mysqli_error($db_conn));
+		exit();
+	}
 
-while ($row = mysqli_fetch_array($rs))
-{
+	while ($row = mysqli_fetch_array($rs))
+	{
 ?>
 							[<? echo (new DateTime($row["sub_dt"]))->format("Y-m-d"); ?>]
 							<a class="s2" href="view_article.php?id=<? echo $row["AID"]; ?>" target=_blank><? echo htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'); ?></a>&nbsp;&nbsp;
 <?
-}
-
-mysqli_free_result($rs);
+	}
+	mysqli_free_result($rs);
 ?>
     					</marquee>
 					</td>
@@ -164,22 +163,22 @@ mysqli_free_result($rs);
 						本站热点<img src="images/hotclosed.gif">
 					</td></tr>
 <?
-$sql = "SELECT AID, bbs.title AS title, section_config.title as s_title
-		FROM bbs INNER JOIN section_config ON bbs.SID = section_config.SID
-		WHERE section_config.recommend AND TID = 0 AND visible AND view_count >= 10
-		AND (sub_dt >= SUBDATE(NOW(), INTERVAL 7 DAY))
-		ORDER BY excerption DESC, (view_count + reply_count) DESC, transship
-		LIMIT 10";
+	$sql = "SELECT AID, bbs.title AS title, section_config.title as s_title
+			FROM bbs INNER JOIN section_config ON bbs.SID = section_config.SID
+			WHERE section_config.recommend AND TID = 0 AND visible AND view_count >= 10
+			AND (sub_dt >= SUBDATE(NOW(), INTERVAL 7 DAY))
+			ORDER BY excerption DESC, (view_count + reply_count) DESC, transship
+			LIMIT 10";
 
-$rs = mysqli_query($db_conn, $sql);
-if ($rs == false)
-{
-	echo("Query data error: " . mysqli_error($db_conn));
-	exit();
-}
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		echo("Query data error: " . mysqli_error($db_conn));
+		exit();
+	}
 
-while ($row = mysqli_fetch_array($rs))
-{
+	while ($row = mysqli_fetch_array($rs))
+	{
 ?>
 				<tr class="t1">
 					<td align="left" style="color:blue;">
@@ -190,9 +189,8 @@ while ($row = mysqli_fetch_array($rs))
 					</td>
 				</tr>
 <?
-}
-
-mysqli_free_result($rs);
+	}
+	mysqli_free_result($rs);
 ?>
 				<tr height="10">
 					<td></td>
@@ -203,35 +201,34 @@ mysqli_free_result($rs);
 					</td>
 				</tr>
 <?
-$sql = "SELECT AID, bbs.title AS title, section_config.title AS s_title
-		FROM bbs INNER JOIN section_config ON bbs.SID = section_config.SID
-		WHERE (section_config.recommend OR excerption) AND read_user_level <= " .
-		$_SESSION["BBS_priv"]->level .
-		" AND TID = 0 AND visible ORDER BY sub_dt DESC
-		LIMIT 10";
+	$sql = "SELECT AID, bbs.title AS title, section_config.title AS s_title
+			FROM bbs INNER JOIN section_config ON bbs.SID = section_config.SID
+			WHERE (section_config.recommend OR excerption) AND read_user_level <= " .
+			$_SESSION["BBS_priv"]->level .
+			" AND TID = 0 AND visible ORDER BY sub_dt DESC
+			LIMIT 10";
 
-$rs = mysqli_query($db_conn, $sql);
-if ($rs == false)
-{
-	echo("Query data error: " . mysqli_error($db_conn));
-	exit();
-}
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		echo("Query data error: " . mysqli_error($db_conn));
+		exit();
+	}
 
-while ($row = mysqli_fetch_array($rs))
-{
+	while ($row = mysqli_fetch_array($rs))
+	{
 ?>
 				<tr class="t1">
 					<td colspan=2 align="left" style="color:blue;">
 						[<? echo $row["s_title"]; ?>]
 						<a class="s2" href="view_article.php?id=<? echo $row["AID"]; ?>" target=_blank>
-							<? echo split_line(htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'), "", 65, 2); ?>
+							<? echo split_line(htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'), "", 70, 2); ?>
 						</a>
 					</td>
 				</tr>
 <?
-}
-
-mysqli_free_result($rs);
+	}
+	mysqli_free_result($rs);
 ?>
 				<tr height="5">
 					<td></td>
