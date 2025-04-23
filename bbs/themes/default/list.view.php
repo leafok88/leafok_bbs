@@ -187,7 +187,7 @@ window.addEventListener("load", () => {
 	foreach ($result_set["data"]["section_masters"] as $master)
 	{
 ?>
-			<img src="images/<?= ($master["major"] ? "master_major.gif" : "master_minor.gif"); ?>" width="12" height="11" alt="<?= ($master["major"] ? "正版主" : "副版主"); ?>"><a class="s3" href="show_profile.php?uid=<?= $master['uid']; ?>" target=_blank title="查看版主资料"><?= $master["username"]; ?></a>&nbsp;&nbsp;
+			<img src="images/<?= ($master["major"] ? "master_major.gif" : "master_minor.gif"); ?>" width="12" height="11" alt="<?= ($master["major"] ? "正版主" : "副版主"); ?>"><a class="s3" href="view_user.php?uid=<?= $master['uid']; ?>" target=_blank title="查看版主资料"><?= $master["username"]; ?></a>&nbsp;&nbsp;
 <?php
 	} 
 ?>
@@ -292,7 +292,7 @@ window.addEventListener("load", () => {
 			<?= $status_str; ?>
 		</td>
 		<td width="16%" class="dark">
-			<a class="s2" href="show_profile.php?uid=<?= $article["uid"]; ?>" onclick='return <?= ($user_viewable ? "true" : "false"); ?>' title="<?= ($result_set["data"]["use_nick"] ? $username : $nickname); ?>" target=_blank>
+			<a class="s2" href="view_user.php?uid=<?= $article["uid"]; ?>" onclick='return <?= ($user_viewable ? "true" : "false"); ?>' title="<?= ($result_set["data"]["use_nick"] ? $username : $nickname); ?>" target=_blank>
 				<?= ($result_set["data"]["use_nick"] ? $nickname : $username); ?>
 			</a>
 		</td>
@@ -304,7 +304,7 @@ window.addEventListener("load", () => {
 		if ($article["reply_count"] > 0)
 		{
 ?>
-			<a class="s2" href="show_profile.php?uid=<?= $article["last_reply_uid"]; ?>" onclick='return <?= ($last_reply_user_viewable ? "true" : "false"); ?>' title="<?= ($result_set["data"]["use_nick"] ? $last_reply_username : $last_reply_nickname); ?>" target=_blank>
+			<a class="s2" href="view_user.php?uid=<?= $article["last_reply_uid"]; ?>" onclick='return <?= ($last_reply_user_viewable ? "true" : "false"); ?>' title="<?= ($result_set["data"]["use_nick"] ? $last_reply_username : $last_reply_nickname); ?>" target=_blank>
 				<?= ($result_set["data"]["use_nick"] ? $last_reply_nickname : $last_reply_username); ?>
 			</a>
 <?php

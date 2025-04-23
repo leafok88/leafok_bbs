@@ -79,7 +79,7 @@ function set_life(f)
 		{
 			case 0: // OK
 				refresh_err_msg(errorFieldMap);
-				document.location = "show_profile.php?uid=<?= $result_set["data"]["uid"]; ?>&ts=" + Date.now();
+				document.location = "view_user.php?uid=<?= $result_set["data"]["uid"]; ?>&ts=" + Date.now();
 				break;
 			case -1: // Input validation failed
 				errorFieldMap.set("err_msg_life", ret.return.message + "<br />");
@@ -155,7 +155,7 @@ function set_friend(set)
 			case 0: // OK
 			case 1: // Already set
 				refresh_err_msg(errorFieldMap);
-				document.location = "show_profile.php?uid=<?= $result_set["data"]["uid"]; ?>&ts=" + Date.now();
+				document.location = "view_user.php?uid=<?= $result_set["data"]["uid"]; ?>&ts=" + Date.now();
 				break;
 			case -1: // Input validation failed
 				errorFieldMap.set("err_msg_friend", ret.return.message);

@@ -431,7 +431,7 @@ window.addEventListener("load", () => {
 			</tr>
 			<tr>
 				<td width="20%" align="center">
-					作者：&nbsp;<a class="s2" href="show_profile.php?uid=<?= $article["uid"]; ?>" onclick='return <?= ($user_viewable ? "true" : "false"); ?>' target=_blank title="查看用户资料"><?= htmlspecialchars($article["username"], ENT_HTML401, 'UTF-8'); ?></a>
+					作者：&nbsp;<a class="s2" href="view_user.php?uid=<?= $article["uid"]; ?>" onclick='return <?= ($user_viewable ? "true" : "false"); ?>' target=_blank title="查看用户资料"><?= htmlspecialchars($article["username"], ENT_HTML401, 'UTF-8'); ?></a>
 				</td>
 				<td width="75%" class="body">
 					<span style="color:#606060;">标题：</span>

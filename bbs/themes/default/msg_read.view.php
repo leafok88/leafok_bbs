@@ -218,7 +218,7 @@ foreach ($result_set["data"]["messages"] as $message)
 ?>
 			<tr bgcolor="<?= $color[1]; ?>">
 				<td>
-					<?= ($result_set["data"]["sent"] ? "收件人" : "发送人"); ?>：<a class="s2" href="show_profile.php?uid=<?= $message["uid"]; ?>" target=_blank title="查看用户资料"><?= $message["nickname"]; ?></a>
+					<?= ($result_set["data"]["sent"] ? "收件人" : "发送人"); ?>：<a class="s2" href="view_user.php?uid=<?= $message["uid"]; ?>" target=_blank title="查看用户资料"><?= $message["nickname"]; ?></a>
 					&nbsp;&nbsp;发送时间：<?= $message["send_dt"]->format("Y-m-d H:i:s"); ?>
 <?php
 	if ($message["new"])

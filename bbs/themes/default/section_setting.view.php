@@ -412,7 +412,7 @@ window.addEventListener("load", () => {
 ?>
 					<p>
 						<?= ($section_master["major"] ? "正版主" : "副版主"); ?>&nbsp;&nbsp;
-						<a class="s3" href="show_profile.php?uid=<?= $section_master['uid']; ?>" target=_blank><?= $section_master["username"]; ?></a>&nbsp;&nbsp;
+						<a class="s3" href="view_user.php?uid=<?= $section_master['uid']; ?>" target=_blank><?= $section_master["username"]; ?></a>&nbsp;&nbsp;
 						<?= (new DateTimeImmutable($section_master["begin_dt"]))->setTimezone($_SESSION["BBS_user_tz"])->format("y年m月d日"); ?>--<?= (new DateTimeImmutable($section_master["end_dt"]))->setTimezone($_SESSION["BBS_user_tz"])->format("y年m月d日"); ?>&nbsp;&nbsp;
 <?php
 			if ($_SESSION["BBS_priv"]->checkpriv($sid, S_ADMIN) || $section_master["major"] == 0)

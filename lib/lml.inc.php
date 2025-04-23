@@ -174,7 +174,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 							$tag_result = "</a>";
 							break;
 						case "user":
-							$tag_result = "<a class=\"s7\" href=\"show_profile.php?uid=" . intval($tag_arg) . "\" target=_blank>";
+							$tag_result = "<a class=\"s7\" href=\"view_user.php?uid=" . intval($tag_arg) . "\" target=_blank>";
 							break;
 						case "/user":
 							$tag_result = "</a>";

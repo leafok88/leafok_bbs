@@ -133,7 +133,7 @@ function ch_rpp()
 ?>
 					</td>
 					<td class="username">
-						<a class="s2" href="show_profile.php?uid=<?= $user["uid"]; ?>" target=_blank><?= $user["username"]; ?></a>
+						<a class="s2" href="view_user.php?uid=<?= $user["uid"]; ?>" target=_blank><?= $user["username"]; ?></a>
 					</td>
 					<td class="dark">
 						<?= $user["nickname"]; ?>

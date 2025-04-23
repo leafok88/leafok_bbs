@@ -166,7 +166,7 @@ function ch_rpp()
 			<?= $status_str; ?>
 		</td>
 		<td width="16%" class="dark">
-			<a class="s2" href="show_profile.php?uid=<?= $article["uid"]; ?>" onclick='return <?= ($user_viewable ? "true" : "false"); ?>' title="<?= $article["username"]; ?>" target=_blank>
+			<a class="s2" href="view_user.php?uid=<?= $article["uid"]; ?>" onclick='return <?= ($user_viewable ? "true" : "false"); ?>' title="<?= $article["username"]; ?>" target=_blank>
 				<?= $article["nickname"]; ?>
 			</a>
 		</td>
@@ -178,7 +178,7 @@ function ch_rpp()
 		if ($article["reply_count"] > 0)
 		{
 ?>
-			<a class="s2" href="show_profile.php?uid=<?= $article["last_reply_uid"]; ?>" onclick='return <?= ($last_reply_user_viewable ? "true" : "false"); ?>' title="<?= $article["last_reply_username"]; ?>" target=_blank>
+			<a class="s2" href="view_user.php?uid=<?= $article["last_reply_uid"]; ?>" onclick='return <?= ($last_reply_user_viewable ? "true" : "false"); ?>' title="<?= $article["last_reply_username"]; ?>" target=_blank>
 				<?= $article["last_reply_nickname"]; ?>
 			</a>
 <?php
