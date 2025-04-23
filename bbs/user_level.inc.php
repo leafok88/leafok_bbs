@@ -1,7 +1,6 @@
 <?php
-	require_once "../lib/common.inc.php";
-?>
-<?php
+require_once "../lib/common.inc.php";
+
 function user_level($e)
 {
 	global $BBS_exp;

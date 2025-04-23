@@ -1,5 +1,5 @@
 <?php
-function check_str($str)
+function check_str($str) : bool
 {
 	$filename = "../conf/deny_reg.conf";
 	$contents = file_get_contents($filename);

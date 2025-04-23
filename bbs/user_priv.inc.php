@@ -46,7 +46,7 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 			$this->loadpriv($uid, $db_conn);
 		}
 
-		function checklevel($level)
+		function checklevel($level) : bool
 		{
 			return (($this->level & $level) ? true : false);
 		}
@@ -54,25 +54,31 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 		function setpriv($sid, $priv)
 		{
 			if ($sid > 0)
+			{
 				$this->s_priv_list[$sid] = $priv;
+			}
 			else
+			{
 				$this->g_priv = $priv;
+			}
 		}
 		
-		function getpriv($sid = 0)
+		function getpriv($sid = 0) : int
 		{
 			if (isset($this->s_priv_list[$sid]))
+			{
 				return $this->s_priv_list[$sid];
-			else
-				return ($sid >= 0 ? $this->g_priv : S_NONE);
+			}
+
+			return ($sid >= 0 ? $this->g_priv : S_NONE);
 		}
 		
-		function checkpriv($sid, $priv)
+		function checkpriv($sid, $priv) : bool
 		{
 			return (($this->getpriv($sid) & $priv) == $priv);
 		}
 		
-		function loadpriv($uid = 0, $db_conn = NULL)
+		function loadpriv($uid = 0, $db_conn = NULL) : int
 		{
 			$this->uid = $uid;
 			$this->level = ($uid == 0 ? P_GUEST : P_USER);

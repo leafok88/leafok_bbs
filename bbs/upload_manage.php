@@ -1,8 +1,7 @@
 <?php
 	require_once "../lib/db_open.inc.php";
 	require_once "./session_init.inc.php";
-?>
-<?php
+
 	force_login();
 
 	$upload_limit = 0;
