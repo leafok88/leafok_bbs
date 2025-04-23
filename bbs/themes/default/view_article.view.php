@@ -208,7 +208,7 @@ function move_article(sid)
 
 function set_ex_dir(fid)
 {
-	instance.post('set_ex_file_sub.php', {
+	instance.post('article_service_genex.php', {
 		id: <?= $result_set["data"]["id"]; ?>,
 		fid: fid,
 	})
