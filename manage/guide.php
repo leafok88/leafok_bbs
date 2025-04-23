@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../bbs/session_init.inc.php";
 
 	force_login();
@@ -23,7 +23,7 @@ P
 </head>
 <body>
 	<p>&nbsp;</p>
-<?
+<?php
 	if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
 	{
 ?>
@@ -35,13 +35,13 @@ P
 	<p><a href="unban_user.php" target="mng_body">自动解封</a></p>
 	<p><a href="article_stat.php" target="mng_body">发帖统计</a></p>
 	<p><a href="gen_ex.php" target="mng_body">精华生成</a></p>
-<?
+<?php
 	}
 	if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M))
 	{
 ?>
 	<p><a href="db_repair.php" target="mng_body">数据修复</a></p>
-<?
+<?php
 	}
 ?>
 </body>

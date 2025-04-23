@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/common.inc.php";
 	require_once "../lib/str_process.inc.php";
 	require_once "../lib/vn_gif.inc.php";

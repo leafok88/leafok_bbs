@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../bbs/session_init.inc.php";
 
@@ -73,20 +73,20 @@
 				处理
 			</td>
 		</tr>
-<?
+<?php
 	foreach ($result_set["data"]["user_photos"] as $user_photo)
 	{
 ?>
 		<tr height=20>
 			<td align="middle">
-				<? echo $user_photo["username"]; ?>
+				<?= $user_photo["username"]; ?>
 			</td>
 			<td align="middle">
-				<img src="../bbs/images/face/upload_photo/face_<? echo $user_photo["uid"] . "." . $user_photo["photo_ext"]; ?>">
+				<img src="../bbs/images/face/upload_photo/face_<?= $user_photo["uid"] . "." . $user_photo["photo_ext"]; ?>">
 			</td>
 			<td align="middle">
-				<a href="photo_process.php?enable=1&p_id=<? echo $user_photo["uid"]; ?>">通过</a><br>
-				<a href="photo_process.php?enable=0&p_id=<? echo $user_photo["uid"]; ?>" onclick="return window.confirm('真的要拒绝吗？');">拒绝</a>
+				<a href="photo_process.php?enable=1&p_id=<?= $user_photo["uid"]; ?>">通过</a><br>
+				<a href="photo_process.php?enable=0&p_id=<?= $user_photo["uid"]; ?>" onclick="return window.confirm('真的要拒绝吗？');">拒绝</a>
 			</td>
 		</tr>
 <? 

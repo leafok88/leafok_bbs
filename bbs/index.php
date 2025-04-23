@@ -1,8 +1,8 @@
-<?
+<?php
 	require_once "./session_init.inc.php";
 	require_once "../lib/vn_gif.inc.php";
 ?>
-<?
+<?php
 	$msg_list = array(
 		0	=> "",
 		1	=> "你需要登录才能访问该页面",
@@ -24,7 +24,7 @@
 <html>
 <head>
 <meta HTTP-EQUIV="Content-Type" Content="text-html; charset=UTF-8">
-<title>欢迎光临<? echo $BBS_name; ?></title>
+<title>欢迎光临<?= $BBS_name; ?></title>
 <link rel="stylesheet" href="css/default.css" type="text/css">
 <style type="text/css">
 TD.t1
@@ -54,7 +54,7 @@ function check_user(f)
 {
 	if (f.ch_passwd.value == "0" && f.username.value == "" && f.password.value == "")
 	{
-		document.location = "<? echo $redir; ?>";
+		document.location = "<?= $redir; ?>";
 		return false;
 	}
 
@@ -80,7 +80,7 @@ function check_user(f)
         {
 			case 0:
 				refresh_err_msg(errorFieldMap);
-				document.location = "<? echo $redir; ?>";
+				document.location = "<?= $redir; ?>";
 				break;
 			case 1:
 				f.mfa.value = "1";
@@ -162,13 +162,13 @@ window.addEventListener("load", () => {
 	</tr>
 </table>
 <form method="post" id="login_form" name="login_form" action="#">
-<input type="hidden" name="mfa" value="<? echo $mfa; ?>">
-<input type="hidden" name="ch_passwd" value="<? echo $ch_passwd; ?>">
+<input type="hidden" name="mfa" value="<?= $mfa; ?>">
+<input type="hidden" name="ch_passwd" value="<?= $ch_passwd; ?>">
 <table cols="4" cellSpacing="0" cellPadding="10" width="1050" border="0">
 	<tr height=20>
 		<td></td>
     	<td colspan="2" width="40" class="t1" align="center">
-			<span id="err_msg_prompt" name="err_msg" style="color: red"><? echo htmlspecialchars($msg_list[$msg], ENT_HTML401, 'UTF-8'); ?><br /></span>
+			<span id="err_msg_prompt" name="err_msg" style="color: red"><?= htmlspecialchars($msg_list[$msg], ENT_HTML401, 'UTF-8'); ?><br /></span>
 		</td>
 		<td></td>
 	</tr>
@@ -178,7 +178,7 @@ window.addEventListener("load", () => {
     		用户名：
 		</td>
     	<td width="50%" class="t1" align="left">
-			<span id="err_msg_username" name="err_msg" style="color: red;"></span><input size="14" id="username" name="username" value="<? echo $_SESSION["BBS_username"]; ?>" onfocus="this.select();">
+			<span id="err_msg_username" name="err_msg" style="color: red;"></span><input size="14" id="username" name="username" value="<?= $_SESSION["BBS_username"]; ?>" onfocus="this.select();">
 		</td>
 		<td width="5%"></td>
 	</tr>
@@ -192,14 +192,14 @@ window.addEventListener("load", () => {
 		</td>
 		<td></td>
 	</tr>
-	<tr id="tr_ch_passwd" style="visibility: <? echo ($ch_passwd ? "visible" : "collapse"); ?>;">
+	<tr id="tr_ch_passwd" style="visibility: <?= ($ch_passwd ? "visible" : "collapse"); ?>;">
 		<td></td>
     	<td colspan="2" class="t1" align="center">
 			<font color=blue>密码为6-12个英文字母和数字的组合，必须同时包含大写、小写字母和数字，不能包含用户名</font>
 		</td>
 		<td></td>
 	</tr>
-	<tr id="tr_password_1" style="visibility: <? echo ($ch_passwd ? "visible" : "collapse"); ?>;">
+	<tr id="tr_password_1" style="visibility: <?= ($ch_passwd ? "visible" : "collapse"); ?>;">
 		<td></td>
     	<td class="t1" align="right">
 			新密码：
@@ -209,7 +209,7 @@ window.addEventListener("load", () => {
 		</td>
 		<td></td>
 	</tr>
-	<tr id="tr_password_2" style="visibility: <? echo ($ch_passwd ? "visible" : "collapse"); ?>;">
+	<tr id="tr_password_2" style="visibility: <?= ($ch_passwd ? "visible" : "collapse"); ?>;">
 		<td></td>
     	<td class="t1" align="right">
 			重复新密码：
@@ -234,7 +234,7 @@ window.addEventListener("load", () => {
 		</td>
 		<td></td>
 	</tr>
-	<tr id="tr_vn_str" style="visibility: <? echo ($mfa ? "visible" : "collapse"); ?>;">
+	<tr id="tr_vn_str" style="visibility: <?= ($mfa ? "visible" : "collapse"); ?>;">
 		<td></td>
     	<td class="t1" align="right">
 			验证码：
@@ -259,7 +259,7 @@ window.addEventListener("load", () => {
 </table>
 </form>
 </center>
-<?
+<?php
 	include "./foot.inc.php";
 ?>
 </body>

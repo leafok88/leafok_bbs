@@ -1,4 +1,4 @@
-<?
+<?php
 if (!isset($_BBS_S_FAVOR_CLASS_INIT_))
 {
 	$_BBS_S_FAVOR_CLASS_INIT_=1;

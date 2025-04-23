@@ -1,4 +1,4 @@
-<?
+<?php
 	//Definition of const
 	$BBS_sys_uid				=	600;
 	$BBS_notice_sid				=	39;

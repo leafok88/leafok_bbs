@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>查看消息——<? echo ($result_set["data"]["sent"] ? "发件箱" : "收件箱"); ?></title>
+<title>查看消息——<?= ($result_set["data"]["sent"] ? "发件箱" : "收件箱"); ?></title>
 <link rel="stylesheet" href="css/default.css" type="text/css">
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
@@ -16,7 +16,7 @@
 function ch_page(page)
 {
 	rpp = document.getElementById("rpp").value;
-	document.location = "read_msg.php?sent=<? echo ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
+	document.location = "read_msg.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
 	return false;
 }
 
@@ -24,8 +24,8 @@ function ch_rpp()
 {
 	page = document.getElementById("page").value;
 	rpp = document.getElementById("rpp").value;
-	page = Math.floor((page - 1) * <? echo $result_set["data"]["rpp"]; ?> / rpp) + 1;
-	document.location = "read_msg.php?sent=<? echo ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
+	page = Math.floor((page - 1) * <?= $result_set["data"]["rpp"]; ?> / rpp) + 1;
+	document.location = "read_msg.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
 	return false;
 }
 
@@ -33,7 +33,7 @@ function refresh_page()
 {
 	page = document.getElementById("page").value;
 	rpp = document.getElementById("rpp").value;
-	document.location = "read_msg.php?sent=<? echo ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
+	document.location = "read_msg.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
 	return false;
 }
 
@@ -120,7 +120,7 @@ function delete_msg()
 	});
 
 	instance.post('msg_service_del.php', {
-		sent: <? echo ($result_set["data"]["sent"] ? "1" : "0"); ?>,
+		sent: <?= ($result_set["data"]["sent"] ? "1" : "0"); ?>,
 		delete_msg_id: delete_msg_id,
     })
     .then(function (response) {
@@ -164,12 +164,12 @@ const instance = axios.create({
 <body>
 	<center>
 		<table cols="2" border="0" cellpadding="5" cellspacing="0" width="1050">
-			<tr id="tr_send_msg" style="visibility: <? echo ($result_set["data"]["uid"] > 0 ? "visible" : "collapse"); ?>">
+			<tr id="tr_send_msg" style="visibility: <?= ($result_set["data"]["uid"] > 0 ? "visible" : "collapse"); ?>">
 				<td width="70%">
-					<input type="hidden" id="uid" name="uid" value="<? echo $result_set["data"]["uid"]; ?>">
+					<input type="hidden" id="uid" name="uid" value="<?= $result_set["data"]["uid"]; ?>">
 					<p>
 						<span id="err_msg_send" name="err_msg" style="color: red"></span>
-						发送给：<input id="nickname" name="nickname" value="<? echo $result_set["data"]["nickname"]; ?>" readonly><br />
+						发送给：<input id="nickname" name="nickname" value="<?= $result_set["data"]["nickname"]; ?>" readonly><br />
 						内容：<br />
 						<textarea id="content" name="content" rows="10" cols="90"></textarea><br />
 						不能超过10行，每行256字符以内
@@ -184,28 +184,28 @@ const instance = axios.create({
 			</tr>
 			<tr bgcolor="#ffdead" height="25">
 				<td>
-<?
+<?php
 	if (!$result_set["data"]["sent"])
 	{
 ?>
 					<a class="s2" href="read_msg.php?sent=1">切换至发件箱</a>&nbsp;
-<?
+<?php
 		if ($result_set["data"]["unread_msg_count"] > 0)
 		{
-?>您有<span style="color:red;"><? echo $result_set["data"]["unread_msg_count"]; ?></span>条未读消息<?
+?>您有<span style="color:red;"><?= $result_set["data"]["unread_msg_count"]; ?></span>条未读消息<?php
 		}
 	}
 	else
 	{
 ?>
 					<a class="s2" href="read_msg.php?sent=0">切换至收件箱</a>&nbsp;
-<?
+<?php
 	}
 ?>
 					&nbsp;&nbsp;&nbsp;<span id="err_msg_delete" name="err_msg" style="color: red"></span>
 				</td>
 				<td align="right">
-					共<? echo ($result_set["data"]["sent"] ? "发送" : "有"); ?><span style="color:red;"><? echo $result_set["data"]["msg_count"]; ?></span>条消息
+					共<?= ($result_set["data"]["sent"] ? "发送" : "有"); ?><span style="color:red;"><?= $result_set["data"]["msg_count"]; ?></span>条消息
 				</td>
 			</tr>
 <? 
@@ -216,38 +216,38 @@ $count=0;
 foreach ($result_set["data"]["messages"] as $message)
 {
 ?>
-			<tr bgcolor="<? echo $color[1]; ?>">
+			<tr bgcolor="<?= $color[1]; ?>">
 				<td>
-					<? echo ($result_set["data"]["sent"] ? "收件人" : "发送人"); ?>：<a class="s2" href="show_profile.php?uid=<? echo $message["uid"]; ?>" target=_blank title="查看用户资料"><? echo $message["nickname"]; ?></a>
-					&nbsp;&nbsp;发送时间：<? echo $message["send_dt"]->format("Y-m-d H:i:s"); ?>
-<?
+					<?= ($result_set["data"]["sent"] ? "收件人" : "发送人"); ?>：<a class="s2" href="show_profile.php?uid=<?= $message["uid"]; ?>" target=_blank title="查看用户资料"><?= $message["nickname"]; ?></a>
+					&nbsp;&nbsp;发送时间：<?= $message["send_dt"]->format("Y-m-d H:i:s"); ?>
+<?php
 	if ($message["new"])
 	{
 ?>
 					<img src="images/new.gif">
-<?
+<?php
 	}
 	if ($message["uid"] != $BBS_sys_uid)
 	{
 ?>
 					&nbsp;
-					<a class="s2" href="" onclick="return show_send_msg(<? echo $message["uid"]; ?>, '<? echo $message["nickname"]; ?>');">
-						<? echo ($result_set["data"]["sent"] ? "发送消息" : "回复消息"); ?>
+					<a class="s2" href="" onclick="return show_send_msg(<?= $message["uid"]; ?>, '<?= $message["nickname"]; ?>');">
+						<?= ($result_set["data"]["sent"] ? "发送消息" : "回复消息"); ?>
 					</a>
-<?
+<?php
 	}
 ?>
 				</td>
 				<td align="right">
-					<input type="checkbox" id="delete_msg_<? echo $message["mid"]; ?>" name="delete_msg_id" value="<? echo $message["mid"]; ?>">选中
+					<input type="checkbox" id="delete_msg_<?= $message["mid"]; ?>" name="delete_msg_id" value="<?= $message["mid"]; ?>">选中
 				</td>
 			</tr>
-			<tr bgcolor="<? echo $color[0]; ?>">
+			<tr bgcolor="<?= $color[0]; ?>">
 				<td colspan="2">
-					<? echo LML(htmlspecialchars($message["content"], ENT_HTML401, 'UTF-8'), true, true, 100); ?>
+					<?= LML(htmlspecialchars($message["content"], ENT_HTML401, 'UTF-8'), true, true, 100); ?>
 				</td>
 			</tr>
-<?
+<?php
 } 
 ?>
 			<tr bgcolor="#ffdead" height="5">
@@ -257,42 +257,42 @@ foreach ($result_set["data"]["messages"] as $message)
 			<tr>
 				<td style="color: #909090">
 					每页<select size="1" id="rpp" name="rpp" onchange="ch_rpp();">
-<?
+<?php
 	foreach ($BBS_msg_rpp_options as $v)
 	{
 		echo ("<option value=\"$v\"" . ($v == $result_set["data"]["rpp"] ? " selected" : "") . ">$v</option>");
 	}
 ?>
 					</select>条
-<?
+<?php
 	if ($result_set["data"]["page"] > 1)
 	{
 ?>
 					<a class="s8" title="首页" href="" onclick="return ch_page(1);">|◀</a>
-					<a class="s8" title="上一页" href="" onclick='return ch_page(<? echo ($result_set["data"]["page"] - 1); ?>);'>◀</a>
-<?
+					<a class="s8" title="上一页" href="" onclick='return ch_page(<?= ($result_set["data"]["page"] - 1); ?>);'>◀</a>
+<?php
 	}
 	else
 	{
 ?>
 					|◀ ◀
-<?
+<?php
 	}
 ?>
-					第<input id="page" name="page" value="<? echo ($result_set["data"]["page"]) ; ?>" style="width: 30px;">/<? echo $result_set["data"]["page_total"]; ?>页
-<?
+					第<input id="page" name="page" value="<?= ($result_set["data"]["page"]) ; ?>" style="width: 30px;">/<?= $result_set["data"]["page_total"]; ?>页
+<?php
 	if ($result_set["data"]["page"] < $result_set["data"]["page_total"])
 	{
 ?>
-					<a class="s8" title="下一页" href="" onclick="return ch_page(<? echo ($result_set["data"]["page"] + 1); ?>);">▶</a>
-					<a class="s8" title="尾页" href="" onclick="return ch_page(<? echo ($result_set["data"]["page_total"]); ?>);">▶|</a>
-<?
+					<a class="s8" title="下一页" href="" onclick="return ch_page(<?= ($result_set["data"]["page"] + 1); ?>);">▶</a>
+					<a class="s8" title="尾页" href="" onclick="return ch_page(<?= ($result_set["data"]["page_total"]); ?>);">▶|</a>
+<?php
 	}
 	else
 	{
 ?>
 					▶ ▶|
-<?
+<?php
 	}
 ?>
 				</td>

@@ -2,7 +2,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>关闭账户</title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">
@@ -67,7 +67,7 @@ window.addEventListener("load", () => {
 </script>
 </head>
 <body>
-<?
+<?php
 	include get_theme_file("view/member_service_guide");
 ?>
 <center>

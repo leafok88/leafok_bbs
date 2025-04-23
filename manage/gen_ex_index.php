@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/common.inc.php";
 
@@ -18,7 +18,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title><? echo $BBS_name; ?>精华区</title>
+		<title><?= $BBS_name; ?>精华区</title>
 		<link rel="stylesheet" href="list.css" type="text/css">
 	</head>
 	<body>
@@ -27,7 +27,7 @@
 			<table cols="3" border="0" cellpadding="5" cellspacing="0" width="1050">
 				<tr>
 					<td colspan="3" align="center" style="font-size: 18px;">
-						--===== ※<? echo $BBS_name; ?>精华区※ =====--
+						--===== ※<?= $BBS_name; ?>精华区※ =====--
 					</td>
 				</tr>
 				<tr height="10">
@@ -46,7 +46,7 @@
 						版块名称
 					</td>
 				</tr>
-<?
+<?php
 	$last_cid = -1;
 
 	while ($row = mysqli_fetch_array($rs))
@@ -54,16 +54,16 @@
 ?>
 				<tr>
 					<td align="center">
-						<? echo ($row["CID"] == $last_cid ? "" : $row["c_title"]); ?>
+						<?= ($row["CID"] == $last_cid ? "" : $row["c_title"]); ?>
 					</td>
 					<td align="left">
-						<? echo $row["sname"]; ?>
+						<?= $row["sname"]; ?>
 					</td>
 					<td align="left">
-						<a href="<? echo $row["SID"]; ?>/index.html"><? echo $row["s_title"]; ?></a>
+						<a href="<?= $row["SID"]; ?>/index.html"><?= $row["s_title"]; ?></a>
 					</td>
 				</tr>
-<?
+<?php
 		$last_cid = $row["CID"];
 	}
 
@@ -78,7 +78,7 @@
 				</tr>
 				<tr>
 					<td colspan="3" align="center">
-						Copyright &copy; <? echo $BBS_copyright_duration; ?> <? echo $BBS_name . "(" . $BBS_host_name . ")"; ?><br /> 
+						Copyright &copy; <?= $BBS_copyright_duration; ?> <?= $BBS_name . "(" . $BBS_host_name . ")"; ?><br /> 
 						All Rights Reserved
 					</td>
 				</tr>

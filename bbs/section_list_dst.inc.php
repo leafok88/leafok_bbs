@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../bbs/section_list.inc.php";
 
 	function section_list_dst(mysqli $db_conn, int $sid_exclude = 0) : string
@@ -28,25 +28,25 @@
 			echo mysqli_error($db_conn);
 ?>
 			<option value="0">---数据查询错误---</option>
-<?
+<?php
 		}
 		else
 		{
 ?>
 			<option value="0">-----选择版块-----</option>
-<?
+<?php
 		}
 		
 		foreach ($section_hierachy as $c_index => $section_class)
 		{
 ?>
-			<option value="0">==<? echo $section_class["title"]; ?>==</option>
-<?
+			<option value="0">==<?= $section_class["title"]; ?>==</option>
+<?php
 			foreach ($section_class["sections"] as $s_index => $section)
 			{
 ?>
-			<option value="<? echo $section["sid"]; ?>">&nbsp;&nbsp;├<? echo $section["title"]; ?></option>
-<?
+			<option value="<?= $section["sid"]; ?>">&nbsp;&nbsp;├<?= $section["title"]; ?></option>
+<?php
 			}
 		}
 

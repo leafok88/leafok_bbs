@@ -1,4 +1,4 @@
-<?
+<?php
 	function check_new_msg(int $uid, mysqli $db_conn) : int
 	{
 		$new_msg = 0;

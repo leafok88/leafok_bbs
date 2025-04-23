@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../bbs/session_init.inc.php";
 
@@ -33,15 +33,15 @@
 	</head>
 	<body>
 		<p>
-<?
+<?php
 	while ($row = mysqli_fetch_array($rs))
 	{
 		echo ("[" . $row["SID"] . "]" . $row["s_title"] .
 			($row["ex_update"] ? "<font color=red>[需要更新]</font>" : "") .
 			"(" . $row["ex_gen_tm"] . ")...");
 ?>
-			<a href="gen_ex_section.php?sid=<? echo $row["SID"]; ?>">生成</a><br />
-<?
+			<a href="gen_ex_section.php?sid=<?= $row["SID"]; ?>">生成</a><br />
+<?php
 	}
 	mysqli_free_result($rs);
 

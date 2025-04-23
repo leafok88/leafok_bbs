@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "./session_init.inc.php";
 ?>
 <html>
@@ -108,7 +108,7 @@ const instance = axios.create({
 				</table>
 			</form>
 		</center>
-<?
+<?php
 	include "./foot.inc.php";
 ?>
 	</body>

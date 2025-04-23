@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/dir.inc.php";
 	require_once "../bbs/session_init.inc.php";
@@ -31,7 +31,7 @@
 	</head>
 	<body>
 		<p>
-<?
+<?php
 	$sid_list = "-1";
 
 	while ($row = mysqli_fetch_array($rs))

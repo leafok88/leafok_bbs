@@ -1,4 +1,4 @@
-<?
+<?php
 function check_str($str)
 {
 	$filename = "../conf/deny_reg.conf";

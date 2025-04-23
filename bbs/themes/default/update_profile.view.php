@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>更改用户资料</title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">
@@ -89,7 +89,7 @@ window.addEventListener("load", () => {
 </script>
 </head>
 <body>
-<?
+<?php
 	include get_theme_file("view/member_service_guide");
 ?>
 	<center>
@@ -110,16 +110,16 @@ window.addEventListener("load", () => {
 						昵称
 					</td>
 					<td>
-						<span id="err_msg_nickname" name="err_msg" style="color: red;"></span><input id="nickname" name="nickname" value="<? echo htmlspecialchars($result_set["data"]["nickname"], ENT_HTML401, 'UTF-8'); ?>">
+						<span id="err_msg_nickname" name="err_msg" style="color: red;"></span><input id="nickname" name="nickname" value="<?= htmlspecialchars($result_set["data"]["nickname"], ENT_HTML401, 'UTF-8'); ?>">
 						<span style="color: red">*</span>
 						<select name="select_nick" id="select_nick">
 						<option value="">----曾用昵称免费----</option>
-<?
+<?php
 	foreach ($result_set["data"]["nicknames"] as $nickname)
 	{
 ?>
-						<option value="<? echo $nickname; ?>"><? echo $nickname; ?></option>
-<?
+						<option value="<?= $nickname; ?>"><?= $nickname; ?></option>
+<?php
 	}
 ?>
 						</select>
@@ -131,7 +131,7 @@ window.addEventListener("load", () => {
 						姓名
 					</td>
 					<td>
-						<span id="err_msg_realname" name="err_msg" style="color: red;"></span><input id="realname" name="realname" value="<? echo htmlspecialchars($result_set["data"]["name"], ENT_HTML401, 'UTF-8'); ?>">
+						<span id="err_msg_realname" name="err_msg" style="color: red;"></span><input id="realname" name="realname" value="<?= htmlspecialchars($result_set["data"]["name"], ENT_HTML401, 'UTF-8'); ?>">
 						<span style="color: red">*</span>
 						长度不超过5个全角字符
 					</td>
@@ -141,10 +141,10 @@ window.addEventListener("load", () => {
 						性别
 					</td>
 					<td>
-						<span id="err_msg_gender" name="err_msg" style="color: red;"></span><input type="radio" id="gender_male" name="gender" value="M" <? echo ($result_set["data"]["gender"] == "M" ? "checked" : ""); ?>>男
-						<input type="radio" id="gender_female" name="gender" value="F" <? echo ($result_set["data"]["gender"] == "F" ? "checked" : ""); ?>>女
+						<span id="err_msg_gender" name="err_msg" style="color: red;"></span><input type="radio" id="gender_male" name="gender" value="M" <?= ($result_set["data"]["gender"] == "M" ? "checked" : ""); ?>>男
+						<input type="radio" id="gender_female" name="gender" value="F" <?= ($result_set["data"]["gender"] == "F" ? "checked" : ""); ?>>女
 						<span style="color: red">*</span>
-						<input type="checkbox" id="gender_public" name="gender_public" value="1" <? echo ($result_set["data"]["gender_pub"] ? "checked" : ""); ?>>公开
+						<input type="checkbox" id="gender_public" name="gender_public" value="1" <?= ($result_set["data"]["gender_pub"] ? "checked" : ""); ?>>公开
 					</td>
 				</tr>
 				<tr>
@@ -152,7 +152,7 @@ window.addEventListener("load", () => {
 						邮件地址
 					</td>
 					<td>
-						<span id="err_msg_email" name="err_msg" style="color: red;"></span><input id="email" name="email" value="<? echo $result_set["data"]["email"]; ?>">
+						<span id="err_msg_email" name="err_msg" style="color: red;"></span><input id="email" name="email" value="<?= $result_set["data"]["email"]; ?>">
 						<span style="color: red">*</span>
 						修改邮箱后，请按照确认邮件提示操作<br>
 					</td>
@@ -163,7 +163,7 @@ window.addEventListener("load", () => {
 					</td>
 					<td>
 						<span id="err_msg_birthday" name="err_msg" style="color: red;"></span><select id="year" name="year" size="1">
-<?
+<?php
 	$birthday = (new DateTimeImmutable($result_set["data"]["birthday"]));
 
 	$year_current = intval(date("Y", time()));
@@ -173,31 +173,31 @@ window.addEventListener("load", () => {
 	for ($year = $year_min; $year <= $year_max; $year++)
 	{
 ?>
-							<option value="<? echo $year; ?>" <? echo ($year == $year_selected ? "selected" : ""); ?>><? echo $year; ?></option>
-<?
+							<option value="<?= $year; ?>" <?= ($year == $year_selected ? "selected" : ""); ?>><?= $year; ?></option>
+<?php
 	}
 ?>
 
 						</select>年
 						<select id="month" name="month" size="1">
-<?
+<?php
 	$month_selected = intval($birthday->format("m"));
 	for ($month = 1; $month <= 12; $month++)
 	{
 ?>
-							<option value="<? echo $month; ?>" <? echo ($month == $month_selected ? "selected" : ""); ?>><? echo $month; ?></option>
-<?
+							<option value="<?= $month; ?>" <?= ($month == $month_selected ? "selected" : ""); ?>><?= $month; ?></option>
+<?php
 	}
 ?>
 						</select>月
 						<select id="day" name="day" size="1">
-<?
+<?php
 	$day_selected = intval($birthday->format("d"));
 	for ($day = 1; $day <= 31; $day++)
 	{
 ?>
-							<option value="<? echo $day; ?>" <? echo ($day == $day_selected ? "selected" : ""); ?>><? echo $day; ?></option>
-<?
+							<option value="<?= $day; ?>" <?= ($day == $day_selected ? "selected" : ""); ?>><?= $day; ?></option>
+<?php
 	}
 ?>
 						</select>日
@@ -209,7 +209,7 @@ window.addEventListener("load", () => {
 						QQ号码
 					</td>
 					<td>
-						<span id="err_msg_qq" name="err_msg" style="color: red;"></span><input id="qq" name="qq" size="20" value="<? echo $result_set["data"]["qq"]; ?>">
+						<span id="err_msg_qq" name="err_msg" style="color: red;"></span><input id="qq" name="qq" size="20" value="<?= $result_set["data"]["qq"]; ?>">
 					</td>
 				</tr>
   			</table>

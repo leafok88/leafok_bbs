@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "./session_init.inc.php";
 	require_once "./section_list_gen.inc.php";

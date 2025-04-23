@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../bbs/session_init.inc.php";
 
@@ -8,7 +8,7 @@
 		dl($prefix . 'gd.' . PHP_SHLIB_SUFFIX);
 	}
 ?>
-<?
+<?php
 	force_login();
 
 	set_time_limit(60);

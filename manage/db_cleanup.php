@@ -1,4 +1,4 @@
-<?
+<?php
 	if (isset($_SERVER["argv"]) && strrpos($_SERVER["argv"][0], "/") !== false)
 	{
 		chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));
@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="css/default.css" type="text/css">
 </head>
 <body>
-<?
+<?php
 	$sql = "DELETE FROM email WHERE complete AND set_dt < SUBDATE(NOW(), INTERVAL 180 DAY)";
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

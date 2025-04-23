@@ -1,4 +1,4 @@
-<?
+<?php
 function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $width = 76) : string
 {
 	//$lml_tag		whether LML tag should be processed

@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/common.inc.php";
 	require_once "../lib/lml.inc.php";
@@ -39,7 +39,7 @@
 <html>
 <head>
 <meta HTTP-EQUIV="Content-Type" Content="text-html; charset=UTF-8">
-<title>欢迎光临<? echo $BBS_name; ?></title>
+<title>欢迎光临<?= $BBS_name; ?></title>
 <link rel="stylesheet" href="css/default.css" type="text/css">
 <style type="text/css">
 TR.t1
@@ -65,7 +65,7 @@ function ch_cid(cid)
 }
 
 window.addEventListener("load", () => {
-	ch_cid(<? echo $cid; ?>);
+	ch_cid(<?= $cid; ?>);
 });
 
 </script>
@@ -75,28 +75,28 @@ window.addEventListener("load", () => {
 <table cols="3" cellSpacing="1" cellPadding="1" width="1050" border="0">
 	<tr class="t1" height="25">
 		<td colspan="3" align="left" style="color:green;">
-<?
+<?php
 	if ($_SESSION["BBS_uid"] == 0)
 	{
 ?>
-		<? echo $BBS_name; ?>&gt;&gt;欢迎光临
+		<?= $BBS_name; ?>&gt;&gt;欢迎光临
 		[<a class="s2" href="index.php">登录</a>]
-<?
+<?php
 	}
 	else
 	{
 ?>
-		<? echo $BBS_name; ?>&gt;&gt;欢迎回来 <font color=blue><? echo ($_SESSION["BBS_username"]); ?></font>
-<?
+		<?= $BBS_name; ?>&gt;&gt;欢迎回来 <font color=blue><?= ($_SESSION["BBS_username"]); ?></font>
+<?php
 		if ($_SESSION["BBS_new_msg"] > 0)
 		{
 ?>
-		[<a class="s6" href="read_msg.php" target=_blank><? echo $_SESSION["BBS_new_msg"]; ?>条新消息</a>]
-<?
+		[<a class="s6" href="read_msg.php" target=_blank><?= $_SESSION["BBS_new_msg"]; ?>条新消息</a>]
+<?php
 		}
 ?>
     	[<a class="s6" href="logout.php">退出</a>]
-<?
+<?php
 	}
 ?>
 		</td>
@@ -114,7 +114,7 @@ window.addEventListener("load", () => {
 					<td align="center" height="2" bgcolor="#bdb76b"></td></tr>
 				<tr>
 					<td align="center" height="10"></td></tr>
-<?
+<?php
 	echo section_menu_gen($db_conn);
 ?>
 				<tr>
@@ -130,7 +130,7 @@ window.addEventListener("load", () => {
 				<tr class="t1">
 					<td align="left" style="color: blue;">
 						<marquee direction="left" height="25" scrollamount="2" scrolldelay="10" onmouseover="stop()" onmouseout="start()">
-<?
+<?php
 	$sql = "SELECT AID, title, sub_dt FROM bbs
 			WHERE TID = 0 AND SID = 4 AND visible AND excerption
 			AND (sub_dt >= SUBDATE(NOW(), INTERVAL 28 DAY))
@@ -146,9 +146,9 @@ window.addEventListener("load", () => {
 	while ($row = mysqli_fetch_array($rs))
 	{
 ?>
-							[<? echo (new DateTime($row["sub_dt"]))->format("Y-m-d"); ?>]
-							<a class="s2" href="view_article.php?id=<? echo $row["AID"]; ?>" target=_blank><? echo htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'); ?></a>&nbsp;&nbsp;
-<?
+							[<?= (new DateTime($row["sub_dt"]))->format("Y-m-d"); ?>]
+							<a class="s2" href="view_article.php?id=<?= $row["AID"]; ?>" target=_blank><?= htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'); ?></a>&nbsp;&nbsp;
+<?php
 	}
 	mysqli_free_result($rs);
 ?>
@@ -162,7 +162,7 @@ window.addEventListener("load", () => {
 					<td align="left" style="font-family:楷体; font-size:14px; color:orange;">
 						本站热点<img src="images/hotclosed.gif">
 					</td></tr>
-<?
+<?php
 	$sql = "SELECT AID, bbs.title AS title, section_config.title as s_title
 			FROM bbs INNER JOIN section_config ON bbs.SID = section_config.SID
 			WHERE section_config.recommend AND TID = 0 AND visible AND view_count >= 10
@@ -182,13 +182,13 @@ window.addEventListener("load", () => {
 ?>
 				<tr class="t1">
 					<td align="left" style="color:blue;">
-						[<? echo $row["s_title"]; ?>]
-						<a class="s2" href="view_article.php?id=<? echo $row["AID"]; ?>" target=_blank>
-							<? echo split_line(htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'), "", 70, 2); ?>
+						[<?= $row["s_title"]; ?>]
+						<a class="s2" href="view_article.php?id=<?= $row["AID"]; ?>" target=_blank>
+							<?= split_line(htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'), "", 70, 2); ?>
 						</a>
 					</td>
 				</tr>
-<?
+<?php
 	}
 	mysqli_free_result($rs);
 ?>
@@ -200,7 +200,7 @@ window.addEventListener("load", () => {
 						最新发帖<img src="images/new1.gif">
 					</td>
 				</tr>
-<?
+<?php
 	$sql = "SELECT AID, bbs.title AS title, section_config.title AS s_title
 			FROM bbs INNER JOIN section_config ON bbs.SID = section_config.SID
 			WHERE (section_config.recommend OR excerption) AND read_user_level <= " .
@@ -220,13 +220,13 @@ window.addEventListener("load", () => {
 ?>
 				<tr class="t1">
 					<td colspan=2 align="left" style="color:blue;">
-						[<? echo $row["s_title"]; ?>]
-						<a class="s2" href="view_article.php?id=<? echo $row["AID"]; ?>" target=_blank>
-							<? echo split_line(htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'), "", 70, 2); ?>
+						[<?= $row["s_title"]; ?>]
+						<a class="s2" href="view_article.php?id=<?= $row["AID"]; ?>" target=_blank>
+							<?= split_line(htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'), "", 70, 2); ?>
 						</a>
 					</td>
 				</tr>
-<?
+<?php
 	}
 	mysqli_free_result($rs);
 ?>
@@ -251,8 +251,8 @@ window.addEventListener("load", () => {
 					<td align="center" height="10"></td></tr>
 				<tr>
 					<td align="center">
-						<font color=blue><? echo ($_SESSION["BBS_priv"]->levelname()); ?></font><br>
-						<? echo ($_SESSION["BBS_priv"]->checkpriv(0, S_POST) ? "" : "仅限浏览"); ?>
+						<font color=blue><?= ($_SESSION["BBS_priv"]->levelname()); ?></font><br>
+						<?= ($_SESSION["BBS_priv"]->checkpriv(0, S_POST) ? "" : "仅限浏览"); ?>
 					</td></tr>
 				<tr>
 					<td align="center" height="10"></td></tr>
@@ -330,7 +330,7 @@ window.addEventListener("load", () => {
 	</tr>
 </table>
 </center>
-<?
+<?php
 	mysqli_close($db_conn);
 
 	include "foot.inc.php";

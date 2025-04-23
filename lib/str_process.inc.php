@@ -1,4 +1,4 @@
-<?
+<?php
 function str_length(string $str) : string
 {
 	$len = strlen($str);

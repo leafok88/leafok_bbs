@@ -1,4 +1,4 @@
-<?
+<?php
 	$pagen = 20;
 	$total_face = 318;
 
@@ -33,7 +33,7 @@ if ($first > $pagen)
 {
 ?>
 			<a class="s7" href="facelist.php?first=1">&lt;&lt;首页</a>&nbsp;
-			<a class="s7" href="facelist.php?first=<? echo ($first - $pagen); ?>">上一页</a>&nbsp;
+			<a class="s7" href="facelist.php?first=<?= ($first - $pagen); ?>">上一页</a>&nbsp;
 <? 
 }
 else
@@ -46,8 +46,8 @@ else
 if ($first + $pagen < $total_face)
 {
 ?>
-			<a class="s7" href="facelist.php?first=<? echo ($first + $pagen); ?>">下一页</a>&nbsp;
-			<a class="s7" href="facelist.php?first=<? echo ($total_face - $pagen + 1); ?>">尾页&gt;&gt;</a>&nbsp;
+			<a class="s7" href="facelist.php?first=<?= ($first + $pagen); ?>">下一页</a>&nbsp;
+			<a class="s7" href="facelist.php?first=<?= ($total_face - $pagen + 1); ?>">尾页&gt;&gt;</a>&nbsp;
 <? 
 }
 else
@@ -72,8 +72,8 @@ for ($n = $first; $n < $first + $pagen && $n <= $total_face; )
 	{
 		$face_id = str_repeat("0", 3 - strlen($n)) . $n;
 ?>
-		<td><? echo $face_id; ?></td><td><a class="s7" href="#" onclick="return setTextOfTextfield('photo', '<? echo $face_id; ?>');"><img src="images/face/<? echo $face_id; ?>.gif" border="0"></td>
-<?
+		<td><?= $face_id; ?></td><td><a class="s7" href="#" onclick="return setTextOfTextfield('photo', '<?= $face_id; ?>');"><img src="images/face/<?= $face_id; ?>.gif" border="0"></td>
+<?php
 		$n++;
 	}
 ?>

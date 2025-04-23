@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>设定版块收藏</title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">
@@ -86,7 +86,7 @@ window.addEventListener("load", () => {
 </script>
 </head>
 <body>
-<?
+<?php
 	include get_theme_file("view/member_service_guide");
 ?>
 	<center>
@@ -98,30 +98,30 @@ window.addEventListener("load", () => {
 		</p>
 		<form method="post" action="#" id="s_favor_form" name="s_favor_form">
 		<table border="1" cellpadding="5" cellspacing="0" width="1050" bgcolor="#ffdead">
-<?
+<?php
 	foreach ($result_set["data"]["section_hierachy"] as $c_index => $section_class)
 	{
 ?>
 			<tr>
 				<td align="left">
-					<? echo $section_class["title"]; ?>
-					<a class="s2" href="#" onclick="return select_class(<? echo $section_class['cid']; ?>, true);">全选</a>
-					<a class="s2" href="#" onclick="return select_class(<? echo $section_class['cid']; ?>, false);">不选</a>
+					<?= $section_class["title"]; ?>
+					<a class="s2" href="#" onclick="return select_class(<?= $section_class['cid']; ?>, true);">全选</a>
+					<a class="s2" href="#" onclick="return select_class(<?= $section_class['cid']; ?>, false);">不选</a>
 				</td>
 			</tr>
 			<tr>
-				<td id="class_<? echo $section_class["cid"]; ?>" align="left">
-<?
+				<td id="class_<?= $section_class["cid"]; ?>" align="left">
+<?php
 		foreach ($section_class["sections"] as $s_index => $section)
 		{
 ?>
-					<input type="checkbox" id="sid_list" name="sid_list[]" value="<? echo $section["sid"]; ?>" <? echo ($section["udf_values"] ? "checked" : ""); ?>><a class="s2" href="list.php?sid=<? echo $section["sid"]; ?>" target=_blank><? echo $section["title"]; ?></a>
-<?
+					<input type="checkbox" id="sid_list" name="sid_list[]" value="<?= $section["sid"]; ?>" <?= ($section["udf_values"] ? "checked" : ""); ?>><a class="s2" href="list.php?sid=<?= $section["sid"]; ?>" target=_blank><?= $section["title"]; ?></a>
+<?php
 		}
 ?>
 				</td>
 			</tr>
-<?
+<?php
 	}
 ?>
 		</table>

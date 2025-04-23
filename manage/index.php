@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../bbs/session_init.inc.php";
 
 	force_login();

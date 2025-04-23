@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -9,8 +9,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>发表文章</title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
-<script type="text/javascript" src="<? echo get_theme_file('js/lml_assistant'); ?>"></script>
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
+<script type="text/javascript" src="<?= get_theme_file('js/lml_assistant'); ?>"></script>
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">
@@ -34,9 +34,9 @@ function refresh_textarea(updateFieldMap)
 function post_article(f)
 {
 	instance.post('post_service.php', {
-        id: <? echo $result_set["data"]["id"]; ?>,
-        reply_id: <? echo $result_set["data"]["reply_id"]; ?>,
-        sid: <? echo $result_set["data"]["sid"]; ?>,
+        id: <?= $result_set["data"]["id"]; ?>,
+        reply_id: <?= $result_set["data"]["reply_id"]; ?>,
+        sid: <?= $result_set["data"]["sid"]; ?>,
         title: f.textarea_title.value,
 		transship: (f.transship != null && f.transship.checked ? "1" : "0"),
 		content: f.textarea_content.value,
@@ -147,21 +147,21 @@ window.addEventListener("load", () => {
 <table border="0" cellpadding="1" cellspacing="0" width="1050">
 	<tr>
 		<td>
-			<a class="s2" href="main.php?sid=<? echo $result_set["data"]["sid"]; ?>"><? echo $BBS_name; ?></a>&gt;&gt;<a class="s2" href="list.php?sid=<? echo $result_set["data"]["sid"]; ?>"><? echo $result_set["data"]["section_title"]; ?></a>&gt;&gt;<?
+			<a class="s2" href="main.php?sid=<?= $result_set["data"]["sid"]; ?>"><?= $BBS_name; ?></a>&gt;&gt;<a class="s2" href="list.php?sid=<?= $result_set["data"]["sid"]; ?>"><?= $result_set["data"]["section_title"]; ?></a>&gt;&gt;<?php
 	if ($result_set["data"]["id"] == 0)
 	{
 		if ($result_set["data"]["reply_id"] > 0)
 		{
-?><a class="s2" href="view_article.php?id=<? echo $result_set["data"]["reply_id"] . "#" . $result_set["data"]["reply_id"]; ?>"><? echo split_line(htmlspecialchars($result_set["data"]["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></a>&gt;&gt;<a class="s2" href="#" onclick="return false;">回复文章</a><?
+?><a class="s2" href="view_article.php?id=<?= $result_set["data"]["reply_id"] . "#" . $result_set["data"]["reply_id"]; ?>"><?= split_line(htmlspecialchars($result_set["data"]["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></a>&gt;&gt;<a class="s2" href="#" onclick="return false;">回复文章</a><?php
 		}
 		else
 		{
-?><a class="s2" href="#" onclick="return false;">发表新文章</a><?
+?><a class="s2" href="#" onclick="return false;">发表新文章</a><?php
 		}
 	}
 	else
 	{
-?><a class="s2" href="view_article.php?id=<? echo $result_set["data"]["id"] . "#" . $result_set["data"]["id"]; ?>"><? echo split_line(htmlspecialchars($result_set["data"]["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></a>&gt;&gt;<a class="s2" href="#" onclick="return false;">修改文章</a><?
+?><a class="s2" href="view_article.php?id=<?= $result_set["data"]["id"] . "#" . $result_set["data"]["id"]; ?>"><?= split_line(htmlspecialchars($result_set["data"]["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></a>&gt;&gt;<a class="s2" href="#" onclick="return false;">修改文章</a><?php
 	}
 ?>
 		</td>
@@ -179,20 +179,20 @@ window.addEventListener("load", () => {
 	<tr>
 		<td width="20%" align="right">标题<span id="err_msg_title" name="err_msg" style="color: red;"></span></td>
 		<td width="80%">
-			<input type="text" name="textarea" id="textarea_title" size="90" <? echo ($result_set["data"]["id"] != 0 ? "readonly" : ""); ?> value="<? echo ($result_set["data"]["reply_id"] > 0 ? split_line(htmlspecialchars($result_set["data"]["title"], ENT_QUOTES | ENT_HTML401, 'UTF-8'), "Re: ", 80, 1) : htmlspecialchars($result_set["data"]["title"], ENT_QUOTES | ENT_HTML401, 'UTF-8')); ?>">
-<?
+			<input type="text" name="textarea" id="textarea_title" size="90" <?= ($result_set["data"]["id"] != 0 ? "readonly" : ""); ?> value="<?= ($result_set["data"]["reply_id"] > 0 ? split_line(htmlspecialchars($result_set["data"]["title"], ENT_QUOTES | ENT_HTML401, 'UTF-8'), "Re: ", 80, 1) : htmlspecialchars($result_set["data"]["title"], ENT_QUOTES | ENT_HTML401, 'UTF-8')); ?>">
+<?php
 	if ($result_set["data"]["id"] == 0 && $result_set["data"]["reply_id"] == 0)
 	{
 ?>
 			<input type="checkbox" name="transship">转载
-<?
+<?php
 	}
 ?></td>
 	</tr>
 	<tr>
 		<td align="right">正文<span id="err_msg_content" name="err_msg" style="color: red;"></span></td>
 		<td>
-			<textarea name="textarea" id="textarea_content" cols="90" rows="25"><?
+			<textarea name="textarea" id="textarea_content" cols="90" rows="25"><?php
 if ($result_set["data"]["reply_id"] == 0)
 {
 	echo htmlspecialchars($result_set["data"]["content"], ENT_HTML401, 'UTF-8');
@@ -203,8 +203,8 @@ else if ($quote)
 
 
 
-【 在 <? echo htmlspecialchars($result_set["data"]["r_username"], ENT_HTML401, 'UTF-8'); ?> (<? echo htmlspecialchars($result_set["data"]["r_nickname"], ENT_HTML401, 'UTF-8'); ?>) 的大作中提到: 】
-<?
+【 在 <?= htmlspecialchars($result_set["data"]["r_username"], ENT_HTML401, 'UTF-8'); ?> (<?= htmlspecialchars($result_set["data"]["r_nickname"], ENT_HTML401, 'UTF-8'); ?>) 的大作中提到: 】
+<?php
 	echo htmlspecialchars(LMLtagFilter(LML(split_line($result_set["data"]["content"], ": ", 76, 20), false, false, 1024)), ENT_HTML401, 'UTF-8');
 }
 ?></textarea>
@@ -230,18 +230,18 @@ else if ($quote)
 	<tr>
 		<td align="right">上传附件<span id="err_msg_attachment" name="err_msg" style="color: red;"></span></td>
 		<td>
-			单个文件大小不能超过<? echo $BBS_upload_size_limit; ?>M，
-			单次上传不超过<? echo $BBS_upload_count_limit; ?>个文件<br />
+			单个文件大小不能超过<?= $BBS_upload_size_limit; ?>M，
+			单次上传不超过<?= $BBS_upload_count_limit; ?>个文件<br />
 			文件类型限于BMP，GIF，JPEG，PNG，TIFF，TXT，ZIP，RAR<br />
 	  		<INPUT TYPE="file" size="40" name="attachment[]" id="attachment" multiple>
-<?
+<?php
 	if ($result_set["data"]["id"] != 0) // Modify article
 	{
 		if (count($result_set["data"]["attachments"]) > 0)
 		{
 ?>
 			<hr width="80%" align="left" />已上传附件<br />
-<?
+<?php
 		}
 
 		foreach ($result_set["data"]["attachments"] as $aid => $attachment)
@@ -249,16 +249,16 @@ else if ($quote)
 			$filename = $attachment["filename"];
 			$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
 ?>
-			<span id="attachment_<? echo $aid; ?>"><img src="images/closed.gif"><a class="s2" href="dl_file.php?aid=<? echo $aid; ?>" target="_target"><? echo $filename; ?></a> (<? echo $attachment["size"]; ?>字节)
-<?
+			<span id="attachment_<?= $aid; ?>"><img src="images/closed.gif"><a class="s2" href="dl_file.php?aid=<?= $aid; ?>" target="_target"><?= $filename; ?></a> (<?= $attachment["size"]; ?>字节)
+<?php
 			if ($attachment["check"] == 0)
 			{
-?><font color="red">未审核</font><?
+?><font color="red">未审核</font><?php
 			}
 ?>
-			<a class="s2" href="#" onclick="return upload_del(<? echo $aid; ?>);">删除</a>
+			<a class="s2" href="#" onclick="return upload_del(<?= $aid; ?>);">删除</a>
 			<br /></span>
-<?
+<?php
 		}
 	}
 ?>
@@ -266,10 +266,10 @@ else if ($quote)
 	</tr>
 	<tr>
 		<td align="right">表情<span id="err_msg_emoji" name="err_msg" style="color: red;"></span></td>
-		<td><?
+		<td><?php
 	for ($i = 1; $i <= $BBS_emoji_count; $i++)
 	{
-?><input type="radio" name="emoji" value="<? echo $i; ?>" <? echo ($i == $result_set["data"]["emoji"] ? "checked" : ""); ?>><img src="images/expression/<? echo $i; ?>.gif" width="15" height="15" alt="<? echo $i; ?>.gif"><?
+?><input type="radio" name="emoji" value="<?= $i; ?>" <?= ($i == $result_set["data"]["emoji"] ? "checked" : ""); ?>><img src="images/expression/<?= $i; ?>.gif" width="15" height="15" alt="<?= $i; ?>.gif"><?php
 		if (($i % 12)==0)
 		{
 ?><br><? 
@@ -277,7 +277,7 @@ else if ($quote)
 	}
 ?></td>
 	</tr>
-<?
+<?php
 	if ($result_set["data"]["id"] == 0)
 	{
 ?>
@@ -291,24 +291,24 @@ else if ($quote)
 			<a class="s0" href="preference.php" target=_blank>设置个人签名</a>
 		</td>
 	</tr>
-<?
+<?php
 	}
 	else
 	{
 ?>
 	<input type="hidden" id="sign_id_0" name="sign_id" value="0">
-<?
+<?php
 	}
 ?>
 	<tr>
 		<td align="right"></td>
-		<td><input type="checkbox" name="reply_note" id="reply_note" <? echo ($result_set["data"]["reply_note"] ? "checked":""); ?>>有人回复该主题时通知我</td>
+		<td><input type="checkbox" name="reply_note" id="reply_note" <?= ($result_set["data"]["reply_note"] ? "checked":""); ?>>有人回复该主题时通知我</td>
 	</tr>
 </table>
 <p><input type="submit" value="提交" name="submit">&nbsp;&nbsp;&nbsp;<input type="reset" value="重填" name="reset"></p>
 </center>
 </form>
-<?
+<?php
 	include "./foot.inc.php";
 ?>
 </body>

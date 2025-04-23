@@ -1,9 +1,9 @@
-<?
+<?php
 	require_once "../conf/smtp.conf.php";
 	require_once "../lib/common.inc.php";
 	require_once "Mail.php";
 ?>
-<?
+<?php
 function send_mail_do($db_conn)
 {
 	global $Mail_Type;

@@ -1,4 +1,4 @@
-<?
+<?php
 function load_section_list(array & $result, callable $filter, callable $udf_value_gen, mysqli $db_conn, array $filter_param = array()) : bool
 {
 	$sql = "SELECT SID, section_config.CID, section_config.title AS s_title, section_config.comment,

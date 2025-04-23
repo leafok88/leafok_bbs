@@ -1,4 +1,4 @@
-<?
+<?php
 	if (!isset($_SERVER["argc"]))
 	{
 		echo ("Invalid usage");

@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../bbs/s_favor.inc.php";
 	require_once "../bbs/section_list.inc.php";
 
@@ -43,26 +43,26 @@
 				{
 ?>
 				<option value="0">---数据查询错误---</option>
-<?
+<?php
 				}
 				else
 				{
 ?>
 				<option value="0">---我收藏的版块---</option>
-<?
+<?php
 				}
 
 
 				foreach ($section_hierachy as $c_index => $section_class)
 				{
 ?>
-				<option value="-<? echo $section_class["cid"]; ?>">==<? echo $section_class["title"]; ?>==</option>
-<?
+				<option value="-<?= $section_class["cid"]; ?>">==<?= $section_class["title"]; ?>==</option>
+<?php
 					foreach ($section_class["sections"] as $s_index => $section)
 					{
 ?>
-				<option value="<? echo $section["sid"]; ?>">&nbsp;&nbsp;├<? echo $section["title"]; ?></option>
-<?
+				<option value="<?= $section["sid"]; ?>">&nbsp;&nbsp;├<?= $section["title"]; ?></option>
+<?php
 					}
 				}
 
@@ -91,25 +91,25 @@
 			{
 ?>
 				<option value="0">---数据查询错误---</option>
-<?
+<?php
 			}
 			else
 			{
 ?>
 				<option value="0">---看看别的版块---</option>
-<?
+<?php
 			}
 
 			foreach ($section_hierachy as $c_index => $section_class)
 			{
 ?>
-				<option value="-<? echo $section_class["cid"]; ?>">==<? echo $section_class["title"]; ?>==</option>
-<?
+				<option value="-<?= $section_class["cid"]; ?>">==<?= $section_class["title"]; ?>==</option>
+<?php
 				foreach ($section_class["sections"] as $s_index => $section)
 				{
 ?>
-				<option value="<? echo $section["sid"]; ?>">&nbsp;&nbsp;├<? echo $section["title"]; ?></option>
-<?
+				<option value="<?= $section["sid"]; ?>">&nbsp;&nbsp;├<?= $section["title"]; ?></option>
+<?php
 				}
 			}
 

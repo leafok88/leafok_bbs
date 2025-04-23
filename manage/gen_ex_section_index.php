@@ -1,4 +1,4 @@
-<?
+<?php
 	if (!isset($_SERVER["argc"]) || $_SERVER["argc"] != 2)
 	{
 		echo "Invalid usage";
@@ -61,7 +61,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title><? echo $section_title; ?></title>
+		<title><?= $section_title; ?></title>
 		<link rel="stylesheet" href="../list.css" type="text/css">
 		</style>
 	</head>
@@ -73,7 +73,7 @@
 					<td width="10%">
 					</td>
 					<td width="80%" align="center" style="font-size:16px;">
-						---====== ※<? echo $section_title; ?>版块索引※ [<? echo "更新时间：" . date("Y年m月d日"); ?>] ======---
+						---====== ※<?= $section_title; ?>版块索引※ [<?= "更新时间：" . date("Y年m月d日"); ?>] ======---
 					</td>
 					<td width="10%">
 					</td>
@@ -83,7 +83,7 @@
 						<hr>
 					</td>
 				</tr>
-<?
+<?php
 	while ($row = mysqli_fetch_array($rs))
 	{
 		$level = substr_count(($row["dir"] ? $row["dir"] : ""), "/");
@@ -93,12 +93,12 @@
 					<td>
 					</td>
 					<td>
-						<? echo $prefix; ?>-&nbsp;<a href="<? echo ($row["dir"] ? $row["dir"] : ""); ?>index.html"><? echo ($row["name"] ? $row["name"] : "(根目录)"); ?></a>&nbsp;[<? echo $row["cc"]; ?>]
+						<?= $prefix; ?>-&nbsp;<a href="<?= ($row["dir"] ? $row["dir"] : ""); ?>index.html"><?= ($row["name"] ? $row["name"] : "(根目录)"); ?></a>&nbsp;[<?= $row["cc"]; ?>]
 					</td>
 					<td>
 					</td>
 				</tr>
-<?
+<?php
 	}
 	mysqli_free_result($rs);
 
@@ -124,7 +124,7 @@
 				</tr>
 				<tr>
 					<td colspan="3" align="center">
-						Copyright &copy; <? echo $BBS_copyright_duration; ?> <? echo $BBS_name . "(" . $BBS_host_name . ")"; ?><br /> 
+						Copyright &copy; <?= $BBS_copyright_duration; ?> <?= $BBS_name . "(" . $BBS_host_name . ")"; ?><br /> 
 						All Rights Reserved
 					</td>
 				</tr>

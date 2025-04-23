@@ -14,19 +14,19 @@
 					<a class="s7" href="score_detail.php">账户积分</a>
 				</td>
 				<td width="16%" align="middle">
-<?
+<?php
 	if ($_SESSION["BBS_priv"]->checkpriv(0, S_POST) &&
 		!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S | P_MAN_M | P_MAN_S))
 	{
 ?>
 					<a class="s7" href="suicide.php">关闭账户</a>
-<?
+<?php
 	}
 	else
 	{
 ?>
 					<a class="s7" href="#">关闭账户</a>
-<?
+<?php
 	}
 ?>
 				</td>

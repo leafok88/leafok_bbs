@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/vn_gif.inc.php";
 	require_once "./session_init.inc.php";
 

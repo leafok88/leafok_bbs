@@ -1,4 +1,4 @@
-<?
+<?php
 	$Mail_Type = "SMTP";
 	$Mail_Server = "localhost";
 	$Mail_Server_Port = 25;

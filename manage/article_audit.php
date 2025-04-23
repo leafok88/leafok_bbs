@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../bbs/session_init.inc.php";
 
@@ -74,7 +74,7 @@
 			文章审核
 		</p>
 		<form action="article_audit.php" method="post" name="scope" id="scope">
-			请输入页号：<input name="page" id="page" value="<? echo $page; ?>" size="3">
+			请输入页号：<input name="page" id="page" value="<?= $page; ?>" size="3">
 			<input type="submit" name="submit" value="显示">
 			<input type="submit" name="decrease" value="<" onclick="scope.page.value--;">
 			<input type="submit" name="increase" value=">" onclick="scope.page.value++;">
@@ -98,27 +98,27 @@
 						用户操作
 					</td>
 				</tr>
-<?
+<?php
 	foreach ($result_set["data"]["article_ops"] as $article_op)
 	{
 ?>
 				<tr height=20>
 					<td align="middle">
-						<? echo $article_op["mid"]; ?>
+						<?= $article_op["mid"]; ?>
 					</td>
 					<td align="middle">
-						<? echo $article_op["op_dt"] . "<br>" . $article_op["op_ip"]; ?>
+						<?= $article_op["op_dt"] . "<br>" . $article_op["op_ip"]; ?>
 					</td>
 					<td align="middle">
-						<? echo $article_op["username"]; ?>
+						<?= $article_op["username"]; ?>
 					</td>
 					<td align="middle">
-						<a href="../bbs/view_article.php?trash=1&id=<? echo $article_op["aid"] . "#" . $article_op["aid"]; ?>" target=_blank>
-							<? echo $article_op["tid"] . "/" . $article_op["aid"]; ?>
+						<a href="../bbs/view_article.php?trash=1&id=<?= $article_op["aid"] . "#" . $article_op["aid"]; ?>" target=_blank>
+							<?= $article_op["tid"] . "/" . $article_op["aid"]; ?>
 						</a>
 					</td>
 					<td align="middle">
-<?
+<?php
 		switch($article_op["type"])
 		{
 			case "A":
@@ -137,7 +137,7 @@
 ?>
 					</td>
 				</tr>
-<?
+<?php
 	}
 ?>
 			</table>

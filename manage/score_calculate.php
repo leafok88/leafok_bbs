@@ -1,4 +1,4 @@
-<?
+<?php
 	if (isset($_SERVER["argv"]) && strrpos($_SERVER["argv"][0], "/") !== false)
 	{
 		chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));

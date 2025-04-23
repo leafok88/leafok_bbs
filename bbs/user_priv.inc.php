@@ -1,4 +1,4 @@
-<?
+<?php
 if (!isset($_BBS_PRIV_CLASS_INIT_))
 {
 	$_BBS_PRIV_CLASS_INIT_ = 1;

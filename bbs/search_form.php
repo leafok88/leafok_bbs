@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "./session_init.inc.php";
 	require_once "./section_list_gen.inc.php";
@@ -21,7 +21,7 @@ window.addEventListener("load", () => {
 	var s = document.search_form.sid;
 	for (i = 0; i < s.options.length; i++)
 	{
-		if (s.options[i].value == <? echo $sid; ?>)
+		if (s.options[i].value == <?= $sid; ?>)
 		{
 			s.selectedIndex = i;
 			break;
@@ -108,7 +108,7 @@ window.addEventListener("load", () => {
 			<td>
 			    <select size="1" name="sid">
 					<option value="0">----所有版块----</option>
-<?
+<?php
 	echo $section_select_options;
 ?>
 				</select>
@@ -124,9 +124,9 @@ window.addEventListener("load", () => {
 			</td>
 			<td>
 				从
-				<input name="begin_dt" id="begin_dt" value="<? echo (new DateTimeImmutable("-1 month", $_SESSION["BBS_user_tz"]))->format("Y-m-d"); ?>" size="10">
+				<input name="begin_dt" id="begin_dt" value="<?= (new DateTimeImmutable("-1 month", $_SESSION["BBS_user_tz"]))->format("Y-m-d"); ?>" size="10">
 				至
-				<input name="end_dt" id="end_dt" value="<? echo (new DateTimeImmutable("1 day", $_SESSION["BBS_user_tz"]))->format("Y-m-d"); ?>" size="10">
+				<input name="end_dt" id="end_dt" value="<?= (new DateTimeImmutable("1 day", $_SESSION["BBS_user_tz"]))->format("Y-m-d"); ?>" size="10">
 			</td>
 			<td>
 			</td>
@@ -140,12 +140,12 @@ window.addEventListener("load", () => {
 				<input type="radio" name="ex" id="ex" value="2">精华区
 				<input type="checkbox" name="reply" id="reply" value="1">含回复
 				<input type="checkbox" name="original" id="original" value="1">仅原创
-<?
+<?php
 	if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S | P_MAN_M | P_MAN_S))
 	{
 ?>
 				<input type="checkbox" name="trash" id="trash" value="1">回收站
-<?
+<?php
 	}
 ?>
 			</td>
@@ -165,7 +165,7 @@ window.addEventListener("load", () => {
 		</form>
 	</table>
 	</center>
-<?
+<?php
 	include "./foot.inc.php";
 ?>
 </body>

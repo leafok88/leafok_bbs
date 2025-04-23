@@ -1,4 +1,4 @@
-<?
+<?php
 function score_change(int $uid, int $score_change, string $reason, mysqli $db_conn) : int
 {
 	$score_change = intval($score_change);

@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>更改个人设定</title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
 <script type="text/javascript">
@@ -118,7 +118,7 @@ window.addEventListener("load", () => {
 </script>
 </head>
 <body>
-<?
+<?php
 	include get_theme_file("view/member_service_guide");
 ?>
 	<center>
@@ -131,24 +131,24 @@ window.addEventListener("load", () => {
 					<td>
 						<span id="err_msg_user_tz" name="err_msg" style="color: red;"></span>
 						<select id="user_tz" name="user_tz" size="1">
-<?
+<?php
 	$timezone_identifiers = DateTimeZone::listIdentifiers();
 	foreach ($timezone_identifiers as $tz)
 	{
 ?>
-							<option value="<? echo $tz; ?>" <? echo ($tz == $result_set["data"]["user_tz"] ? "selected" : ""); ?>><? echo $tz; ?></option>
-<?
+							<option value="<?= $tz; ?>" <?= ($tz == $result_set["data"]["user_tz"] ? "selected" : ""); ?>><?= $tz; ?></option>
+<?php
 	}
 ?>
 						</select>
-						<a class="s2" href="#" onclick="return tz_select(user_tz, '<? echo $BBS_timezone; ?>');">恢复默认</a>
+						<a class="s2" href="#" onclick="return tz_select(user_tz, '<?= $BBS_timezone; ?>');">恢复默认</a>
 					</td>
 				</tr>
 				<tr>
 					<td width="25%" align="right">个人头像</td>
 					<td width="75%">
 						<a class="s2" href="#" onclick="return NW_open('facelist.php', 'bbs_face', 250, 400);">选择系统头像</a>
-						<input type="text" maxlength="3" id="photo" name="photo" size="3" value="<? echo $result_set["data"]["photo"]; ?>"><br />
+						<input type="text" maxlength="3" id="photo" name="photo" size="3" value="<?= $result_set["data"]["photo"]; ?>"><br />
 						上传头像：<input type="file" size="20" name="photo_file" id="photo_file"><span id="err_msg_photo_file" name="err_msg" style="color: red;"></span>
 					</td>
 				</tr>
@@ -156,7 +156,7 @@ window.addEventListener("load", () => {
 					<td align="right">个人介绍</td>
 					<td>
 						<span id="err_msg_introduction" name="err_msg" style="color: red;"></span>
-						<textarea id="textarea_introduction" name="textarea" cols="80" rows="7"><? echo htmlspecialchars($result_set["data"]["introduction"], ENT_HTML401, 'UTF-8'); ?></textarea>
+						<textarea id="textarea_introduction" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["introduction"], ENT_HTML401, 'UTF-8'); ?></textarea>
 						限10行80列以内
 					</td>
 				</tr>
@@ -164,7 +164,7 @@ window.addEventListener("load", () => {
 					<td align="right">签名1</td>
 					<td>
 						<span id="err_msg_sign_1" name="err_msg" style="color: red;"></span>
-						<textarea id="textarea_sign_1" name="textarea" cols="80" rows="7"><? echo htmlspecialchars($result_set["data"]["sign_1"], ENT_HTML401, 'UTF-8'); ?></textarea>
+						<textarea id="textarea_sign_1" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["sign_1"], ENT_HTML401, 'UTF-8'); ?></textarea>
 						限10行80列以内
 					</td>
 				</tr>
@@ -172,7 +172,7 @@ window.addEventListener("load", () => {
 					<td align="right">签名2</td>
 					<td>
 						<span id="err_msg_sign_2" name="err_msg" style="color: red;"></span>
-						<textarea id="textarea_sign_2" name="textarea" cols="80" rows="7"><? echo htmlspecialchars($result_set["data"]["sign_2"], ENT_HTML401, 'UTF-8'); ?></textarea>
+						<textarea id="textarea_sign_2" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["sign_2"], ENT_HTML401, 'UTF-8'); ?></textarea>
 						限10行80列以内
 					</td>
 				</tr>
@@ -180,7 +180,7 @@ window.addEventListener("load", () => {
 					<td align="right">签名3</td>
 					<td>
 						<span id="err_msg_sign_3" name="err_msg" style="color: red;"></span>
-						<textarea id="textarea_sign_3" name="textarea" cols="80" rows="7"><? echo htmlspecialchars($result_set["data"]["sign_3"], ENT_HTML401, 'UTF-8'); ?></textarea>
+						<textarea id="textarea_sign_3" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["sign_3"], ENT_HTML401, 'UTF-8'); ?></textarea>
 						限10行80列以内
 					</td>
 				</tr>

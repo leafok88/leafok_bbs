@@ -1,4 +1,4 @@
-<?
+<?php
 	function delTree($dir)
 	{
 		$files = array_diff(scandir($dir), array('.', '..'));

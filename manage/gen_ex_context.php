@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../bbs/session_init.inc.php";
 
 	force_login();
@@ -16,7 +16,7 @@
 		<link rel="stylesheet" href="css/default.css" type="text/css">
 	</head>
 	<body>
-<?
+<?php
 	echo("Index...");
 	$buffer = shell_exec($PHP_bin . " gen_ex_index.php");
 	if (!$buffer || file_put_contents("../gen_ex/index.html", $buffer) == false)

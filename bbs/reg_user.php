@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/common.inc.php";
 	require_once "../lib/lml.inc.php";
 	require_once "./session_init.inc.php";
@@ -151,7 +151,7 @@ window.addEventListener("load", () => {
 					</td>
 					<td>
 						<span id="err_msg_birthday" name="err_msg" style="color: red;"></span><select id="year" name="year" size="1">
-<?
+<?php
 	$year_current = intval(date("Y", time()));
 	$year_max = $year_current - 16; // Accept registrant of 16+ only
 	$year_min = $year_current - 80;
@@ -159,31 +159,31 @@ window.addEventListener("load", () => {
 	for ($year = $year_min; $year <= $year_max; $year++)
 	{
 ?>
-							<option value="<? echo $year; ?>" <? echo ($year == $year_selected ? "selected" : ""); ?>><? echo $year; ?></option>
-<?
+							<option value="<?= $year; ?>" <?= ($year == $year_selected ? "selected" : ""); ?>><?= $year; ?></option>
+<?php
 	}
 ?>
 
 						</select>年
 						<select id="month" name="month" size="1">
-<?
+<?php
 	$month_selected = 1;
 	for ($month = 1; $month <= 12; $month++)
 	{
 ?>
-							<option value="<? echo $month; ?>" <? echo ($month == $month_selected ? "selected" : ""); ?>><? echo $month; ?></option>
-<?
+							<option value="<?= $month; ?>" <?= ($month == $month_selected ? "selected" : ""); ?>><?= $month; ?></option>
+<?php
 	}
 ?>
 						</select>月
 						<select id="day" name="day" size="1">
-<?
+<?php
 	$day_selected = 1;
 	for ($day = 1; $day <= 31; $day++)
 	{
 ?>
-							<option value="<? echo $day; ?>" <? echo ($day == $day_selected ? "selected" : ""); ?>><? echo $day; ?></option>
-<?
+							<option value="<?= $day; ?>" <?= ($day == $day_selected ? "selected" : ""); ?>><?= $day; ?></option>
+<?php
 	}
 ?>
 						</select>日
@@ -200,7 +200,7 @@ window.addEventListener("load", () => {
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-					<span id="err_msg_agreement" name="err_msg" style="color: red;"></span><textarea rows="15" cols="130"><?
+					<span id="err_msg_agreement" name="err_msg" style="color: red;"></span><textarea rows="15" cols="130"><?php
 	$buffer = file_get_contents("./doc/license/" . (new DateTime($BBS_license_dt))->format("Ymd") . ".txt");
 	echo (LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, false, 1024));
 						?></textarea>
@@ -227,7 +227,7 @@ window.addEventListener("load", () => {
 			</p>
 		</form>
 	</center>
-<?
+<?php
 	include "./foot.inc.php";
 ?>
 </body>

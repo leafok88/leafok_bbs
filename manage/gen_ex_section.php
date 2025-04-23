@@ -1,4 +1,4 @@
-<?
+<?php
 	if (isset($_SERVER["argc"]))
 	{
 		if ($_SERVER["argc"] != 2)
@@ -77,7 +77,7 @@
 		<link rel="stylesheet" href="css/default.css" type="text/css">
 	</head>
 	<body>
-		<p>[<? echo $sid; ?>]OK</p>
+		<p>[<?= $sid; ?>]OK</p>
 		<p><a href="gen_ex.php">返回</a></p>
 	</body>
 </html>

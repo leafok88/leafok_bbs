@@ -1,4 +1,4 @@
-<?
+<?php
 	if (isset($_SERVER["argv"]) && strrpos($_SERVER["argv"][0], "/") !== false)
 	{
 		chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));
@@ -25,7 +25,7 @@
 </head>
 <body>
 <P>
-<?
+<?php
 	$sql = "SELECT b1.AID, b1.reply_count AS rc1, SUM(b2.visible) AS rc2
 			FROM bbs AS b1 LEFT JOIN bbs AS b2 ON b1.AID = b2.TID
 			WHERE b1.TID = 0 AND b1.visible

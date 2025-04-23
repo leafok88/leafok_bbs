@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "./session_init.inc.php";
 ?>
@@ -38,7 +38,7 @@ TD
 				上次上线时间
 			</TD>
 		</TR>
-<?
+<?php
 	$sql = "SELECT username, section_config.title, begin_dt, end_dt, major, last_login_dt
 			FROM section_master INNER JOIN section_config ON section_master.SID = section_config.SID
 			INNER JOIN user_list ON section_master.UID = user_list.UID
@@ -81,19 +81,19 @@ TD
 ?>
 		<TR>
 			<TD>
-				<? echo ($last_user == $row["username"] ? "&nbsp;" : ($last_user = $row["username"])); ?>
+				<?= ($last_user == $row["username"] ? "&nbsp;" : ($last_user = $row["username"])); ?>
 			</TD>
 			<TD>
-				<? echo $row["title"] . "/" . ($row["major"] ? "正版主" : "副版主"); ?>
+				<?= $row["title"] . "/" . ($row["major"] ? "正版主" : "副版主"); ?>
 			</TD>
 			<TD>
-				<? echo (new DateTimeImmutable($row["begin_dt"]))->setTimezone($_SESSION["BBS_user_tz"])->format("Y年m月d日"); ?>--<? echo (new DateTimeImmutable($row["end_dt"]))->setTimezone($_SESSION["BBS_user_tz"])->format("Y年m月d日"); ?>
+				<?= (new DateTimeImmutable($row["begin_dt"]))->setTimezone($_SESSION["BBS_user_tz"])->format("Y年m月d日"); ?>--<?= (new DateTimeImmutable($row["end_dt"]))->setTimezone($_SESSION["BBS_user_tz"])->format("Y年m月d日"); ?>
 			</TD>
 			<TD>
-				<? echo $days_left; ?>天前(<? echo $status; ?>)
+				<?= $days_left; ?>天前(<?= $status; ?>)
 			</TD>
 		</TR>
-<?
+<?php
 	}
 	mysqli_free_result($rs);
 

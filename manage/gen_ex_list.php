@@ -1,4 +1,4 @@
-<?
+<?php
 	if (!isset($_SERVER["argc"]))
 	{
 		echo "Invalid usage";
@@ -85,8 +85,8 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title><? echo $section_title; ?></title>
-		<link rel="stylesheet" href="<? echo $section_path; ?>../list.css" type="text/css">
+		<title><?= $section_title; ?></title>
+		<link rel="stylesheet" href="<?= $section_path; ?>../list.css" type="text/css">
 		</style>
 	</head>
 	<body>
@@ -95,7 +95,7 @@
 			<table cols="3" border="0" cellpadding="5" cellspacing="0" width="1050">
 				<tr>
 					<td colspan="3" align="center" style="font-size: 18px;">
-						---====== ※<? echo $section_title; ?>※ [<? if ($dir == ""){ echo "更新时间：" . date("Y年m月d日"); } else { echo $dir_name; }?>] ======---
+						---====== ※<?= $section_title; ?>※ [<? if ($dir == ""){ echo "更新时间：" . date("Y年m月d日"); } else { echo $dir_name; }?>] ======---
 					</td>
 				</tr>
 				<tr height="10">
@@ -114,7 +114,7 @@
 						发表时间
 					</td>
 				</tr>
-<?
+<?php
 	if ($dir == "")
 	{
 ?>
@@ -126,10 +126,10 @@
 						<a href="s_index.html">【本版精华区索引】</a>
 					</td>
 					<td align="center">
-						[<? echo date("Y年m月d日"); ?>]
+						[<?= date("Y年m月d日"); ?>]
 					</td>
 				</tr>
-<?
+<?php
 	}
 
 	$sql = "SELECT dir, name, dt FROM ex_dir WHERE SID = $sid AND dir REGEXP '^" .
@@ -163,13 +163,13 @@
 						[目录]
 					</td>
 					<td>
-						<a href="<? echo $item_dir; ?>index.html"><? echo $row["name"]; ?></a>
+						<a href="<?= $item_dir; ?>index.html"><?= $row["name"]; ?></a>
 					</td>
 					<td align="center">
-						[<? echo date("Y年m月d日",strtotime($row["dt"])); ?>]
+						[<?= date("Y年m月d日",strtotime($row["dt"])); ?>]
 					</td>
 				</tr>
-<?
+<?php
 	}
 	mysqli_free_result($rs);
 
@@ -193,16 +193,16 @@
 ?>
 				<tr>
 					<td align="right">
-						<? echo $row["AID"]; ?>
+						<?= $row["AID"]; ?>
 					</td>
 					<td>
-						<a href="<? echo $row["AID"].".html"; ?>"><? echo htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'); ?></a>
+						<a href="<?= $row["AID"].".html"; ?>"><?= htmlspecialchars($row["title"], ENT_HTML401, 'UTF-8'); ?></a>
 					</td>
 					<td align="center">
-						[<? echo date("Y年m月d日", strtotime($row["sub_dt"])); ?>]
+						[<?= date("Y年m月d日", strtotime($row["sub_dt"])); ?>]
 					</td>
 				</tr>
-<?
+<?php
 		if ((!$row["static"]) || (!file_exists("../gen_ex/static/".$row["AID"].".html")))
 		{
 			$buffer = shell_exec($PHP_bin . " ../bbs/view_article.php " . $row["AID"]);
@@ -252,7 +252,7 @@
 				</tr>
 				<tr>
 					<td colspan="3" align="center">
-						Copyright &copy; <? echo $BBS_copyright_duration; ?> <? echo $BBS_name . "(" . $BBS_host_name . ")"; ?><br /> 
+						Copyright &copy; <?= $BBS_copyright_duration; ?> <?= $BBS_name . "(" . $BBS_host_name . ")"; ?><br /> 
 						All Rights Reserved
 					</td>
 				</tr>

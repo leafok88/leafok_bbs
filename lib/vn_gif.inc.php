@@ -1,4 +1,4 @@
-<?
+<?php
 if (!extension_loaded("gd"))
 {
 	$prefix = (PHP_SHLIB_SUFFIX === 'dll') ? 'php_' : '';

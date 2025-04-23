@@ -1,4 +1,4 @@
-<?
+<?php
 function verify_pass_complexity($password, $username, $min_len)
 {
 	$num_count = 0;

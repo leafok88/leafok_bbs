@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -11,7 +11,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查看用户资料</title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
 <script type="text/javascript" src="../js/img_adjust.js"></script>
 <script src="../js/polyfill.min.js"></script>
 <script src="../js/axios.min.js"></script>
@@ -31,7 +31,7 @@ function transfer_score(f)
 	}
 
 	instance.post('transfer_score_sub.php', {
-		uid: <? echo $result_set["data"]["uid"]; ?>,
+		uid: <?= $result_set["data"]["uid"]; ?>,
 		amount: f.amount.value,
 	})
 	.then(function (response) {
@@ -69,7 +69,7 @@ function transfer_score(f)
 function set_life(f)
 {
 	instance.post('set_life.php', {
-		uid: <? echo $result_set["data"]["uid"]; ?>,
+		uid: <?= $result_set["data"]["uid"]; ?>,
 		life: f.life.value,
 	})
 	.then(function (response) {
@@ -79,7 +79,7 @@ function set_life(f)
 		{
 			case 0: // OK
 				refresh_err_msg(errorFieldMap);
-				document.location = "show_profile.php?uid=<? echo $result_set["data"]["uid"]; ?>&ts=" + Date.now();
+				document.location = "show_profile.php?uid=<?= $result_set["data"]["uid"]; ?>&ts=" + Date.now();
 				break;
 			case -1: // Input validation failed
 				errorFieldMap.set("err_msg_life", ret.return.message + "<br />");
@@ -105,7 +105,7 @@ function set_life(f)
 function ban_user(f)
 {
 	instance.post('user_service_ban.php', {
-		uid: <? echo $result_set["data"]["uid"]; ?>,
+		uid: <?= $result_set["data"]["uid"]; ?>,
 		ban: f.ban.value,
 		sid: f.sid.value,
 		day: f.day.value,
@@ -144,7 +144,7 @@ function ban_user(f)
 function set_friend(set)
 {
 	instance.post('set_friend.php', {
-        uid: <? echo $result_set["data"]["uid"]; ?>,
+        uid: <?= $result_set["data"]["uid"]; ?>,
 		set: set,
     })
     .then(function (response) {
@@ -155,7 +155,7 @@ function set_friend(set)
 			case 0: // OK
 			case 1: // Already set
 				refresh_err_msg(errorFieldMap);
-				document.location = "show_profile.php?uid=<? echo $result_set["data"]["uid"]; ?>&ts=" + Date.now();
+				document.location = "show_profile.php?uid=<?= $result_set["data"]["uid"]; ?>&ts=" + Date.now();
 				break;
 			case -1: // Input validation failed
 				errorFieldMap.set("err_msg_friend", ret.return.message);
@@ -221,7 +221,7 @@ window.addEventListener("load", () => {
 		<table border="0" cellpadding="0" cellspacing="10" width="1050">
 			<tr>
 				<td colspan="2" align="center" style="font-size: 16px; font-family: 楷体; font-weight: bold; color: red">
-					<? echo $result_set["data"]["username"]; ?>的个人资料
+					<?= $result_set["data"]["username"]; ?>的个人资料
 				</td>
 			</tr>
 			<tr height="1" bgcolor="gray">
@@ -233,7 +233,7 @@ window.addEventListener("load", () => {
 					头像：
 				</td>
 				<td width="65%">
-					<img src="<? echo $result_set["data"]["photo"]; ?>" border="0">
+					<img src="<?= $result_set["data"]["photo"]; ?>" border="0">
 				</td>
 			</tr>
 			<tr height="1" bgcolor="gray">
@@ -246,7 +246,7 @@ window.addEventListener("load", () => {
 				</td>
 				<td>
 					<span style="color: #909090; ">
-						<? echo $result_set["data"]["nickname"]; ?>
+						<?= $result_set["data"]["nickname"]; ?>
 					</span>
 				</td>
 			</tr>
@@ -255,23 +255,23 @@ window.addEventListener("load", () => {
 					星座：
 				</td>
 				<td>
-<?
+<?php
 	$astro = Date2Astro(intval($result_set["data"]["birthday"]->format("m")), intval($result_set["data"]["birthday"]->format("d"))) . "座";
 
 	if ($result_set["data"]["gender_pub"])
 	{
 		if ($result_set["data"]["gender"] == "M")
 		{
-?><span style="color:blue;"><? echo $astro; ?></span><?
+?><span style="color:blue;"><?= $astro; ?></span><?php
 		}
 		else if ($result_set["data"]["gender"] == "F")
 		{
-?><span style="color:red;"><? echo $astro; ?></span><?
+?><span style="color:red;"><?= $astro; ?></span><?php
 		}
 	}
 	else
 	{
-?><span style="color:green;"><? echo $astro; ?></span><?
+?><span style="color:green;"><?= $astro; ?></span><?php
 	}
 ?>
 				</td>
@@ -281,7 +281,7 @@ window.addEventListener("load", () => {
 					注册时间：
 				</td>
 				<td>
-					<? echo $result_set["data"]["signup_dt"]->format("Y年m月d日 H:i:s"); ?>
+					<?= $result_set["data"]["signup_dt"]->format("Y年m月d日 H:i:s"); ?>
 				</td>
 			</tr>
 			<tr>
@@ -289,7 +289,7 @@ window.addEventListener("load", () => {
 					最后活动：
 				</td>
 				<td>
-					<? echo $result_set["data"]["last_tm"]->format("Y年m月d日 H:i:s"); ?>
+					<?= $result_set["data"]["last_tm"]->format("Y年m月d日 H:i:s"); ?>
 				</td>
 			</tr>
 			<tr>
@@ -297,7 +297,7 @@ window.addEventListener("load", () => {
 					源IP地址：
 				</td>
 				<td>
-					<? echo $result_set["data"]["ip"]; ?>
+					<?= $result_set["data"]["ip"]; ?>
 				</td>
 			</tr>
 			<tr>
@@ -305,10 +305,10 @@ window.addEventListener("load", () => {
 					经验值&nbsp;/&nbsp;生命值：
 				</td>
 				<td>
-					<span style="color: blue"><? echo $result_set["data"]["exp"] . "&nbsp;/&nbsp;" . $result_set["data"]["life"]; ?></span>
+					<span style="color: blue"><?= $result_set["data"]["exp"] . "&nbsp;/&nbsp;" . $result_set["data"]["life"]; ?></span>
 				</td>
 			</tr>
-<?
+<?php
 	if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
 	{
 ?>
@@ -318,10 +318,10 @@ window.addEventListener("load", () => {
 				<td>
 					<form method="POST" action="#" id="set_life" name="set_life">
 						<span id="err_msg_life" name="err_msg" style="color: red;"></span>
-						<input name="life" value="<? echo $result_set["data"]["life"]; ?>" size="3">&nbsp;&nbsp;
+						<input name="life" value="<?= $result_set["data"]["life"]; ?>" size="3">&nbsp;&nbsp;
 						<input type="submit" value="授予">
 					</form>
-<?
+<?php
 	}
 ?>
 				</td>
@@ -341,45 +341,45 @@ window.addEventListener("load", () => {
 					状态：
 				</td>
 				<td>
-<?
+<?php
 	if (!$result_set["data"]["dead"] && $result_set["data"]["verified"])
 	{
 		if ($result_set["data"]["p_all"])
 		{
-?><span style="color: green">正常</span><?
+?><span style="color: green">正常</span><?php
 		}
 		if (!$result_set["data"]["p_login"])
 		{
-?><span style="color: red">限制登陆</span><?
+?><span style="color: red">限制登陆</span><?php
 		}
 		if (!$result_set["data"]["p_post"])
 		{
-?><span style="color: red">限制发帖</span><?
+?><span style="color: red">限制发帖</span><?php
 		}
 		if (!$result_set["data"]["p_msg"])
 		{
-?><span style="color: red">限制消息</span><?
+?><span style="color: red">限制消息</span><?php
 		}
 	}
 	else
 	{
 		if (!$result_set["data"]["verified"])
 		{
-?><span style="color: red">尚未确认</span><?
+?><span style="color: red">尚未确认</span><?php
 		}
 		if ($result_set["data"]["dead"])
 		{
-?><span style="color: red">已升天</span><?
+?><span style="color: red">已升天</span><?php
 		}
 	}
 
 	if ($result_set["data"]["online"])
 	{
-?>&nbsp;&nbsp;<span style="color: blue">在线</span><?
+?>&nbsp;&nbsp;<span style="color: blue">在线</span><?php
 	}
 	else
 	{
-?>&nbsp;&nbsp;<span style="color: gray">离线</span><?
+?>&nbsp;&nbsp;<span style="color: gray">离线</span><?php
  	}
 ?>
 				</td>
@@ -389,7 +389,7 @@ window.addEventListener("load", () => {
 					最近发表的主题：
 				</td>
 				<td>
-					<a class="s7" href="search_article.php?uid=<? echo $result_set["data"]["uid"]; ?>" target=_blank>查看&gt;&gt;</a>
+					<a class="s7" href="search_article.php?uid=<?= $result_set["data"]["uid"]; ?>" target=_blank>查看&gt;&gt;</a>
 				</td>
 			</tr>
 			<tr height="1" bgcolor="gray">
@@ -408,7 +408,7 @@ window.addEventListener("load", () => {
 					<table border="0" cellspacing="0" cellpadding="0" width="80%">
 						<tr>
 							<td style="color:gray; font-size:14px;">
-								<? echo LML(htmlspecialchars($result_set["data"]["introduction"], ENT_HTML401, 'UTF-8'), true, true, 80); ?>
+								<?= LML(htmlspecialchars($result_set["data"]["introduction"], ENT_HTML401, 'UTF-8'), true, true, 80); ?>
 							</td>
 						</tr>
 					</table>
@@ -423,25 +423,25 @@ window.addEventListener("load", () => {
 					用户操作：
 				</td>
 				<td>
-<?
+<?php
 	if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG) && $result_set["data"]["uid"] != $BBS_sys_uid)
 	{
 ?>
-					<a class="s2" href="read_msg.php?sent=1&uid=<? echo $result_set["data"]["uid"]; ?>" target=_blank>发送消息</a>
-<?
+					<a class="s2" href="read_msg.php?sent=1&uid=<?= $result_set["data"]["uid"]; ?>" target=_blank>发送消息</a>
+<?php
 	}
 
 	if ($_SESSION["BBS_uid"] > 0 && $_SESSION["BBS_uid"] != $result_set["data"]["uid"])
 	{
 ?>
-					<a class="s2" href="#" onclick="return set_friend(<? echo ($result_set["data"]["is_friend"] ? 0 : 1); ?>);"><? echo ($result_set["data"]["is_friend"]? "删除好友" : "加为好友"); ?></a>
+					<a class="s2" href="#" onclick="return set_friend(<?= ($result_set["data"]["is_friend"] ? 0 : 1); ?>);"><?= ($result_set["data"]["is_friend"]? "删除好友" : "加为好友"); ?></a>
 					<span id="err_msg_friend" name="err_msg" style="color: red;"></span>
-<?
+<?php
 	}
 ?>
 				</td>
 			</tr>
-<?
+<?php
 	if ($_SESSION["BBS_uid"] > 0 && $_SESSION["BBS_uid"] != $result_set["data"]["uid"])
 	{
 ?>
@@ -459,7 +459,7 @@ window.addEventListener("load", () => {
 					<span style="color:red; ">服务费率为转让额的10%</span>
 				</td>
 			</tr>
-<?
+<?php
 	}
 
 	if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S | P_MAN_M))
@@ -483,17 +483,17 @@ window.addEventListener("load", () => {
 								<option value="0">全站发帖</option>
 								<option value="-1">用户登录</option>
 								<option value="-2">站内消息</option>
-<?
+<?php
 		foreach ($result_set["data"]["section_hierachy"] as $c_index => $section_class)
 		{
 ?>
-								<option value="-100">==<? echo $section_class["title"]; ?>==</option>
-<?
+								<option value="-100">==<?= $section_class["title"]; ?>==</option>
+<?php
 			foreach ($section_class["sections"] as $s_index => $section)
 			{
 ?>
-								<option value="<? echo $section["sid"]; ?>">&nbsp;&nbsp;├<? echo $section["title"]; ?></option>
-<?
+								<option value="<?= $section["sid"]; ?>">&nbsp;&nbsp;├<?= $section["title"]; ?></option>
+<?php
 			}
 		}
 ?>
@@ -507,7 +507,7 @@ window.addEventListener("load", () => {
 					</form>
 				</td>
 			</tr>
-<?
+<?php
 	}
 ?>
 			<tr height="1" bgcolor="gray">

@@ -1,4 +1,4 @@
-<?
+<?php
 	include "../conf/db_conn.conf.php";
 
 	function db_open($sql_charset = "utf8")

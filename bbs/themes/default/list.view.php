@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -34,8 +34,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><? echo $result_set["data"]["section_title"] . "——" . ($result_set["data"]["ex"] ? "文摘区" : "讨论区"); ?></title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
+<title><?= $result_set["data"]["section_title"] . "——" . ($result_set["data"]["ex"] ? "文摘区" : "讨论区"); ?></title>
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
 <style type="text/css">
 TD.head,TD.favor,TD.reply,TD.dark,TD.topic
 {
@@ -86,7 +86,7 @@ function ch_page(page)
 
 function ch_rpp()
 {
-	document.change_page.page.value = Math.floor((document.change_page.page.value - 1) * <? echo $result_set["data"]["rpp"]; ?> / document.change_page.rpp.value) + 1;
+	document.change_page.page.value = Math.floor((document.change_page.page.value - 1) * <?= $result_set["data"]["rpp"]; ?> / document.change_page.rpp.value) + 1;
 	document.change_page.submit();
 	return false;
 }
@@ -134,7 +134,7 @@ window.addEventListener("load", () => {
 	var s = document.change_section.sid;
 	for (i = 0; i < s.options.length; i++)
 	{
-		if (s.options[i].value == <? echo $result_set["data"]["sid"]; ?>)
+		if (s.options[i].value == <?= $result_set["data"]["sid"]; ?>)
 		{
 			s.selectedIndex = i;
 			break;
@@ -149,28 +149,28 @@ window.addEventListener("load", () => {
 <table cols="2" border="0" cellpadding="0" cellspacing="0" width="1050">
 	<tr>
 		<td width="60%" style="color: green;">
-			<a class="s2" href="main.php?sid=<? echo $result_set["data"]["sid"]; ?>"><? echo $BBS_name; ?></a>&gt;&gt;<? echo ($result_set["data"]["class_title"] . "[" . $result_set["data"]["class_name"] . "]"); ?>&gt;&gt;<? echo ($result_set["data"]["section_title"] . "[" . $result_set["data"]["section_name"] . "]"); ?>&gt;&gt;<? echo ($result_set["data"]["ex"] ? "文摘区" : "讨论区"); ?>
+			<a class="s2" href="main.php?sid=<?= $result_set["data"]["sid"]; ?>"><?= $BBS_name; ?></a>&gt;&gt;<?= ($result_set["data"]["class_title"] . "[" . $result_set["data"]["class_name"] . "]"); ?>&gt;&gt;<?= ($result_set["data"]["section_title"] . "[" . $result_set["data"]["section_name"] . "]"); ?>&gt;&gt;<?= ($result_set["data"]["ex"] ? "文摘区" : "讨论区"); ?>
 		</td>
 		<td width="40%" align="right" style="color: gray;">
-<?
+<?php
 	if ($_SESSION["BBS_uid"] == 0)
 	{
 ?>
-		[<a class="s2" href="index.php?redir=<? echo $result_set["data"]["redir"]; ?>">登录</a>]
-<?
+		[<a class="s2" href="index.php?redir=<?= $result_set["data"]["redir"]; ?>">登录</a>]
+<?php
 	}
 	else
 	{
 		if ($_SESSION["BBS_new_msg"] > 0)
 		{
 ?>
-		[<a class="s6" href="read_msg.php" target=_blank><? echo $_SESSION["BBS_new_msg"]; ?>条新消息</a>]
-<?
+		[<a class="s6" href="read_msg.php" target=_blank><?= $_SESSION["BBS_new_msg"]; ?>条新消息</a>]
+<?php
 		}
 ?>
-		欢迎回来&nbsp;<font color=blue><? echo ($_SESSION["BBS_username"]); ?></font>
+		欢迎回来&nbsp;<font color=blue><?= ($_SESSION["BBS_username"]); ?></font>
 		[<a class="s6" href="logout.php">退出</a>]
-<?
+<?php
 	}
 ?>
 		</td>
@@ -183,43 +183,43 @@ window.addEventListener("load", () => {
 	<tr>
 		<td class="dark" width="3%"><img src="images/master.gif" width="16" height="16" alt="本版版主"></td>
 		<td class="head" width="97%">
-<?
+<?php
 	foreach ($result_set["data"]["section_masters"] as $master)
 	{
 ?>
-			<img src="images/<? echo ($master["major"] ? "master_major.gif" : "master_minor.gif"); ?>" width="12" height="11" alt="<? echo ($master["major"] ? "正版主" : "副版主"); ?>"><a class="s3" href="show_profile.php?uid=<? echo $master['uid']; ?>" target=_blank title="查看版主资料"><? echo $master["username"]; ?></a>&nbsp;&nbsp;
+			<img src="images/<?= ($master["major"] ? "master_major.gif" : "master_minor.gif"); ?>" width="12" height="11" alt="<?= ($master["major"] ? "正版主" : "副版主"); ?>"><a class="s3" href="show_profile.php?uid=<?= $master['uid']; ?>" target=_blank title="查看版主资料"><?= $master["username"]; ?></a>&nbsp;&nbsp;
 <? 
 	} 
 ?>
 		</td>
 	</tr>
-<?
+<?php
 	if ($result_set["data"]["announcement"] != "")
 	{
 ?>
 	<tr>
 		<td class="dark"><img src="images/announce.gif" width="18" height="18" alt="本版公告"></td>
 		<td class="head">
-			<pre class="announcement"><? echo LML(htmlspecialchars($result_set["data"]["announcement"], ENT_HTML401, 'UTF-8'), true, true, 100); ?></pre>
+			<pre class="announcement"><?= LML(htmlspecialchars($result_set["data"]["announcement"], ENT_HTML401, 'UTF-8'), true, true, 100); ?></pre>
 		</td>
 	</tr>
-<?
+<?php
 	}
 ?>
 	<tr>
 		<td class="dark"></td>
 		<td class="head" align="right">
-<?
+<?php
 	if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST))
 	{
 ?>
-			<a class="s4" href="post.php?sid=<? echo $result_set["data"]["sid"]; ?>" title="发表新文章">发帖</a>&nbsp;
-<?
+			<a class="s4" href="post.php?sid=<?= $result_set["data"]["sid"]; ?>" title="发表新文章">发帖</a>&nbsp;
+<?php
 	}
 ?>
-			<a class="s4" href="" onclick='return ch_ex(<? echo ($result_set["data"]["ex"] ? 0 : 1); ?>);' title="切换"><? echo ($result_set["data"]["ex"] ? "讨论区" : "文摘区"); ?></a>&nbsp;
-			<a class="s4" href="/gen_ex/<? echo $result_set["data"]["sid"]; ?>/" title="浏览本版块精华区" target=_blank>精华区</a>&nbsp;
-			<a class="s4" href="" onclick='return ch_reply(<? echo ($result_set["data"]["reply"] ? 0 : 1); ?>);' title="切换文章显示模式"><? echo ($result_set["data"]["reply"] ? "主题" : "普通"); ?></a>&nbsp;
+			<a class="s4" href="" onclick='return ch_ex(<?= ($result_set["data"]["ex"] ? 0 : 1); ?>);' title="切换"><?= ($result_set["data"]["ex"] ? "讨论区" : "文摘区"); ?></a>&nbsp;
+			<a class="s4" href="/gen_ex/<?= $result_set["data"]["sid"]; ?>/" title="浏览本版块精华区" target=_blank>精华区</a>&nbsp;
+			<a class="s4" href="" onclick='return ch_reply(<?= ($result_set["data"]["reply"] ? 0 : 1); ?>);' title="切换文章显示模式"><?= ($result_set["data"]["reply"] ? "主题" : "普通"); ?></a>&nbsp;
 		</td>
 	</tr>
 	<tr height="10">
@@ -230,13 +230,13 @@ window.addEventListener("load", () => {
 	<tr bgcolor="#d0d3F0" height="25">
 		<td width="4%" class="title">状态</td>
 		<td width="39%" class="title"><a class="s10" href="" onclick="return ch_sort('topic');" title="按主题发表时间排序">标题</a></td>
-		<td width="16%" class="title"><a class="s10" href="" onclick='return use_nick(<? echo ($result_set["data"]["use_nick"] ? 0 : 1); ?>);' title="切换用户显示模式">作者</a></td>
+		<td width="16%" class="title"><a class="s10" href="" onclick='return use_nick(<?= ($result_set["data"]["use_nick"] ? 0 : 1); ?>);' title="切换用户显示模式">作者</a></td>
 		<td width="10%" class="title"><a class="s10" href="" onclick="return ch_sort('hot');" title="按人气回复排序">回复/人气</a></td>
 		<td width="31%" class="title"><a class="s10" href="" onclick="return ch_sort('reply');" title="按最后回复时间排序">最后更新 | 回复人</a></td>
 	</tr>
 </table>
 <table cols="5" border="0" cellpadding="0" cellspacing="0" width="1050">
-<?
+<?php
 	foreach ($result_set["data"]["articles"] as $article)
 	{
 		$status = ($article["ontop"] ? "B" : ($article["gen_ex"] ? "G" : ($article["excerption"] ? "M" : ($article["reply_count"] < 10 ? "N" : "H"))));
@@ -272,14 +272,14 @@ window.addEventListener("load", () => {
 ?>
 	<tr height="30">
 		<td width="4%" class="dark">
-			<a class="s0" href="view_article.php?tn=xml&rpp=20&id=<? echo $article["aid"]; ?>&ex=<? echo $result_set["data"]["ex"]; ?>#<? echo $article["aid"]; ?>" target=_blank>
-				<img src="images/<? echo pic_file($status); ?>" border="0">
+			<a class="s0" href="view_article.php?tn=xml&rpp=20&id=<?= $article["aid"]; ?>&ex=<?= $result_set["data"]["ex"]; ?>#<?= $article["aid"]; ?>" target=_blank>
+				<img src="images/<?= pic_file($status); ?>" border="0">
 			</a>
 		</td>
 		<td width="39%" class="topic">
-			<a class="s0" href="view_article.php?id=<? echo $article["aid"]; ?>&ex=<? echo $result_set["data"]["ex"]; ?>#<? echo $article["aid"]; ?>" target=_blank title="发表时间：<? echo $article["sub_dt"]->format("Y-m-d H:i:s") . "\n"; ?>文章长度：<? echo $article["length"]; ?>字">
-				<img src="images/expression/<? echo $article["icon"]; ?>.gif" border="0">
-<?
+			<a class="s0" href="view_article.php?id=<?= $article["aid"]; ?>&ex=<?= $result_set["data"]["ex"]; ?>#<?= $article["aid"]; ?>" target=_blank title="发表时间：<?= $article["sub_dt"]->format("Y-m-d H:i:s") . "\n"; ?>文章长度：<?= $article["length"]; ?>字">
+				<img src="images/expression/<?= $article["icon"]; ?>.gif" border="0">
+<?php
 		if ($article["transship"])
 		{
 ?>
@@ -287,27 +287,27 @@ window.addEventListener("load", () => {
 <?	
 		}
 ?>
-				<? echo $title; ?>
+				<?= $title; ?>
 			</a>
-			<? echo $status_str; ?>
+			<?= $status_str; ?>
 		</td>
 		<td width="16%" class="dark">
-			<a class="s2" href="show_profile.php?uid=<? echo $article["uid"]; ?>" onclick='return <? echo ($user_viewable ? "true" : "false"); ?>' title="<? echo ($result_set["data"]["use_nick"] ? $username : $nickname); ?>" target=_blank>
-				<? echo ($result_set["data"]["use_nick"] ? $nickname : $username); ?>
+			<a class="s2" href="show_profile.php?uid=<?= $article["uid"]; ?>" onclick='return <?= ($user_viewable ? "true" : "false"); ?>' title="<?= ($result_set["data"]["use_nick"] ? $username : $nickname); ?>" target=_blank>
+				<?= ($result_set["data"]["use_nick"] ? $nickname : $username); ?>
 			</a>
 		</td>
 		<td width="10%" class="favor">
-			<? echo $article["reply_count"]; ?>/<? echo $article["view_count"]; ?>
+			<?= $article["reply_count"]; ?>/<?= $article["view_count"]; ?>
 		</td>
-		<td width="31%" class="reply"><? echo $article["last_reply_dt"]->format("Y-m-d H:i:s"); ?> | 
-<?
+		<td width="31%" class="reply"><?= $article["last_reply_dt"]->format("Y-m-d H:i:s"); ?> | 
+<?php
 		if ($article["reply_count"] > 0)
 		{
 ?>
-			<a class="s2" href="show_profile.php?uid=<? echo $article["last_reply_uid"]; ?>" onclick='return <? echo ($last_reply_user_viewable ? "true" : "false"); ?>' title="<? echo ($result_set["data"]["use_nick"] ? $last_reply_username : $last_reply_nickname); ?>" target=_blank>
-				<? echo ($result_set["data"]["use_nick"] ? $last_reply_nickname : $last_reply_username); ?>
+			<a class="s2" href="show_profile.php?uid=<?= $article["last_reply_uid"]; ?>" onclick='return <?= ($last_reply_user_viewable ? "true" : "false"); ?>' title="<?= ($result_set["data"]["use_nick"] ? $last_reply_username : $last_reply_nickname); ?>" target=_blank>
+				<?= ($result_set["data"]["use_nick"] ? $last_reply_nickname : $last_reply_username); ?>
 			</a>
-<?
+<?php
 		}
 		else
 		{
@@ -318,7 +318,7 @@ window.addEventListener("load", () => {
 ?>
 		</td>
 	</tr>
-<?
+<?php
 	}
 ?>
 </table>
@@ -330,61 +330,61 @@ window.addEventListener("load", () => {
 	<tr valign="top">
 		<form action="list.php" method="get" id="change_page" name="change_page">
 		<td width="40%" style="color: #909090">
-			<input type="hidden" id="sid" name="sid" value="<? echo $result_set["data"]["sid"]; ?>">
-			<input type="hidden" id="reply" name="reply" value="<? echo $result_set["data"]["reply"]; ?>">
-			<input type="hidden" id="ex" name="ex" value="<? echo $result_set["data"]["ex"]; ?>">
-			<input type="hidden" id="use_nick" name="use_nick" value="<? echo $result_set["data"]["use_nick"]; ?>">
-			<input type="hidden" id="sort" name="sort" value="<? echo $result_set["data"]["sort"]; ?>">
+			<input type="hidden" id="sid" name="sid" value="<?= $result_set["data"]["sid"]; ?>">
+			<input type="hidden" id="reply" name="reply" value="<?= $result_set["data"]["reply"]; ?>">
+			<input type="hidden" id="ex" name="ex" value="<?= $result_set["data"]["ex"]; ?>">
+			<input type="hidden" id="use_nick" name="use_nick" value="<?= $result_set["data"]["use_nick"]; ?>">
+			<input type="hidden" id="sort" name="sort" value="<?= $result_set["data"]["sort"]; ?>">
 			每页<select size="1" id="rpp" name="rpp" onchange="ch_rpp();">
-<?
+<?php
 	foreach ($BBS_list_rpp_options as $v)
 	{
 		echo ("<option value=\"$v\"" . ($v == $result_set["data"]["rpp"] ? " selected" : "") . ">$v</option>");
 	}
 ?>
 			</select>篇
-<?
+<?php
 	if ($result_set["data"]["page"] > 1)
 	{
 ?>
 			<a class="s8" title="首页" href="" onclick="return ch_page(1);">|◀</a>
-			<a class="s8" title="上一页" href="" onclick='return ch_page(<? echo ($result_set["data"]["page"] - 1); ?>);'>◀</a>
-<?
+			<a class="s8" title="上一页" href="" onclick='return ch_page(<?= ($result_set["data"]["page"] - 1); ?>);'>◀</a>
+<?php
 	}
 	else
 	{
 ?>
 			|◀ ◀
-<?
+<?php
 	}
 ?>
-			第<input id="page" name="page" value="<? echo ($result_set["data"]["page"]) ; ?>" style="width: 30px;">/<? echo $result_set["data"]["page_total"]; ?>页
-<?
+			第<input id="page" name="page" value="<?= ($result_set["data"]["page"]) ; ?>" style="width: 30px;">/<?= $result_set["data"]["page_total"]; ?>页
+<?php
 	if ($result_set["data"]["page"] < $result_set["data"]["page_total"])
 	{
 ?>
-			<a class="s8" title="下一页" href="" onclick="return ch_page(<? echo ($result_set["data"]["page"] + 1); ?>);">▶</a>
-			<a class="s8" title="尾页" href="" onclick="return ch_page(<? echo ($result_set["data"]["page_total"]); ?>);">▶|</a>
-<?
+			<a class="s8" title="下一页" href="" onclick="return ch_page(<?= ($result_set["data"]["page"] + 1); ?>);">▶</a>
+			<a class="s8" title="尾页" href="" onclick="return ch_page(<?= ($result_set["data"]["page_total"]); ?>);">▶|</a>
+<?php
 	}
 	else
 	{
 ?>
 			▶ ▶|
-<?
+<?php
 	}
 ?>
 		</td>
 		<td width="35%">
 			<font color=#909090>查找文章</font>
-			<input type="text" id="search_text" name="search_text" value='<? echo $result_set["data"]["search_text"];?>' size="15"> <input type=image src="images/search.gif" alt="按主题内容查找文章" border="0"></a>
-			<a class="s8" href="search_form.php?sid=<? echo $result_set["data"]["sid"]; ?>" target=_blank title="全功能检索">高级</a>&nbsp;
+			<input type="text" id="search_text" name="search_text" value='<?= $result_set["data"]["search_text"];?>' size="15"> <input type=image src="images/search.gif" alt="按主题内容查找文章" border="0"></a>
+			<a class="s8" href="search_form.php?sid=<?= $result_set["data"]["sid"]; ?>" target=_blank title="全功能检索">高级</a>&nbsp;
 		</td>
 		</form>
 		<td width="25%" align="right">
 			<form action="" method="get" id="change_section" name="change_section">
 				<select size="1" id="sid" name="sid" onchange="ch_sect(this.value);">
-<?
+<?php
 	echo $result_set["data"]["section_select_options"];
 ?>
 				</select>
@@ -393,7 +393,7 @@ window.addEventListener("load", () => {
 	</tr>
 </table>  
 </center>
-<?
+<?php
 	include "./foot.inc.php";
 ?>
 </body>

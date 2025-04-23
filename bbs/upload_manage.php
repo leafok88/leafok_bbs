@@ -1,8 +1,8 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "./session_init.inc.php";
 ?>
-<?
+<?php
 	force_login();
 
 	$upload_limit = 0;
@@ -157,16 +157,16 @@ const instance = axios.create({
 		$upload_limit -= $row["size"];
 		$upload_used += $row["size"];
 ?>
-			<tr bgcolor="#f0F3Fa" height="30" id="attachment_<? echo $row["AID"]; ?>">
+			<tr bgcolor="#f0F3Fa" height="30" id="attachment_<?= $row["AID"]; ?>">
 				<td align="middle">
-					<a class="s2" href="dl_file.php?aid=<? echo $row["AID"]; ?>"><? echo $row["filename"]; ?></a> (<? echo $row["size"]; ?>字节)
+					<a class="s2" href="dl_file.php?aid=<?= $row["AID"]; ?>"><?= $row["filename"]; ?></a> (<?= $row["size"]; ?>字节)
 				</td>
 				<td align="middle">
-					<? echo ($row["check"]?($row["deny"]?"<font color=red>未通过</font>":"<font color=green>已通过</font>"):"<font color=blue>未审核</font>"); ?>
+					<?= ($row["check"]?($row["deny"]?"<font color=red>未通过</font>":"<font color=green>已通过</font>"):"<font color=blue>未审核</font>"); ?>
 				</td>
 				<td align="middle">
-					<a class="s2" href="#" onclick="return upload_del(<? echo $row["AID"]; ?>);">删除</a>
-					<span id="err_msg_attachment_<? echo $row["AID"]; ?>" name="err_msg" style="color: red;"></span>
+					<a class="s2" href="#" onclick="return upload_del(<?= $row["AID"]; ?>);">删除</a>
+					<span id="err_msg_attachment_<?= $row["AID"]; ?>" name="err_msg" style="color: red;"></span>
 				</td>
 			</tr>
 <? 
@@ -181,7 +181,7 @@ const instance = axios.create({
 			</tr>
 			<tr height="25">
 				<td align="middle">
-					<font color=blue>剩余/总空间</font> <? echo round(($upload_limit - $upload_used) / 1024 / 1024, 1); ?>MB / <? echo round($upload_limit / 1024 / 1024, 1); ?>MB
+					<font color=blue>剩余/总空间</font> <?= round(($upload_limit - $upload_used) / 1024 / 1024, 1); ?>MB / <?= round($upload_limit / 1024 / 1024, 1); ?>MB
 				</td>
 				<td align="middle">
 					<a class="s2" href="#" onclick="return upload_limit_add();">增加10MB空间</a>

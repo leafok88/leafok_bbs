@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../bbs/section_list.inc.php";
 
 	function section_menu_gen(mysqli $db_conn) : string
@@ -18,7 +18,7 @@
 ?>
 	<tr>
 		<td align="center">
-<?
+<?php
 			// Load section list
 			$section_hierachy = array();
 		
@@ -45,23 +45,23 @@
 	</tr>
 	<tr>
 		<td align="center">
-			<a class="s5" href="#" onclick="return ch_cid(<? echo $section_class['cid']; ?>);"><? echo $section_class["title"]; ?></a>
+			<a class="s5" href="#" onclick="return ch_cid(<?= $section_class['cid']; ?>);"><?= $section_class["title"]; ?></a>
 		</td>
 	</tr>
 	<tr>
-		<td id="class_<? echo $section_class['cid']; ?>" align="center" style="display:none;">
-<?
+		<td id="class_<?= $section_class['cid']; ?>" align="center" style="display:none;">
+<?php
 				foreach ($section_class["sections"] as $s_index => $section)
 				{
 ?>
-			<a class="s6" href="list.php?sid=<? echo $section['sid']; ?>" title="<? echo htmlspecialchars(LML($section['comment'], false), ENT_QUOTES | ENT_HTML401, 'UTF-8'); ?>"><? echo $section['title']; ?></a><br />
-<?
+			<a class="s6" href="list.php?sid=<?= $section['sid']; ?>" title="<?= htmlspecialchars(LML($section['comment'], false), ENT_QUOTES | ENT_HTML401, 'UTF-8'); ?>"><?= $section['title']; ?></a><br />
+<?php
 				}
 			}
 ?>
 		</td>
 	</tr>
-<?
+<?php
 			unset($section_hierachy);
 
 			$buffer = ob_get_clean();

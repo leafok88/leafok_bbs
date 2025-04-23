@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../bbs/session_init.inc.php";
 
@@ -78,28 +78,28 @@
 						处理
 					</td>
 				</tr>
-<?
+<?php
 	foreach ($result_set["data"]["upload_files"] as $upload_file)
 	{
 ?>
 				<tr height=20>
 					<td align="middle">
-						<? echo $upload_file["username"]; ?>
+						<?= $upload_file["username"]; ?>
 					</td>
 					<td align="middle">
-						<a href="../bbs/view_article.php?trash=1&id=<? echo $upload_file["ref_aid"] . "#" . $upload_file["ref_aid"]; ?>" target=_blank>
-							<? echo $upload_file["ref_aid"]; ?>
+						<a href="../bbs/view_article.php?trash=1&id=<?= $upload_file["ref_aid"] . "#" . $upload_file["ref_aid"]; ?>" target=_blank>
+							<?= $upload_file["ref_aid"]; ?>
 						</a>
 					</td>
 					<td align="middle">
-						<a href="/bbs/dl_file.php?aid=<? echo $upload_file["aid"]; ?>&force=1" target=_blank><? echo $upload_file["filename"]; ?></a> (<? echo $upload_file["size"]; ?>字节)
+						<a href="/bbs/dl_file.php?aid=<?= $upload_file["aid"]; ?>&force=1" target=_blank><?= $upload_file["filename"]; ?></a> (<?= $upload_file["size"]; ?>字节)
 					</td>
 					<td align="middle">
-						<a href="upload_process.php?enable=1&aid=<? echo $upload_file["aid"]; ?>">通过</a>&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="upload_process.php?enable=0&aid=<? echo $upload_file["aid"]; ?>" onclick="return window.confirm('真的要删除吗？');">删除</a>
+						<a href="upload_process.php?enable=1&aid=<?= $upload_file["aid"]; ?>">通过</a>&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="upload_process.php?enable=0&aid=<?= $upload_file["aid"]; ?>" onclick="return window.confirm('真的要删除吗？');">删除</a>
 					</td>
 				</tr>
-<?
+<?php
 	}
 ?>
 			</table>

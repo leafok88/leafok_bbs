@@ -1,4 +1,4 @@
-<?
+<?php
 function Date2Astro(int $month, int $day) : string
 {
 	$dates = array(21, 20, 21, 21, 22, 22, 23, 24, 24, 24, 23, 22);

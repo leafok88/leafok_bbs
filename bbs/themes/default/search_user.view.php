@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>用户查找结果</title>
-<link rel="stylesheet" href="<? echo get_theme_file('css/default'); ?>" type="text/css">
+<link rel="stylesheet" href="<?= get_theme_file('css/default'); ?>" type="text/css">
 <style type="text/css">
 TD.head,TD.level,TD.login_dt,TD.dark,TD.username
 {
@@ -59,7 +59,7 @@ function ch_page(page)
 
 function ch_rpp()
 {
-	document.change_page.page.value = Math.floor((document.change_page.page.value - 1) * <? echo $result_set["data"]["rpp"]; ?> / document.change_page.rpp.value) + 1;
+	document.change_page.page.value = Math.floor((document.change_page.page.value - 1) * <?= $result_set["data"]["rpp"]; ?> / document.change_page.rpp.value) + 1;
 	document.change_page.submit();
 	return false;
 }
@@ -70,7 +70,7 @@ function ch_rpp()
 			<table cols="2" border="0" cellpadding="0" cellspacing="0" width="1050">
 				<tr>
 					<td colspan="2" style="color:green;">
-						<a class="s2" href="main.php"><? echo $BBS_name; ?></a>&gt;&gt;查找<? echo ($result_set["data"]["online"] ? "在线" : ""); ?><? echo ($result_set["data"]["friend"] ? "好友" : "用户"); ?>
+						<a class="s2" href="main.php"><?= $BBS_name; ?></a>&gt;&gt;查找<?= ($result_set["data"]["online"] ? "在线" : ""); ?><?= ($result_set["data"]["friend"] ? "好友" : "用户"); ?>
 					</td>
 				</tr>
 				<tr bgcolor="#d0d3F0" height="2">
@@ -78,17 +78,17 @@ function ch_rpp()
 				<tr>
 					<td class="dark" width="3%"></td>
 					<td class="head" width="97%">
-<?
+<?php
 	if ($result_set["data"]["toa"] == 0)
 	{
-?>未找到指定用户<?
+?>未找到指定用户<?php
 	}
 	else
 	{
-?>用户查找结果（共<? echo $result_set["data"]["toa"]; ?>位）
-<?
+?>用户查找结果（共<?= $result_set["data"]["toa"]; ?>位）
+<?php
 	}
-?>（当前在线注册用户<? echo $result_set["data"]["user_online"]; ?>位，游客<? echo $result_set["data"]["guest_online"]; ?>位）
+?>（当前在线注册用户<?= $result_set["data"]["user_online"]; ?>位，游客<?= $result_set["data"]["guest_online"]; ?>位）
 					</td>
 				</tr>
 			</table>
@@ -108,13 +108,13 @@ function ch_rpp()
 					<td class="title" width="27%"></td>
 					<td class="title" width="4%"></td>
 				</tr>
-<?
+<?php
 	foreach ($result_set["data"]["users"] as $user)
 	{
 ?>
 				<tr height="25">
 					<td class="dark">
-<?
+<?php
 		if ($user["gender_pub"])
 		{
 			if ($user["gender"] == 'M')
@@ -133,31 +133,31 @@ function ch_rpp()
 ?>
 					</td>
 					<td class="username">
-						<a class="s2" href="show_profile.php?uid=<? echo $user["uid"]; ?>" target=_blank><? echo $user["username"]; ?></a>
+						<a class="s2" href="show_profile.php?uid=<?= $user["uid"]; ?>" target=_blank><?= $user["username"]; ?></a>
 					</td>
 					<td class="dark">
-						<? echo $user["nickname"]; ?>
+						<?= $user["nickname"]; ?>
 					</td>
 					<td class="level">
-						<? echo user_level($user["exp"]); ?>
+						<?= user_level($user["exp"]); ?>
 					</td>
 					<td class="login_dt">
-						<? echo $user["last_login_dt"]->format("Y-m-d H:i:s"); ?>
+						<?= $user["last_login_dt"]->format("Y-m-d H:i:s"); ?>
 					</td>
 					<td class="level">
-<?
+<?php
 		if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG))
 		{
 ?>
-						<a class="s2" href="read_msg.php?sent=1&uid=<? echo $user["uid"]; ?>" target=_blank>发送消息</a>
-<?
+						<a class="s2" href="read_msg.php?sent=1&uid=<?= $user["uid"]; ?>" target=_blank>发送消息</a>
+<?php
 		}
 ?>
 					</td>
 					<td align="center">
 					</td>
 				</tr>
-<?
+<?php
 	}
 ?>
 			</table>
@@ -174,42 +174,42 @@ function ch_rpp()
 				<form action="search_user.php" method="get" id="change_page" name="change_page">
 					<td width="30%" style="color: #909090">
 					每页<select size="1" id="rpp" name="rpp" onchange="ch_rpp();">
-<?
+<?php
 	foreach ($BBS_list_rpp_options as $v)
 	{
 		echo ("<option value=\"$v\"" . ($v == $result_set["data"]["rpp"] ? " selected" : "") . ">$v</option>");
 	}
 ?>
 			</select>人
-<?
+<?php
 	if ($result_set["data"]["page"] > 1)
 	{
 ?>
 			<a class="s8" title="首页" href="" onclick="return ch_page(1);">|◀</a>
-			<a class="s8" title="上一页" href="" onclick="return ch_page(<? echo ($result_set["data"]["page"] - 1); ?>);">◀</a>
-<?
+			<a class="s8" title="上一页" href="" onclick="return ch_page(<?= ($result_set["data"]["page"] - 1); ?>);">◀</a>
+<?php
 	}
 	else
 	{
 ?>
 |◀ ◀
-<?
+<?php
 	}
 ?>
-    		第<input id="page" name="page" value="<? echo ($result_set["data"]["page"]) ; ?>" style="width: 30px;">/<? echo $result_set["data"]["page_total"]; ?>页
-<?
+    		第<input id="page" name="page" value="<?= ($result_set["data"]["page"]) ; ?>" style="width: 30px;">/<?= $result_set["data"]["page_total"]; ?>页
+<?php
 	if ($result_set["data"]["page"] < $result_set["data"]["page_total"])
 	{
 ?>
-			<a class="s8" title="下一页" href="" onclick="return ch_page(<? echo ($result_set["data"]["page"] + 1); ?>);">▶</a>
-			<a class="s8" title="尾页" href="" onclick="return ch_page(<? echo ($result_set["data"]["page_total"]); ?>);">▶|</a>
-<?
+			<a class="s8" title="下一页" href="" onclick="return ch_page(<?= ($result_set["data"]["page"] + 1); ?>);">▶</a>
+			<a class="s8" title="尾页" href="" onclick="return ch_page(<?= ($result_set["data"]["page_total"]); ?>);">▶|</a>
+<?php
 	}
 	else
 	{
 ?>
 ▶ ▶|
-<?
+<?php
 	}
 ?>
 					</td>
@@ -218,9 +218,9 @@ function ch_rpp()
 							<option value="0" <? if ($result_set["data"]["type"] == 0) echo "selected"; ?> >按用户名</option>
 							<option value="1" <? if ($result_set["data"]["type"] == 1) echo "selected"; ?> >按昵称</option>
 						</select>
-						<input type="text" id="search_text" name="search_text" size="15" value="<? echo $result_set["data"]["search_text"];?>">
-						<input type="checkbox" id="online" name="online" value="1" <? echo ($result_set["data"]["online"] ? "checked" : "");?>><font color=#909090>在线</font>
-						<input type="checkbox" id="friend" name="friend" value="1" <? echo ($result_set["data"]["friend"] ? "checked" : "");?>><font color=#909090>好友</font>
+						<input type="text" id="search_text" name="search_text" size="15" value="<?= $result_set["data"]["search_text"];?>">
+						<input type="checkbox" id="online" name="online" value="1" <?= ($result_set["data"]["online"] ? "checked" : "");?>><font color=#909090>在线</font>
+						<input type="checkbox" id="friend" name="friend" value="1" <?= ($result_set["data"]["friend"] ? "checked" : "");?>><font color=#909090>好友</font>
 						<input type=image src="images/search.gif" alt="查找用户" border="0" name="image"></a>
 					</td>
 					<td width="10%">
@@ -229,7 +229,7 @@ function ch_rpp()
 				</tr>
 			</table>
 		</center>
-<?
+<?php
 include "./foot.inc.php";
 ?>
 </body>

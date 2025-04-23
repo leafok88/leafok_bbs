@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 ?>
 <html>
@@ -23,7 +23,7 @@ TD
 			论坛流量分析
 		</p>
 		<center>
-<?
+<?php
 	//All
 	$rs = mysqli_query($db_conn, "SELECT COUNT(UID) AS c_user FROM user_list WHERE enable")
 		or die("Query user error!");
@@ -254,33 +254,33 @@ TD
 				</TR>
 				<TR>
 					<TD>注册用户数</TD>
-					<TD><? echo $c_user_all; ?></TD>
-					<TD><? echo $c_user_week; ?></TD>
-					<TD><? echo $c_user_day; ?></TD>
+					<TD><?= $c_user_all; ?></TD>
+					<TD><?= $c_user_week; ?></TD>
+					<TD><?= $c_user_day; ?></TD>
 				</TR>
 				<TR>
 					<TD>当前主题数</TD>
-					<TD><? echo $c_topic_all; ?></TD>
-					<TD><? echo $c_topic_week; ?></TD>
-					<TD><? echo $c_topic_day; ?></TD>
+					<TD><?= $c_topic_all; ?></TD>
+					<TD><?= $c_topic_week; ?></TD>
+					<TD><?= $c_topic_day; ?></TD>
 				</TR>
 				<TR>
 					<TD>当前文章数</TD>
-					<TD><? echo $c_article_all; ?></TD>
-					<TD><? echo $c_article_week; ?></TD>
-					<TD><? echo $c_article_day; ?></TD>
+					<TD><?= $c_article_all; ?></TD>
+					<TD><?= $c_article_week; ?></TD>
+					<TD><?= $c_article_day; ?></TD>
 				</TR>
 				<TR>
 					<TD>登陆人次数</TD>
-					<TD><? echo $c_login_all; ?></TD>
-					<TD><? echo $c_login_week; ?></TD>
-					<TD><? echo $c_login_day; ?></TD>
+					<TD><?= $c_login_all; ?></TD>
+					<TD><?= $c_login_week; ?></TD>
+					<TD><?= $c_login_day; ?></TD>
 				</TR>
 				<TR>
 					<TD>访问人次数</TD>
-					<TD><? echo $c_visit_all; ?><br>（2002年11月4日以来）</TD>
-					<TD><? echo $c_visit_week; ?></TD>
-					<TD><? echo $c_visit_day; ?></TD>
+					<TD><?= $c_visit_all; ?><br>（2002年11月4日以来）</TD>
+					<TD><?= $c_visit_week; ?></TD>
+					<TD><?= $c_visit_day; ?></TD>
 				</TR>
 			</TABLE>
 			<TABLE WIDTH="98%" BORDER="1" CELLSPACING="1" CELLPADDING="1">
@@ -311,7 +311,7 @@ TD
 					<TD colspan="2">当前文章数</TD>
 					<TD colspan="2">浏览文章数</TD>
 				</TR>
-<?
+<?php
 	$rs_section = mysqli_query($db_conn, "SELECT SID, section_class.title AS t_class,
 		section_config.title AS t_section, exp_get, recommend FROM section_class
 		INNER JOIN section_config ON section_class.CID = section_config.CID
@@ -403,16 +403,16 @@ TD
 		mysqli_free_result($rs);
 ?>
 				<TR>
-					<TD><? echo $row_section["t_class"]." / ".$row_section["t_section"]; ?></TD>
-					<TD><img src="images/<? echo ($row_section["exp_get"]?"tick":"cross"); ?>.gif">&nbsp;<img src="images/<? echo ($row_section["recommend"]?"tick":"cross"); ?>.gif"></TD>
-					<TD><? echo $c_topic; ?>(<? echo ($c_topic_all?round($c_topic/$c_topic_all*100,1)."%":"-"); ?>)</TD>
-					<TD style="color:<? echo ($c_topic_week?($c_topic_p/$c_topic_week>$c_topic/$c_topic_all?"red":"green"):"orange"); ?>"><? echo $c_topic_p; ?>(<? echo ($c_topic_week?round($c_topic_p/$c_topic_week*100,1)."%":"-"); ?>)</TD>
-					<TD><? echo $c_article; ?>(<? echo ($c_article_all?round($c_article/$c_article_all*100,1)."%":"-"); ?>)</TD>
-					<TD style="color:<? echo ($c_topic_week?($c_article_p/$c_article_week>$c_article/$c_article_all?"red":"green"):"orange"); ?>"><? echo $c_article_p; ?>(<? echo ($c_article_week?round($c_article_p/$c_article_week*100,1)."%":"-"); ?>)</TD>
-					<TD><? echo $s_view; ?>(<? echo ($s_view_all?round($s_view/$s_view_all*100,1)."%":"-"); ?>)</TD>
-					<TD style="color:<? echo ($c_topic_week?($s_view_p/$s_view_week>$s_view/$s_view_all?"red":"green"):"orange"); ?>"><? echo $s_view_p; ?>(<? echo ($s_view_week?round($s_view_p/$s_view_week*100,1)."%":"-"); ?>)</TD>
+					<TD><?= $row_section["t_class"]." / ".$row_section["t_section"]; ?></TD>
+					<TD><img src="images/<?= ($row_section["exp_get"]?"tick":"cross"); ?>.gif">&nbsp;<img src="images/<?= ($row_section["recommend"]?"tick":"cross"); ?>.gif"></TD>
+					<TD><?= $c_topic; ?>(<?= ($c_topic_all?round($c_topic/$c_topic_all*100,1)."%":"-"); ?>)</TD>
+					<TD style="color:<?= ($c_topic_week?($c_topic_p/$c_topic_week>$c_topic/$c_topic_all?"red":"green"):"orange"); ?>"><?= $c_topic_p; ?>(<?= ($c_topic_week?round($c_topic_p/$c_topic_week*100,1)."%":"-"); ?>)</TD>
+					<TD><?= $c_article; ?>(<?= ($c_article_all?round($c_article/$c_article_all*100,1)."%":"-"); ?>)</TD>
+					<TD style="color:<?= ($c_topic_week?($c_article_p/$c_article_week>$c_article/$c_article_all?"red":"green"):"orange"); ?>"><?= $c_article_p; ?>(<?= ($c_article_week?round($c_article_p/$c_article_week*100,1)."%":"-"); ?>)</TD>
+					<TD><?= $s_view; ?>(<?= ($s_view_all?round($s_view/$s_view_all*100,1)."%":"-"); ?>)</TD>
+					<TD style="color:<?= ($c_topic_week?($s_view_p/$s_view_week>$s_view/$s_view_all?"red":"green"):"orange"); ?>"><?= $s_view_p; ?>(<?= ($s_view_week?round($s_view_p/$s_view_week*100,1)."%":"-"); ?>)</TD>
 				</TR>
-<?
+<?php
 	}
 	mysqli_free_result($rs_section);
 
@@ -428,7 +428,7 @@ TD
 			<TABLE WIDTH="98%" BORDER="1" CELLSPACING="1" CELLPADDING="1">
 				<TR>
 					<TD colspan="2" style="text-align:left; color:gray;">
-						本分析报告于 <? echo date("Y-m-d H:i:s"); ?> 更新。
+						本分析报告于 <?= date("Y-m-d H:i:s"); ?> 更新。
 					</TD>
 				</TR>
 			</TABLE>
