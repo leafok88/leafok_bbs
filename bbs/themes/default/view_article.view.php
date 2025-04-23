@@ -172,7 +172,7 @@ function article_op(op_type, id, set, confirm = false)
 
 function move_article(sid)
 {
-	instance.post('move_article.php', {
+	instance.post('article_service_move.php', {
 		id: <?= $result_set["data"]["id"]; ?>,
 		sid: sid,
 	})
