@@ -53,7 +53,7 @@ function refresh_textarea(updateFieldMap)
 
 function update_preference(f)
 {
-	instance.post('preference_service.php', {
+	instance.post('user_service_update_pref.php', {
 		user_tz: f.user_tz.value,
 		photo: f.photo.value,
 		photo_file: f.photo_file.files,
