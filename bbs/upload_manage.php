@@ -95,7 +95,7 @@ function upload_limit_add()
 		return false;
 	}
 
-	instance.post('upload_limit_add.php', {
+	instance.post('upload_service_inc_cap.php', {
 	})
 	.then(function (response) {
 		var ret = response.data;
