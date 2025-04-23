@@ -74,7 +74,7 @@ function refresh_err_msg(errorFieldMap)
 
 function send_msg()
 {
-	instance.post('send_msg_sub.php', {
+	instance.post('msg_service_send.php', {
 		uid: document.getElementById("uid").value,
 		content: document.getElementById("content").value,
     })
