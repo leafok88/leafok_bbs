@@ -111,7 +111,7 @@ function article_op(op_type, id, set, confirm = false)
 {
 	var opService = new Map([
 		["delete", "article_service_del.php"],
-		["restore", "restore.php"],
+		["restore", "article_service_restore.php"],
 		["excerption", "set_excerption.php"],
 		["ontop", "set_ontop.php"],
 		["lock", "article_service_lock.php"],
