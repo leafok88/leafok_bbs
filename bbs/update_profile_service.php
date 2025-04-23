@@ -6,7 +6,7 @@
 	require_once "../lib/str_process.inc.php";
 	require_once "../lib/passwd.inc.php";
 	require_once "./session_init.inc.php";
-	require_once "./reg_check.inc.php";
+	require_once "./user_reg_check.inc.php";
 
 	force_login();
 

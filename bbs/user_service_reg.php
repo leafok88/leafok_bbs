@@ -6,7 +6,7 @@
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/send_mail.inc.php";
 	require_once "./session_init.inc.php";
-	require_once "./reg_check.inc.php";
+	require_once "./user_reg_check.inc.php";
 
 	$data = json_decode(file_get_contents("php://input"), true);
 
