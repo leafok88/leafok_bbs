@@ -113,7 +113,7 @@ function article_op(op_type, id, set, confirm = false)
 		["delete", "article_service_del.php"],
 		["restore", "article_service_restore.php"],
 		["excerption", "article_service_excerption.php"],
-		["ontop", "set_ontop.php"],
+		["ontop", "article_service_ontop.php"],
 		["lock", "article_service_lock.php"],
 		["transship", "set_transship.php"],
 	]);
