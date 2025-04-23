@@ -22,7 +22,7 @@ function refresh_err_msg(errorFieldMap)
 
 function update_profile(f)
 {
-	instance.post('update_profile_service.php', {
+	instance.post('user_service_update_profile.php', {
 		nickname: f.nickname.value,
 		realname: f.realname.value,
 		gender: f.gender.value,
