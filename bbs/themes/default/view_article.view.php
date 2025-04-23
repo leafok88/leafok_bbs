@@ -114,7 +114,7 @@ function article_op(op_type, id, set, confirm = false)
 		["restore", "restore.php"],
 		["excerption", "set_excerption.php"],
 		["ontop", "set_ontop.php"],
-		["lock", "lock.php"],
+		["lock", "article_service_lock.php"],
 		["transship", "set_transship.php"],
 	]);
 
