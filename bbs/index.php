@@ -64,7 +64,7 @@ function check_user(f)
 		return false;
 	}
 
-	instance.post('user_login_service.php', {
+	instance.post('user_service_login.php', {
         username: f.username.value,
         password: f.password.value,
 		ch_passwd: f.ch_passwd.value,
