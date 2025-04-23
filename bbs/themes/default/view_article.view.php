@@ -115,7 +115,7 @@ function article_op(op_type, id, set, confirm = false)
 		["excerption", "article_service_excerption.php"],
 		["ontop", "article_service_ontop.php"],
 		["lock", "article_service_lock.php"],
-		["transship", "set_transship.php"],
+		["transship", "article_service_transship.php"],
 	]);
 
 	var opNeedRefresh = new Set([
