@@ -68,7 +68,7 @@ function transfer_score(f)
 
 function set_life(f)
 {
-	instance.post('set_life.php', {
+	instance.post('user_service_life.php', {
 		uid: <?= $result_set["data"]["uid"]; ?>,
 		life: f.life.value,
 	})
