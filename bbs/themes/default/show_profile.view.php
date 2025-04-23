@@ -143,7 +143,7 @@ function ban_user(f)
 
 function set_friend(set)
 {
-	instance.post('set_friend.php', {
+	instance.post('user_service_friend.php', {
         uid: <?= $result_set["data"]["uid"]; ?>,
 		set: set,
     })
