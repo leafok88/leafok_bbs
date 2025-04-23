@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -110,7 +110,7 @@ function upload_del(id)
 function article_op(op_type, id, set, confirm = false)
 {
 	var opService = new Map([
-		["delete", "delete.php"],
+		["delete", "article_service_del.php"],
 		["restore", "restore.php"],
 		["excerption", "set_excerption.php"],
 		["ontop", "set_ontop.php"],
