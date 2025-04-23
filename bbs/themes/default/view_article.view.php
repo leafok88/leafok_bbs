@@ -73,7 +73,7 @@ function upload_del(id)
 		return false;
 	}
 
-	instance.post('upload_del.php', {
+	instance.post('upload_service_del.php', {
 		aid: id,
 	})
 	.then(function (response) {
