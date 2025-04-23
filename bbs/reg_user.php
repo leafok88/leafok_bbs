@@ -26,7 +26,7 @@ function refresh_err_msg(errorFieldMap)
 
 function reg_sub(f)
 {
-	instance.post('reg_user_service.php', {
+	instance.post('user_service_reg.php', {
         username: f.username.value,
 		nickname: f.nickname.value,
 		realname: f.realname.value,
