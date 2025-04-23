@@ -40,7 +40,7 @@ function s_favor_sub(f)
 		}
 	}
 
-	instance.post('s_favor_sub.php', {
+	instance.post('user_service_section_favor.php', {
 		sid_list: sidList,
 	})
 	.then(function (response) {

@@ -1,7 +1,7 @@
 <?php
 	require_once "../lib/db_open.inc.php";
 	require_once "./session_init.inc.php";
-	require_once "./s_favor.inc.php";
+	require_once "./user_section_favor.inc.php";
 
 	force_login();
 

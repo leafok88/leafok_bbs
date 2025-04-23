@@ -8,7 +8,7 @@
 					<a class="s7" href="update_pref.php">个人设定</a>
 				</td>
 				<td width="16%" align="middle">
-					<a class="s7" href="s_favor.php">版块收藏</a>
+					<a class="s7" href="user_section_favor.php">版块收藏</a>
 				</td>
 				<td width="16%" align="middle">
 					<a class="s7" href="score_detail.php">账户积分</a>

@@ -1,5 +1,5 @@
 <?php
-	require_once "../bbs/s_favor.inc.php";
+	require_once "../bbs/user_section_favor.inc.php";
 	require_once "../bbs/section_list.inc.php";
 
 	function section_list_gen(mysqli $db_conn) : string
