@@ -3,8 +3,7 @@
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/send_mail.inc.php";
 	require_once "./session_init.inc.php";
-?>
-<?php
+
 	force_login();
 
 	$verify_code = (isset($_GET["code"]) ? trim($_GET["code"]) : "");
