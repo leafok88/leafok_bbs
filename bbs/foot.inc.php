@@ -3,7 +3,7 @@
 if ($_SESSION["BBS_uid"]>0)
 {
 ?>
-	| <a class="s4" href="preference.php" target=_blank>个人设定</a>
+	| <a class="s4" href="update_pref.php" target=_blank>个人设定</a>
 <?php
 }
 else
@@ -45,7 +45,7 @@ if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
 </p>
 <p align="center" style="color:gray;">
 	Copyright &copy; <?= $BBS_copyright_duration; ?> <a class="s8" href="/" target=_blank><?= $BBS_name . "(" . $BBS_host_name . ")"; ?></a> All Rights Reserved<br />
-	时间显示基于用户时区设置：<a class="s8" href="preference.php" target=_blank><?= (new DateTimeImmutable("", $_SESSION["BBS_user_tz"]))->format("e (\U\T\C P)"); ?></a><br />
+	时间显示基于用户时区设置：<a class="s8" href="update_pref.php" target=_blank><?= (new DateTimeImmutable("", $_SESSION["BBS_user_tz"]))->format("e (\U\T\C P)"); ?></a><br />
 <?php
 	// Log end time
 	echo "页面运行使用" . round((microtime(true) - $time_start) * 1000, 2) . "毫秒\n";

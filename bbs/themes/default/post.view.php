@@ -288,7 +288,7 @@ else if ($quote)
 			<input type="radio" id="sign_id_1" name="sign_id" value="1">1&nbsp;
 			<input type="radio" id="sign_id_2" name="sign_id" value="2">2&nbsp;
 			<input type="radio" id="sign_id_3" name="sign_id" value="3">3&nbsp;
-			<a class="s0" href="preference.php" target=_blank>设置个人签名</a>
+			<a class="s0" href="update_pref.php" target=_blank>设置个人签名</a>
 		</td>
 	</tr>
 <?php
