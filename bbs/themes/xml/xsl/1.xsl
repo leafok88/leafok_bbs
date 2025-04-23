@@ -126,7 +126,7 @@ textarea.content
             <td>
               <font color="#3366CC">发贴者：</font>
               <xsl:element name="a">
-                <xsl:attribute name="href">show_profile.php?uid=<xsl:value-of select="PostUserId"/></xsl:attribute>
+                <xsl:attribute name="href">view_user.php?uid=<xsl:value-of select="PostUserId"/></xsl:attribute>
                 <xsl:attribute name="target">_blank</xsl:attribute>
                 <font color="#3366CC"><b>
                   <xsl:value-of select="PostUserName "/>
