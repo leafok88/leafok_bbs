@@ -315,7 +315,7 @@
 		$subject = $BBS_name . "修改邮件地址确认";
 		$body = $_SESSION["BBS_username"] . ":\n    您好！\n" .
 				"    请访问以下链接确认更改注册邮件地址：\n" .
-				"https://$BBS_host_name/bbs/modify_email_verify.php?code=$verify_code\n\n" .
+				"https://$BBS_host_name/bbs/user_email_verify.php?code=$verify_code\n\n" .
 				"    感谢您的大力支持！\n\n" .
 				$BBS_name . "\n" . date("Y年m月d日") . "\n";
 
