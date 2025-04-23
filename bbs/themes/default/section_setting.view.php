@@ -98,7 +98,7 @@ function section_setting(f)
 
 function ex_dir_op(f, op)
 {
-	instance.post('ex_dir_service.php', {
+	instance.post('section_service_dir.php', {
 		sid: <?= $result_set["data"]["sid"]; ?>,
 		current_dir: f.current_dir.value,
 		dir: f.dir.value,
