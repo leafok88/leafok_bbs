@@ -22,7 +22,7 @@ function reset_flag()
 function reset_pass(f)
 {
 	reset_flag();
-	instance.post('reset_pass_service.php', {
+	instance.post('user_service_reset_pass.php', {
         username: f.username.value,
 		email: f.email.value,
     })
