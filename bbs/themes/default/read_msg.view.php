@@ -1,4 +1,4 @@
-<?
+<?php
 	// Prevent load standalone
 	if (!isset($result_set))
 	{
@@ -119,7 +119,7 @@ function delete_msg()
 		}
 	});
 
-	instance.post('delete_msg.php', {
+	instance.post('msg_service_del.php', {
 		sent: <? echo ($result_set["data"]["sent"] ? "1" : "0"); ?>,
 		delete_msg_id: delete_msg_id,
     })
