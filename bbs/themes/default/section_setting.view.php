@@ -143,7 +143,7 @@ function ex_dir_op(f, op)
 
 function master_op(f, op, username)
 {
-	instance.post('section_master_service.php', {
+	instance.post('section_service_master.php', {
 		sid: <?= $result_set["data"]["sid"]; ?>,
 		op: op,
 		username: (username != null ? username : f.master_username.value),
