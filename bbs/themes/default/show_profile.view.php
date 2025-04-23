@@ -104,7 +104,7 @@ function set_life(f)
 
 function ban_user(f)
 {
-	instance.post('ban_user.php', {
+	instance.post('user_service_ban.php', {
 		uid: <? echo $result_set["data"]["uid"]; ?>,
 		ban: f.ban.value,
 		sid: f.sid.value,

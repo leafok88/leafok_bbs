@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once "../lib/str_process.inc.php";
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/lml.inc.php";
