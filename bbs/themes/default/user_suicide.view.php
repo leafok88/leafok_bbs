@@ -15,7 +15,7 @@ function refresh_err_msg(errorFieldMap)
 
 function commit_suicide(f)
 {
-	instance.post('user_service_suicide.php', {
+	instance.post('user_service_user_suicide.php', {
 		confirm: f.confirm.checked ? 1 : 0,
 	})
 	.then(function (response) {

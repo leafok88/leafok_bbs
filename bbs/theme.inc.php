@@ -19,7 +19,7 @@ if (!defined("_BBS_THEME_INIT_"))
 			"view/section_setting" => "section_setting.view.php",
 			"view/view_user" => "view_user.view.php",
 			"view/score_detail" => "score_detail.view.php",
-			"view/suicide" => "suicide.view.php",
+			"view/user_suicide" => "user_suicide.view.php",
 			"view/msg_read" => "msg_read.view.php",
 		),
 		"xml" => array(

@@ -19,7 +19,7 @@
 		!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S | P_MAN_M | P_MAN_S))
 	{
 ?>
-					<a class="s7" href="suicide.php">关闭账户</a>
+					<a class="s7" href="user_suicide.php">关闭账户</a>
 <?php
 	}
 	else

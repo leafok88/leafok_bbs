@@ -24,12 +24,12 @@
 
 	if ($_SESSION["BBS_login_tm"] < time() - 60) // login earlier than 1 minute
 	{
-		header ("Location: index.php?msg=1&redir=suicide.php");
+		header ("Location: index.php?msg=1&redir=user_suicide.php");
 		exit();
 	}
 
 	// Output with theme view
-	$theme_view_file = get_theme_file("view/suicide", $_SESSION["BBS_theme_name"]);
+	$theme_view_file = get_theme_file("view/user_suicide", $_SESSION["BBS_theme_name"]);
 	if ($theme_view_file == null)
 	{
 		exit(json_encode($result_set)); // Output data in Json
