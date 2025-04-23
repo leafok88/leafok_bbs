@@ -11,7 +11,7 @@
 					<a class="s7" href="user_section_favor.php">版块收藏</a>
 				</td>
 				<td width="16%" align="middle">
-					<a class="s7" href="score_detail.php">账户积分</a>
+					<a class="s7" href="user_score_detail.php">账户积分</a>
 				</td>
 				<td width="16%" align="middle">
 <?php
