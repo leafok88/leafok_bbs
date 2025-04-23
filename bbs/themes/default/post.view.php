@@ -33,7 +33,7 @@ function refresh_textarea(updateFieldMap)
 
 function post_article(f)
 {
-	instance.post('post_service.php', {
+	instance.post('article_service_post.php', {
         id: <?= $result_set["data"]["id"]; ?>,
         reply_id: <?= $result_set["data"]["reply_id"]; ?>,
         sid: <?= $result_set["data"]["sid"]; ?>,
