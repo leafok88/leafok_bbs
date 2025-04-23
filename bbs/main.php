@@ -264,7 +264,7 @@ window.addEventListener("load", () => {
 					<td align="center" height="10"></td></tr>
 				<tr>
 					<td align="center">
-						<a class="s2" href="master_list.php" target="_blank">版主</a><br>
+						<a class="s2" href="section_master_list.php" target="_blank">版主</a><br>
 					</td></tr>
 				<tr>
 					<td align="center" height="10"></td></tr>
