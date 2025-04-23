@@ -16,7 +16,7 @@
 function ch_page(page)
 {
 	rpp = document.getElementById("rpp").value;
-	document.location = "read_msg.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
+	document.location = "msg_read.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
 	return false;
 }
 
@@ -25,7 +25,7 @@ function ch_rpp()
 	page = document.getElementById("page").value;
 	rpp = document.getElementById("rpp").value;
 	page = Math.floor((page - 1) * <?= $result_set["data"]["rpp"]; ?> / rpp) + 1;
-	document.location = "read_msg.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
+	document.location = "msg_read.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
 	return false;
 }
 
@@ -33,7 +33,7 @@ function refresh_page()
 {
 	page = document.getElementById("page").value;
 	rpp = document.getElementById("rpp").value;
-	document.location = "read_msg.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
+	document.location = "msg_read.php?sent=<?= ($result_set["data"]["sent"] ? "1" : "0"); ?>&page=" + page + "&rpp=" + rpp + "&ts=" + Date.now();
 	return false;
 }
 
@@ -188,7 +188,7 @@ const instance = axios.create({
 	if (!$result_set["data"]["sent"])
 	{
 ?>
-					<a class="s2" href="read_msg.php?sent=1">切换至发件箱</a>&nbsp;
+					<a class="s2" href="msg_read.php?sent=1">切换至发件箱</a>&nbsp;
 <?php
 		if ($result_set["data"]["unread_msg_count"] > 0)
 		{
@@ -198,7 +198,7 @@ const instance = axios.create({
 	else
 	{
 ?>
-					<a class="s2" href="read_msg.php?sent=0">切换至收件箱</a>&nbsp;
+					<a class="s2" href="msg_read.php?sent=0">切换至收件箱</a>&nbsp;
 <?php
 	}
 ?>

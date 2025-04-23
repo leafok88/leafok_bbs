@@ -20,7 +20,7 @@ if (!defined("_BBS_THEME_INIT_"))
 			"view/show_profile" => "show_profile.view.php",
 			"view/score_detail" => "score_detail.view.php",
 			"view/suicide" => "suicide.view.php",
-			"view/read_msg" => "read_msg.view.php",
+			"view/msg_read" => "msg_read.view.php",
 		),
 		"xml" => array(
 			"xsl/1" => "xsl/1.xsl",

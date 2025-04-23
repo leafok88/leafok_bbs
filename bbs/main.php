@@ -91,7 +91,7 @@ window.addEventListener("load", () => {
 		if ($_SESSION["BBS_new_msg"] > 0)
 		{
 ?>
-		[<a class="s6" href="read_msg.php" target=_blank><?= $_SESSION["BBS_new_msg"]; ?>条新消息</a>]
+		[<a class="s6" href="msg_read.php" target=_blank><?= $_SESSION["BBS_new_msg"]; ?>条新消息</a>]
 <?php
 		}
 ?>

@@ -427,7 +427,7 @@ window.addEventListener("load", () => {
 	if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG) && $result_set["data"]["uid"] != $BBS_sys_uid)
 	{
 ?>
-					<a class="s2" href="read_msg.php?sent=1&uid=<?= $result_set["data"]["uid"]; ?>" target=_blank>发送消息</a>
+					<a class="s2" href="msg_read.php?sent=1&uid=<?= $result_set["data"]["uid"]; ?>" target=_blank>发送消息</a>
 <?php
 	}
 

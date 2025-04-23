@@ -19,7 +19,7 @@ else
 if ($_SESSION["BBS_uid"] > 0)
 {
 ?>
-	| <a class="s4" href="read_msg.php" target=_blank>查看消息</a>
+	| <a class="s4" href="msg_read.php" target=_blank>查看消息</a>
 <?php
 }
 if ($_SESSION["BBS_uid"]>0)

@@ -360,7 +360,7 @@ window.addEventListener("load", () => {
 		if ($_SESSION["BBS_priv"]->checkpriv(0, S_MSG) && $_SESSION["BBS_uid"] != $article["uid"])
 		{
 ?>
-					<img src="images/mail.gif" width="16" height="16"><a class="s4" href="read_msg.php?sent=1&uid=<?= $article["uid"]; ?>" target=_blank title="给作者发消息">消息</a>
+					<img src="images/mail.gif" width="16" height="16"><a class="s4" href="msg_read.php?sent=1&uid=<?= $article["uid"]; ?>" target=_blank title="给作者发消息">消息</a>
 <?php
 		}
 		if ($article["visible"])
