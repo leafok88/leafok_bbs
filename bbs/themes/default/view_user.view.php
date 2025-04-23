@@ -30,7 +30,7 @@ function transfer_score(f)
 		return false;
 	}
 
-	instance.post('transfer_score_sub.php', {
+	instance.post('user_service_transfer_score.php', {
 		uid: <?= $result_set["data"]["uid"]; ?>,
 		amount: f.amount.value,
 	})
