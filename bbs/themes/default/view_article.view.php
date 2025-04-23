@@ -279,7 +279,7 @@ window.addEventListener("load", () => {
 			<tr>
 				<td width="50%">
 					<a class="s2" href="main.php?sid=<?= $result_set["data"]["sid"]; ?>"><?= $BBS_name; ?></a>&gt;&gt;<a class="s2" href="list.php?sid=<?= $result_set["data"]["sid"]; ?>"><?= $result_set["data"]["section_title"]; ?></a>&gt;&gt;<a class="s2" href="list.php?sid=<?= $result_set["data"]["sid"]; ?>&ex=<?= ($result_set["data"]["ex"]); ?>"><?= ($result_set["data"]["ex"] ? "文摘区" : "讨论区"); ?></a>
-					<a class="s2" href="post.php?reply_id=<?= $result_set["data"]["id"]; ?>&quote=0" title="直接回复该文章">[快速回复]</a>
+					<a class="s2" href="article_post.php?reply_id=<?= $result_set["data"]["id"]; ?>&quote=0" title="直接回复该文章">[快速回复]</a>
 <?php
 	if ($previous_id > 0)
 	{
@@ -368,7 +368,7 @@ window.addEventListener("load", () => {
 			if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST) && $_SESSION["BBS_uid"] == $article["uid"] && (!$article["excerption"]))
 			{
 ?>
-					<a class="s4" href="post.php?id=<?= $article["aid"]; ?>" title="修改该文章">修改</a>
+					<a class="s4" href="article_post.php?id=<?= $article["aid"]; ?>" title="修改该文章">修改</a>
 <?php
 			}
 			if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST) &&
@@ -381,7 +381,7 @@ window.addEventListener("load", () => {
 			if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST))
 			{
 ?>
-					<img src="images/edit.gif" width="16" height="16"><a class="s4" href="post.php?reply_id=<?= $article["aid"]; ?>" title="引用回复该文章">回复</a>
+					<img src="images/edit.gif" width="16" height="16"><a class="s4" href="article_post.php?reply_id=<?= $article["aid"]; ?>" title="引用回复该文章">回复</a>
 <?php
 			}
 			if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST | S_MAN_S))

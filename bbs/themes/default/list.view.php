@@ -213,7 +213,7 @@ window.addEventListener("load", () => {
 	if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST))
 	{
 ?>
-			<a class="s4" href="post.php?sid=<?= $result_set["data"]["sid"]; ?>" title="发表新文章">发帖</a>&nbsp;
+			<a class="s4" href="article_post.php?sid=<?= $result_set["data"]["sid"]; ?>" title="发表新文章">发帖</a>&nbsp;
 <?php
 	}
 ?>
