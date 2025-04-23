@@ -48,7 +48,7 @@ function refresh_textarea(updateFieldMap)
 
 function section_setting(f)
 {
-	instance.post('section_setting_service.php', {
+	instance.post('section_service_setting.php', {
 		sid: <?= $result_set["data"]["sid"]; ?>,
 		sname: f.sname.value,
 		title: f.title.value,
