@@ -1,4 +1,4 @@
-<?
+<?php
 function check_badwords(string $str_check, string $bw_replace = "") : string | null
 {
 	$badwords_dict = "../conf/badwords_strict.conf";
