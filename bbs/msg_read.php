@@ -186,7 +186,7 @@
 	unset($unread_mid_list);
 
 	// Output with theme view
-	$theme_view_file = get_theme_file("view/read_msg", $_SESSION["BBS_theme_name"]);
+	$theme_view_file = get_theme_file("view/msg_read", $_SESSION["BBS_theme_name"]);
 	if ($theme_view_file == null)
 	{
 		exit(json_encode($result_set)); // Output data in Json
