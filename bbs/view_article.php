@@ -2,7 +2,7 @@
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/ip_mask.inc.php";
 	require_once "../bbs/session_init.inc.php";
-	require_once "../bbs/photo_path.inc.php";
+	require_once "../bbs/user_photo_path.inc.php";
 	require_once "../bbs/section_list_dst.inc.php";
 	require_once "../bbs/theme.inc.php";
 

@@ -5,7 +5,7 @@
 	require_once "./section_list.inc.php";
 	require_once "./session_init.inc.php";
 	require_once "./user_level.inc.php";
-	require_once "./photo_path.inc.php";
+	require_once "./user_photo_path.inc.php";
 	require_once "./theme.inc.php";
 
 	force_login();
