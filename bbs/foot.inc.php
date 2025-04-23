@@ -10,7 +10,7 @@ else
 {
 ?>
 	| <a class="s4" href="user_reg.php">用户注册</a>
-	| <a class="s4" href="reset_pass.php">密码重置</a>
+	| <a class="s4" href="user_reset_pass.php">密码重置</a>
 <?php
 }
 ?>

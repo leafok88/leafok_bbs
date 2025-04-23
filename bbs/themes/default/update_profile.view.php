@@ -102,7 +102,7 @@ window.addEventListener("load", () => {
 						密码
 					</td>
 					<td width="75%">
-						密码修改请<a href="reset_pass.php" target=_blank>点击此处</a>通过邮箱重置。
+						密码修改请<a href="user_reset_pass.php" target=_blank>点击此处</a>通过邮箱重置。
 					</td>
 				</tr>
 				<tr>
