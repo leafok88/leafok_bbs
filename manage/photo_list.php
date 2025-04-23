@@ -89,7 +89,7 @@
 				<a href="photo_process.php?enable=0&p_id=<?= $user_photo["uid"]; ?>" onclick="return window.confirm('真的要拒绝吗？');">拒绝</a>
 			</td>
 		</tr>
-<? 
+<?php
 	}
 ?>
 	</table>

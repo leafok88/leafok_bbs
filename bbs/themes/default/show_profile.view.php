@@ -332,7 +332,7 @@ window.addEventListener("load", () => {
 				</td>
 				<td>
 					<span style="color:orange; ">
-						<?   echo user_level($result_set["data"]["exp"]); ?>
+						<?= user_level($result_set["data"]["exp"]); ?>
 					</span>
 				</td>
 			</tr>

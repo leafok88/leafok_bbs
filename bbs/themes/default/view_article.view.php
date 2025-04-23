@@ -439,7 +439,7 @@ window.addEventListener("load", () => {
 					<span id="title_<?= $article["aid"]; ?>" class="<?= ($article["visible"] ? "title_normal" : "title_deleted"); ?>">
 						<?= split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?>
 					</span>
-					<? if ($article["transship"]) { ?><font color="red">[转载]</font><? } ?>
+					<?php if ($article["transship"]) { ?><font color="red">[转载]</font><?php } ?>
 				</td>
 				<td width="5%">
 				</td>

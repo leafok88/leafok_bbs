@@ -151,7 +151,7 @@ const instance = axios.create({
 					处理
 				</td>
 			</tr>
-<? 
+<?php
 	while ($row = mysqli_fetch_array($rs))
 	{
 		$upload_limit -= $row["size"];
@@ -169,7 +169,7 @@ const instance = axios.create({
 					<span id="err_msg_attachment_<?= $row["AID"]; ?>" name="err_msg" style="color: red;"></span>
 				</td>
 			</tr>
-<? 
+<?php
 	}
 	mysqli_free_result($rs);
 

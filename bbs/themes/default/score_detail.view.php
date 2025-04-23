@@ -58,7 +58,7 @@
 				<?= $transaction["reason"]; ?>
 			</td>
 		</tr>
-<? 
+<?php
 	}
 ?>
 	</table>

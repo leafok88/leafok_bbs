@@ -95,7 +95,7 @@
 			<table cols="3" border="0" cellpadding="5" cellspacing="0" width="1050">
 				<tr>
 					<td colspan="3" align="center" style="font-size: 18px;">
-						---====== ※<?= $section_title; ?>※ [<? if ($dir == ""){ echo "更新时间：" . date("Y年m月d日"); } else { echo $dir_name; }?>] ======---
+						---====== ※<?= $section_title; ?>※ [<?php if ($dir == ""){ echo "更新时间：" . date("Y年m月d日"); } else { echo $dir_name; }?>] ======---
 					</td>
 				</tr>
 				<tr height="10">

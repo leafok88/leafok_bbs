@@ -76,7 +76,7 @@
 					<td>
 					</td>
 					<td class="body">
-						<span style="color:#606060; ">标题：</span>&nbsp;<span style="color: #909090; "><?= split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></span><? if ($article["transship"]) { ?><font color="red">[转载]</font><? } ?>
+						<span style="color:#606060; ">标题：</span>&nbsp;<span style="color: #909090; "><?= split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />"); ?></span><?php if ($article["transship"]) { ?><font color="red">[转载]</font><?php } ?>
 					</td>
 					<td>
 					</td>

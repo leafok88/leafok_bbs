@@ -208,7 +208,7 @@ const instance = axios.create({
 					共<?= ($result_set["data"]["sent"] ? "发送" : "有"); ?><span style="color:red;"><?= $result_set["data"]["msg_count"]; ?></span>条消息
 				</td>
 			</tr>
-<? 
+<?php
 $color[0]="#faf5f5";
 $color[1]="#f0f0f0";
 $count=0;

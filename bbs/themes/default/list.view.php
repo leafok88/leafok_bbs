@@ -188,7 +188,7 @@ window.addEventListener("load", () => {
 	{
 ?>
 			<img src="images/<?= ($master["major"] ? "master_major.gif" : "master_minor.gif"); ?>" width="12" height="11" alt="<?= ($master["major"] ? "正版主" : "副版主"); ?>"><a class="s3" href="show_profile.php?uid=<?= $master['uid']; ?>" target=_blank title="查看版主资料"><?= $master["username"]; ?></a>&nbsp;&nbsp;
-<? 
+<?php
 	} 
 ?>
 		</td>

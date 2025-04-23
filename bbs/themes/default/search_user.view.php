@@ -215,8 +215,8 @@ function ch_rpp()
 					</td>
 					<td width="50%">
 						<select name="type">
-							<option value="0" <? if ($result_set["data"]["type"] == 0) echo "selected"; ?> >按用户名</option>
-							<option value="1" <? if ($result_set["data"]["type"] == 1) echo "selected"; ?> >按昵称</option>
+							<option value="0" <?php if ($result_set["data"]["type"] == 0) echo "selected"; ?> >按用户名</option>
+							<option value="1" <?php if ($result_set["data"]["type"] == 1) echo "selected"; ?> >按昵称</option>
 						</select>
 						<input type="text" id="search_text" name="search_text" size="15" value="<?= $result_set["data"]["search_text"];?>">
 						<input type="checkbox" id="online" name="online" value="1" <?= ($result_set["data"]["online"] ? "checked" : "");?>><font color=#909090>在线</font>

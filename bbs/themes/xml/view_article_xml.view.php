@@ -33,7 +33,7 @@
 			<credit><?= $article["exp"]; ?></credit>
 			<photo><?= $article["photo_path"]; ?></photo>
 			<ArticleId><?= $article["aid"]; ?></ArticleId>
-			<ArticleTitle><?= htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'); ?><? if ($article["transship"]) { ?> [转载]<? } ?></ArticleTitle>
+			<ArticleTitle><?= htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'); ?><?php if ($article["transship"]) { ?> [转载]<?php } ?></ArticleTitle>
 			<ExpressionIcon><?= $article["icon"]; ?></ExpressionIcon>
 			<PostDateTime><?= $article["sub_dt"]->format("Y-m-d H:i:s (\U\T\C P)"); ?></PostDateTime>
 			<PostIP><?= $article["sub_ip"]; ?></PostIP>

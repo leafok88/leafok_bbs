@@ -272,7 +272,7 @@ else if ($quote)
 ?><input type="radio" name="emoji" value="<?= $i; ?>" <?= ($i == $result_set["data"]["emoji"] ? "checked" : ""); ?>><img src="images/expression/<?= $i; ?>.gif" width="15" height="15" alt="<?= $i; ?>.gif"><?php
 		if (($i % 12)==0)
 		{
-?><br><? 
+?><br><?php
 		}
 	}
 ?></td>
