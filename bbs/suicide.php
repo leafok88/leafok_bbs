@@ -1,6 +1,5 @@
-<?
+<?php
 	require_once "./session_init.inc.php";
-	require_once "./common_lib.inc.php";
 	require_once "./theme.inc.php";
 
 	force_login();

@@ -1,6 +1,6 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
-	require_once "./common_lib.inc.php";
+	require_once "./article_op.inc.php";
 	require_once "./session_init.inc.php";
 
 	$data = json_decode(file_get_contents("php://input"), true);

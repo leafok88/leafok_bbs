@@ -1,4 +1,4 @@
-<?
+<?php
 //Log article operation into table bbs_article_log
 function article_op_log(int $aid, int $uid, string $op_type, string $ip_addr, mysqli $db_conn = null) : mysqli_result | bool
 {

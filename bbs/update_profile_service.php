@@ -1,11 +1,10 @@
-<?
+<?php
 	require_once "../lib/common.inc.php";
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib//score_change.inc.php";
 	require_once "../lib/send_mail.inc.php";
 	require_once "../lib/str_process.inc.php";
 	require_once "../lib/passwd.inc.php";
-	require_once "./common_lib.inc.php";
 	require_once "./session_init.inc.php";
 	require_once "./reg_check.inc.php";
 

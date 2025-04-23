@@ -1,7 +1,6 @@
-<?
+<?php
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/score_change.inc.php";
-	require_once "./common_lib.inc.php";
 	require_once "./session_init.inc.php";
 
 	force_login();

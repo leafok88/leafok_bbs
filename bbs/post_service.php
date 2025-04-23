@@ -1,9 +1,9 @@
-<?
+<?php
 	require_once "../lib/common.inc.php";
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/lml.inc.php";
 	require_once "../lib/str_process.inc.php";
-	require_once "./common_lib.inc.php";
+	require_once "./article_op.inc.php";
 	require_once "./session_init.inc.php";
 	require_once "./check_sub.inc.php";
 
