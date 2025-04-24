@@ -1,0 +1,17 @@
+{
+  "name": "leafok_bbs",
+  "version": "1.0.0",
+  "main": "",
+  "directories": {
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "js-polyfills": "^0.1.43"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "",
+  "description": ""
+}

@@ -9,8 +9,10 @@
 /gen_ex/attachment
 /gen_ex/index.html
 /images
+/node_modules
 /scripts
 /stat
 /www
 /index.php
+/package-lock.json
 /robots.txt
