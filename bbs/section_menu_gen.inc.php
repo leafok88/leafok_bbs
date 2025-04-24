@@ -15,10 +15,11 @@
 		if ($buffer == false)
 		{
 			ob_start();
-?>
-	<tr>
-		<td align="center">
-<?php
+
+			echo <<<HTML
+				<tr>
+					<td align="center">
+			HTML;
 			// Load section list
 			$section_hierachy = array();
 		
@@ -40,28 +41,32 @@
 
 			foreach ($section_hierachy as $c_index => $section_class)
 			{
-?>
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<a class="s5" href="#" onclick="return ch_cid(<?= $section_class['cid']; ?>);"><?= $section_class["title"]; ?></a>
-		</td>
-	</tr>
-	<tr>
-		<td id="class_<?= $section_class['cid']; ?>" align="center" style="display:none;">
-<?php
+				echo <<<HTML
+					</td>
+				</tr>
+				<tr>
+					<td align="center">
+						<a class="s5" href="#" onclick="return ch_cid({$section_class['cid']});">{$section_class["title"]}</a>
+					</td>
+				</tr>
+				<tr>
+					<td id="class_{$section_class['cid']}" align="center" style="display:none;">
+				HTML;
+
 				foreach ($section_class["sections"] as $s_index => $section)
 				{
-?>
-			<a class="s6" href="list.php?sid=<?= $section['sid']; ?>" title="<?= htmlspecialchars(LML($section['comment'], false), ENT_QUOTES | ENT_HTML401, 'UTF-8'); ?>"><?= $section['title']; ?></a><br />
-<?php
+					$comment_f = htmlspecialchars(LML($section['comment'], false), ENT_QUOTES | ENT_HTML401, 'UTF-8');
+					echo <<<HTML
+						<a class="s6" href="list.php?sid={$section['sid']}" title="{$comment_f}">{$section['title']}</a><br />
+					HTML;
 				}
 			}
-?>
-		</td>
-	</tr>
-<?php
+
+			echo <<<HTML
+					</td>
+				</tr>
+			HTML;
+
 			unset($section_hierachy);
 
 			$buffer = ob_get_clean();

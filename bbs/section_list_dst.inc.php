@@ -26,27 +26,29 @@
 		if ($ret == false)
 		{
 			echo mysqli_error($db_conn);
-?>
-			<option value="0">---数据查询错误---</option>
-<?php
+
+			echo <<<HTML
+				<option value="0">---数据查询错误---</option>
+			HTML;
 		}
 		else
 		{
-?>
-			<option value="0">-----选择版块-----</option>
-<?php
+			echo <<<HTML
+				<option value="0">-----选择版块-----</option>
+			HTML;
 		}
 		
 		foreach ($section_hierachy as $c_index => $section_class)
 		{
-?>
-			<option value="0">==<?= $section_class["title"]; ?>==</option>
-<?php
+			echo <<<HTML
+				<option value="0">=={$section_class["title"]}==</option>
+			HTML;
+
 			foreach ($section_class["sections"] as $s_index => $section)
 			{
-?>
-			<option value="<?= $section["sid"]; ?>">&nbsp;&nbsp;├<?= $section["title"]; ?></option>
-<?php
+				echo <<<HTML
+				<option value="{$section["sid"]}">&nbsp;&nbsp;├{$section["title"]}</option>
+				HTML;
 			}
 		}
 
