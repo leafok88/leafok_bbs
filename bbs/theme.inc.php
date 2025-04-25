@@ -14,7 +14,7 @@ if (!defined("_BBS_THEME_INIT_"))
 			"view/search_user" => "search_user.view.php",
 			"view/user_center_header" => "user_center_header.view.php",
 			"view/update_profile" => "update_profile.view.php",
-			"view/preference" => "preference.view.php",
+			"view/update_pref" => "update_pref.view.php",
 			"view/user_section_favor" => "user_section_favor.view.php",
 			"view/section_setting" => "section_setting.view.php",
 			"view/view_user" => "view_user.view.php",

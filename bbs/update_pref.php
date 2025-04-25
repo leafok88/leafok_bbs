@@ -51,7 +51,7 @@
 	mysqli_close($db_conn);
 
 	// Output with theme view
-	$theme_view_file = get_theme_file("view/preference", $_SESSION["BBS_theme_name"]);
+	$theme_view_file = get_theme_file("view/update_pref", $_SESSION["BBS_theme_name"]);
 	if ($theme_view_file == null)
 	{
 		exit(json_encode($result_set)); // Output data in Json
