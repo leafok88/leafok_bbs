@@ -13,7 +13,7 @@
 </head>
 <body>
 <?php
-	include get_theme_file("view/member_service_guide");
+	include get_theme_file("view/user_center_header");
 ?>
 <center>
 	<p style="FONT-WEIGHT: bold; FONT-SIZE: 16px; COLOR: red; FONT-FAMILY: 楷体">

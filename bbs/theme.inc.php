@@ -12,7 +12,7 @@ if (!defined("_BBS_THEME_INIT_"))
 			"view/view_article" => "view_article.view.php",
 			"view/search_article" => "search_article.view.php",
 			"view/search_user" => "search_user.view.php",
-			"view/member_service_guide" => "member_service_guide.view.php",
+			"view/user_center_header" => "user_center_header.view.php",
 			"view/update_profile" => "update_profile.view.php",
 			"view/preference" => "preference.view.php",
 			"view/user_section_favor" => "user_section_favor.view.php",
