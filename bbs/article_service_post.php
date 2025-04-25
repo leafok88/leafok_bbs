@@ -341,7 +341,7 @@
 	
 		if($row = mysqli_fetch_array($rs))
 		{
-			$nickname = mysqli_escape_string($db_conn, $row["nickname"]); // Nickname may include special characters
+			$nickname = $row["nickname"];
 			$exp = $row["exp"];
 		}
 		mysqli_free_result($rs);
@@ -624,7 +624,8 @@
 			$sql = "UPDATE bbs SET reply_count = reply_count + 1,
 					last_reply_dt = NOW(), last_reply_UID=" . $_SESSION["BBS_uid"] .
 					", last_reply_username = '" . $_SESSION["BBS_username"] .
-					"', last_reply_nickname = '$nickname' WHERE Aid = $tid";
+					"', last_reply_nickname = '" . mysqli_real_escape_string($db_conn, $nickname) .
+					"' WHERE Aid = $tid";
 
 			$rs = mysqli_query($db_conn, $sql);
 			if ($rs == false)
