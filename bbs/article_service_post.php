@@ -341,7 +341,7 @@
 	
 		if($row = mysqli_fetch_array($rs))
 		{
-			$nickname = $row["nickname"];
+			$nickname = mysqli_escape_string($db_conn, $row["nickname"]); // Nickname may include special characters
 			$exp = $row["exp"];
 		}
 		mysqli_free_result($rs);
