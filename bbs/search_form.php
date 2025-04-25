@@ -134,7 +134,9 @@ window.addEventListener("load", () => {
 		<tr>
 			<td>
 			</td>
-			<td colspan="2" align="center">
+			<td>
+			</td>
+			<td colspan="2">
 				<input type="radio" name="ex" id="ex" value="0" checked>讨论区
 				<input type="radio" name="ex" id="ex" value="1">文摘区
 				<input type="radio" name="ex" id="ex" value="2">精华区
@@ -148,8 +150,9 @@ window.addEventListener("load", () => {
 <?php
 	}
 ?>
-			</td>
-			<td>
+				<br />
+				<input type="radio" name="use_nick" id="use_nick" value="1" checked>显示昵称
+				<input type="radio" name="use_nick" id="use_nick" value="0">显示用户名
 			</td>
 		</tr>
 		<tr>

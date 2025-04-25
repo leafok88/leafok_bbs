@@ -31,6 +31,7 @@
 	$sid = (isset($_GET["sid"]) ? intval($_GET["sid"]) : 0);
 	$ex = (isset($_GET["ex"]) ? intval($_GET["ex"]) : 0);
 	$reply = (isset($_GET["reply"]) && $_GET["reply"] == "1" ? 1 : 0);
+	$use_nick = (isset($_GET["use_nick"]) && $_GET["use_nick"] == "1" ? 1 : 0);
 	$original = (isset($_GET["original"]) && $_GET["original"] == "1" ? 1 : 0);
 	$trash = (isset($_GET["trash"]) && $_GET["trash"] == "1" ? 1 : 0);
 	$page = (isset($_GET["page"]) ? intval($_GET["page"]) : 1);
@@ -164,6 +165,7 @@
 		"sid" => $sid,
 		"ex" => $ex,
 		"reply" => $reply,
+		"use_nick" => $use_nick,
 		"original" => $original,
 		"username" => $username,
 		"nickname" => $nickname,
@@ -333,6 +335,7 @@
 	unset($sid);
 	unset($ex);
 	unset($reply);
+	unset($use_nick);
 	unset($original);
 	unset($username);
 	unset($nickname);
