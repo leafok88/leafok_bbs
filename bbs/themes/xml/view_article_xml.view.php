@@ -39,6 +39,7 @@
 			<PostIP><?= $article["sub_ip"]; ?></PostIP>
 			<Content><![CDATA[<?= LML($article["content"], true, false, 1024); ?>]]></Content>
 			<Length><?= $article["length"]; ?></Length>
+			<Visible><?= $article["visible"]; ?></Visible>
 		</Article>
 <?php
 	}
