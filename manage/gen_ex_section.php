@@ -7,10 +7,7 @@
 			exit();
 		}
 
-		if (strrpos($_SERVER["argv"][0], "/") !== false)
-		{
-			chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));
-		}
+		chdir(dirname($_SERVER["argv"][0]));
 
 		$sid = intval($_SERVER["argv"][1]);
 	}

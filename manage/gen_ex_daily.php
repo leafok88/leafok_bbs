@@ -5,10 +5,7 @@
 		exit();
 	}
 
-	if (strrpos($_SERVER["argv"][0], "/") !== false)
-	{
-		chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));
-	}
+	chdir(dirname($_SERVER["argv"][0]));
 
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/common.inc.php";

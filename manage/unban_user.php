@@ -1,7 +1,7 @@
 <?php
-	if (isset($_SERVER["argv"]) && strrpos($_SERVER["argv"][0], "/") !== false)
+	if (isset($_SERVER["argv"]))
 	{
-		chdir(substr($_SERVER["argv"][0], 0, strrpos($_SERVER["argv"][0], "/")));
+		chdir(dirname($_SERVER["argv"][0]));
 	}
 
 	require_once "../lib/common.inc.php";
