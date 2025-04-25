@@ -1,8 +1,7 @@
 <?php
 	require_once "./session_init.inc.php";
 	require_once "../lib/vn_gif.inc.php";
-?>
-<?php
+
 	$msg_list = array(
 		0	=> "",
 		1	=> "你需要登录才能访问该页面",
