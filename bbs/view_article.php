@@ -38,6 +38,16 @@
 		}
 
 		$theme_name = (isset($_GET["tn"]) ? trim($_GET["tn"]) : $_SESSION["BBS_theme_name"]);
+
+		// Special themes
+		if ($theme_name == "portal")
+		{
+			$rpp = 1;
+		}
+		else if ($theme_name == "xml")
+		{
+			$rpp = PHP_INT_MAX;
+		}
 	}
 
 	$ip_mask_level = ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S) ? 1 : 2);
