@@ -44,7 +44,7 @@ TD.content_deleted
 }
 </STYLE>
 <!--头结束//-->
-	<table width="98%" border="0" cellspacing="0" cellpadding="0" align="center">
+	<table width="1050" border="0" cellspacing="0" cellpadding="0" align="center">
 		<tr>
 			<td width="100%" >
 				<!--
@@ -99,7 +99,7 @@ TD.content_deleted
 	<xsl:apply-templates select="Topic/Articles"/>
 	<!--文章结束//-->
 
-	<table width="98%" border="0" cellspacing="0" cellpadding="0" align="center">
+	<table width="1050" border="0" cellspacing="0" cellpadding="0" align="center">
 		<tr>
 			<td width="100%" >
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -129,7 +129,7 @@ TD.content_deleted
 		<xsl:element name="a">
 			<xsl:attribute name="Name"><xsl:value-of select="ArticleId"/></xsl:attribute>
 		</xsl:element>
-		<table width="98%" border="0" cellspacing="0" cellpadding="0" align="center" >
+		<table width="1050" border="0" cellspacing="0" cellpadding="0" align="center" >
 			<tr bgcolor="#0066CC" height="1">
 				<td width="2%"></td>
 				<td width="60%"></td>
