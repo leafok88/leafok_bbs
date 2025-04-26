@@ -373,7 +373,7 @@
 				<input type="hidden" id="ex" name="ex" value="{$result_set['data']['ex']}">
 				<input type="hidden" id="use_nick" name="use_nick" value="{$result_set['data']['use_nick']}">
 				<input type="hidden" id="sort" name="sort" value="{$result_set['data']['sort']}">
-				每页<select size="1" id="rpp" name="rpp" onchange="ch_rpp();">
+				每页<select size="1" id="rpp" name="rpp" onchange="ch_rpp()">
 				{$rpp_options}
 				</select>篇
 	HTML;
