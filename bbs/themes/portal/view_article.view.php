@@ -40,9 +40,9 @@ TD.content
 		<td width="20">&nbsp;</td>
 	</tr>
 	<tr>
-		<td colspan=4 height=1 bgcolor=gray></td>
+		<td colspan="4" height="1" bgcolor="gray"></td>
 	</tr>
-	<tr height=5>
+	<tr height="5">
 		<td>&nbsp;</td>
 	</tr>
 </table>
