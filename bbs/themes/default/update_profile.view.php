@@ -117,9 +117,9 @@ window.addEventListener("load", () => {
 <?php
 	foreach ($result_set["data"]["nicknames"] as $nickname)
 	{
-?>
-						<option value="<?= $nickname; ?>"><?= $nickname; ?></option>
-<?php
+		echo <<<HTML
+						<option value="{$nickname}">{$nickname}</option>
+		HTML;
 	}
 ?>
 						</select>
@@ -172,9 +172,11 @@ window.addEventListener("load", () => {
 	$year_selected = intval($birthday->format("Y"));
 	for ($year = $year_min; $year <= $year_max; $year++)
 	{
-?>
-							<option value="<?= $year; ?>" <?= ($year == $year_selected ? "selected" : ""); ?>><?= $year; ?></option>
-<?php
+		$option_year_selected = ($year == $year_selected ? "selected" : "");
+
+		echo <<<HTML
+							<option value="{$year}" {$option_year_selected}>{$year}</option>
+		HTML;
 	}
 ?>
 
@@ -184,9 +186,11 @@ window.addEventListener("load", () => {
 	$month_selected = intval($birthday->format("m"));
 	for ($month = 1; $month <= 12; $month++)
 	{
-?>
-							<option value="<?= $month; ?>" <?= ($month == $month_selected ? "selected" : ""); ?>><?= $month; ?></option>
-<?php
+		$option_month_selected = ($month == $month_selected ? "selected" : "");
+
+		echo <<<HTML
+							<option value="{$month}" {$option_month_selected}>{$month}</option>
+		HTML;
 	}
 ?>
 						</select>月
@@ -195,9 +199,11 @@ window.addEventListener("load", () => {
 	$day_selected = intval($birthday->format("d"));
 	for ($day = 1; $day <= 31; $day++)
 	{
-?>
-							<option value="<?= $day; ?>" <?= ($day == $day_selected ? "selected" : ""); ?>><?= $day; ?></option>
-<?php
+		$option_day_selected = ($day == $day_selected ? "selected" : "");
+		
+		echo <<<HTML
+							<option value="{$day}" {$option_day_selected}>{$day}</option>
+		HTML;
 	}
 ?>
 						</select>日

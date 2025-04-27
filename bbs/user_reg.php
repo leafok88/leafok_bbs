@@ -150,7 +150,8 @@ window.addEventListener("load", () => {
 						出生日期
 					</td>
 					<td>
-						<span id="err_msg_birthday" name="err_msg" style="color: red;"></span><select id="year" name="year" size="1">
+						<span id="err_msg_birthday" name="err_msg" style="color: red;"></span>
+						<select id="year" name="year" size="1">
 <?php
 	$year_current = intval(date("Y", time()));
 	$year_max = $year_current - 16; // Accept registrant of 16+ only
@@ -158,9 +159,11 @@ window.addEventListener("load", () => {
 	$year_selected = $year_current - 25;
 	for ($year = $year_min; $year <= $year_max; $year++)
 	{
-?>
-							<option value="<?= $year; ?>" <?= ($year == $year_selected ? "selected" : ""); ?>><?= $year; ?></option>
-<?php
+		$option_year_selected = ($year == $year_selected ? "selected" : "");
+
+		echo <<<HTML
+							<option value="{$year}" {$option_year_selected}>{$year}</option>
+		HTML;
 	}
 ?>
 
@@ -170,9 +173,11 @@ window.addEventListener("load", () => {
 	$month_selected = 1;
 	for ($month = 1; $month <= 12; $month++)
 	{
-?>
-							<option value="<?= $month; ?>" <?= ($month == $month_selected ? "selected" : ""); ?>><?= $month; ?></option>
-<?php
+		$option_month_selected = ($month == $month_selected ? "selected" : "");
+
+		echo <<<HTML
+							<option value="{$month}" {$option_month_selected}>{$month}</option>
+		HTML;
 	}
 ?>
 						</select>月
@@ -181,9 +186,11 @@ window.addEventListener("load", () => {
 	$day_selected = 1;
 	for ($day = 1; $day <= 31; $day++)
 	{
-?>
-							<option value="<?= $day; ?>" <?= ($day == $day_selected ? "selected" : ""); ?>><?= $day; ?></option>
-<?php
+		$option_day_selected = ($day == $day_selected ? "selected" : "");
+		
+		echo <<<HTML
+							<option value="{$day}" {$option_day_selected}>{$day}</option>
+		HTML;
 	}
 ?>
 						</select>日
@@ -200,10 +207,15 @@ window.addEventListener("load", () => {
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-					<span id="err_msg_agreement" name="err_msg" style="color: red;"></span><textarea rows="15" cols="130"><?php
+						<span id="err_msg_agreement" name="err_msg" style="color: red;"></span>
+<?php
 	$buffer = file_get_contents("./doc/license/" . (new DateTime($BBS_license_dt))->format("Ymd") . ".txt");
-	echo (LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, false, 1024));
-						?></textarea>
+	$license_f = (LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, false, 1024));
+
+	echo <<<HTML
+						<textarea rows="15" cols="130">{$license_f}</textarea>
+	HTML;
+?>
 						<p>
 							<input type="checkbox" id="agreement" name="agreement" value="1">
 							我已仔细阅读并完全同意以上《用户许可协议》
