@@ -167,7 +167,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 							$tag_result = "</a>";
 							break;
 						case "article":
-							$tag_result = "<a class=\"s7\" href=\"../bbs/view_article.php?tn=" .
+							$tag_result = "<a class=\"s7\" href=\"/bbs/view_article.php?tn=" .
 								(isset($BBS_theme_current) ? $BBS_theme_current : "") . "&trash=1&id=" . intval($tag_arg) . "#"  . intval($tag_arg) . "\" target=_blank>";
 							break;
 						case "/article":
