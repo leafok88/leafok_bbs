@@ -107,7 +107,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query sign error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -143,7 +143,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -167,7 +167,7 @@
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		if ($reply_id == 0) // Post new thread
 		{
 			$sql = "SELECT SID FROM section_config WHERE SID = $sid AND enable";
@@ -177,11 +177,11 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query section error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
-		
+
 			if (mysqli_num_rows($rs) == 0)
 			{
 				$result_set["return"]["code"] = -1;
@@ -189,7 +189,7 @@
 					"id" => "prompt",
 					"errMsg" => "版块不存在！",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -202,7 +202,7 @@
 					"id" => "prompt",
 					"errMsg" => "您无权发表文章！",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -214,7 +214,7 @@
 					"id" => "prompt",
 					"errMsg" => "本版连续发表主题数量达到上限",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -222,13 +222,13 @@
 		else // Reply article
 		{
 			$sql = "SELECT TID, SID, title, `lock` FROM bbs WHERE AID = $reply_id AND visible FOR UPDATE";
-			
+
 			$rs = mysqli_query($db_conn, $sql);
 			if ($rs == false)
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query article error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -247,10 +247,10 @@
 					"id" => "prompt",
 					"errMsg" => "回复的文章不存在！",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
-			} 
+			}
 			mysqli_free_result($rs);
 
 			if ($tid != 0) // Article to be replied is not the head of topic thread
@@ -262,11 +262,11 @@
 				{
 					$result_set["return"]["code"] = -2;
 					$result_set["return"]["message"] = "Query article error: " . mysqli_error($db_conn);
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
-	
+
 				if ($row = mysqli_fetch_array($rs))
 				{
 					$sid = $row["SID"]; // In case of inconsistent SID data
@@ -280,11 +280,11 @@
 						"id" => "prompt",
 						"errMsg" => "回复的主题不存在！",
 					));
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
-				mysqli_free_result($rs);				
+				mysqli_free_result($rs);
 			}
 			else
 			{
@@ -298,7 +298,7 @@
 					"id" => "prompt",
 					"errMsg" => "您无权发表文章！",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -310,7 +310,7 @@
 					"id" => "prompt",
 					"errMsg" => "该主题谢绝回复！",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -322,7 +322,7 @@
 					"id" => "prompt",
 					"errMsg" => "本版连续发表文章数量达到上限",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -334,11 +334,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query user pubinfo error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		if($row = mysqli_fetch_array($rs))
 		{
 			$nickname = $row["nickname"];
@@ -355,11 +355,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query article error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		if($row = mysqli_fetch_array($rs))
 		{
 			$tid = ($row["TID"] > 0 ? $row["TID"] : $id);
@@ -374,12 +374,12 @@
 				"id" => "prompt",
 				"errMsg" => "修改的文章不存在！",
 			));
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
 		mysqli_free_result($rs);
-		
+
 		if (!($_SESSION["BBS_priv"]->checkpriv($sid, S_POST) && $_SESSION["BBS_uid"] == $uid && (!$excerption)))
 		{
 			$result_set["return"]["code"] = -1;
@@ -387,10 +387,10 @@
 				"id" => "prompt",
 				"errMsg" => "您无权修改此文章！",
 			));
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
-		} 
+		}
 	}
 
 	// Get upload quota and used space
@@ -420,30 +420,30 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query upload limit error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$upload_limit = $row["upload_limit"];
 		}
 		mysqli_free_result($rs);
-	
+
 		$sql = "SELECT COUNT(size) AS upload_used FROM upload_file WHERE UID = " . $_SESSION["BBS_uid"] .
 				" AND deleted = 0";
-	
+
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query upload file error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$upload_used = $row["upload_used"];
@@ -461,7 +461,7 @@
 				"id" => "attachment",
 				"errMsg" => "上传文件错误",
 			));
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -478,7 +478,7 @@
 					"id" => "attachment",
 					"errMsg" => "文件大小超过限制",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -491,7 +491,7 @@
 					"id" => "attachment",
 					"errMsg" => "用户上传空间配额不足",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -516,11 +516,11 @@
 						"id" => "attachment",
 						"errMsg" => "不支持的文件扩展名",
 					));
-					
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 			}
-	
+
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			$mime_type = $finfo->file($_FILES['attachment']['tmp_name'][$i]);
 			$real_ext = array_search($mime_type, array(
@@ -533,7 +533,7 @@
 					'rar' => 'application/x-rar',
 					'zip' => 'application/zip',
 					), true);
-			
+
 			if ($real_ext === false)
 			{
 				$result_set["return"]["code"] = -1;
@@ -541,7 +541,7 @@
 					"id" => "attachment",
 					"errMsg" => "不支持的文件格式",
 				));
-				
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -562,11 +562,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Add upload file error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		$attachment_id = mysqli_insert_id($db_conn);
 		$atta_id_list .= ("," . $attachment_id);
 
@@ -575,7 +575,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Copy file error";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -590,7 +590,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Add content error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
@@ -612,7 +612,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Add article error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -632,7 +632,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Update replied article error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -646,7 +646,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Read reply info error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -658,7 +658,7 @@
 					"[article $aid]看看[/article]《" . $r_title . "》吧！\n";
 
 				$sql = "INSERT INTO bbs_msg(fromUID, toUID, content, send_dt, send_ip)
-						VALUES($BBS_sys_uid, " . $row["UID"] . ", '" . 
+						VALUES($BBS_sys_uid, " . $row["UID"] . ", '" .
 						mysqli_real_escape_string($db_conn, $msg_content) .
 						"', NOW(), '" . client_addr() . "')";
 
@@ -667,11 +667,11 @@
 				{
 					$result_set["return"]["code"] = -2;
 					$result_set["return"]["message"] = "Insert msg error: " . mysqli_error($db_conn);
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
-			} 
+			}
 
 			mysqli_free_result($rs);
 		}
@@ -688,7 +688,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Add exp error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -744,7 +744,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Add log error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}

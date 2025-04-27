@@ -45,7 +45,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -111,7 +111,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Delete ex_file error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
@@ -125,7 +125,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query ex_dir error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -139,7 +139,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Add ex_dir error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -148,7 +148,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "目录选择有误";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}

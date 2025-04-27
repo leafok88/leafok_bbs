@@ -41,7 +41,7 @@ else
 ?>
 			<font color="999999">&lt;&lt;首页&nbsp;上一页&nbsp;</font>
 <?php
-} 
+}
 
 if ($first + $pagen < $total_face)
 {
@@ -55,7 +55,7 @@ else
 ?>
 			<font color="999999">下一页&nbsp;尾页&gt;&gt;</font>
 <?php
-} 
+}
 ?>
 		</td>
 	</tr>
@@ -82,7 +82,7 @@ for ($n = $first; $n < $first + $pagen && $n <= $total_face; )
 ?>
 	</tr>
 <?php
-} 
+}
 ?>
 	<tr>
 		<td colspan="4" align="center">

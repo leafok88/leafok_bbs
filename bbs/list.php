@@ -179,7 +179,7 @@
 			"username" => $row["username"],
 			"major" => $row["major"],
 		));
-	} 
+	}
 	mysqli_free_result($rs);
 
 	// Query articles
@@ -218,7 +218,7 @@
 				array_push($visited_aid_list, $row["AID"]);
 			}
 		}
-		
+
 		mysqli_data_seek($rs, 0);
 
 		if ($aid_list != "-1")
@@ -230,16 +230,16 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query view_article_log error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
-		
+
 			while ($row_view = mysqli_fetch_array($rs_view))
 			{
 				array_push($visited_aid_list, $row_view["AID"]);
 			}
-		
+
 			mysqli_free_result($rs_view);
 		}
 	}

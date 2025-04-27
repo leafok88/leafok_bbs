@@ -37,7 +37,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -120,7 +120,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Set gen_ex error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -135,13 +135,13 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Delete ex_file error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
 		}
 	}
-	
+
 	//Change UID of attachments
 	$sql = "UPDATE upload_file SET UID = " . ($set ? 0 : $uid) .
 			" WHERE ref_AID = $id AND deleted = 0";
@@ -151,7 +151,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Set attachment status error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
@@ -165,7 +165,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Change exp error: " . mysqli_error($db_conn);
-		
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -177,7 +177,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Add log error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}

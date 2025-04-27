@@ -44,11 +44,11 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query section error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
-		
+
 			if ($row = mysqli_fetch_array($rs))
 			{
 				$section_title = $row["title"];
@@ -57,7 +57,7 @@
 			{
 				$result_set["return"]["code"] = -1;
 				$result_set["return"]["message"] = "版块不存在！";
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -67,7 +67,7 @@
 			{
 				$result_set["return"]["code"] = -1;
 				$result_set["return"]["message"] = "您无权发表文章！";
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -85,7 +85,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query article error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -105,7 +105,7 @@
 			{
 				$result_set["return"]["code"] = -1;
 				$result_set["return"]["message"] = "回复的文章不存在！";
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -120,11 +120,11 @@
 				{
 					$result_set["return"]["code"] = -2;
 					$result_set["return"]["message"] = "Query article error: " . mysqli_error($db_conn);
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
-	
+
 				if ($row = mysqli_fetch_array($rs))
 				{
 					$sid = $row["SID"]; // In case of inconsistent SID data
@@ -134,18 +134,18 @@
 				{
 					$result_set["return"]["code"] = -1;
 					$result_set["return"]["message"] = "回复的主题不存在！";
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
-				mysqli_free_result($rs);				
+				mysqli_free_result($rs);
 			}
 
 			if (!$_SESSION["BBS_priv"]->checkpriv($sid, S_POST))
 			{
 				$result_set["return"]["code"] = -1;
 				$result_set["return"]["message"] = "您无权发表文章！";
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -154,7 +154,7 @@
 			{
 				$result_set["return"]["code"] = -1;
 				$result_set["return"]["message"] = "该主题谢绝回复！";
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -173,7 +173,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query article error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -194,7 +194,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "修改的文章不存在！";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -204,7 +204,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "您无权修改此文章！";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -218,11 +218,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Read attachment error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-		
+
 		while ($row = mysqli_fetch_array($rs))
 		{
 			$attachments[$row["AID"]] = array(
@@ -270,7 +270,7 @@
 	unset($excerption);
 	unset($section_title);
 	unset($attachments);
-	
+
 	// Output with theme view
 	$theme_view_file = get_theme_file("view/post", $_SESSION["BBS_theme_name"]);
 	if ($theme_view_file == null)

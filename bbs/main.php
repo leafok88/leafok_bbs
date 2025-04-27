@@ -29,7 +29,7 @@
 	}
 
 	mysqli_free_result($rs);
-	
+
 	if ($_SESSION["BBS_uid"] > 0 && time() - $_SESSION["BBS_last_msg_check"] >= $BBS_check_msg_interval)
 	{
 		$_SESSION["BBS_new_msg"] = check_new_msg($_SESSION["BBS_uid"], $db_conn);

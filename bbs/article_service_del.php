@@ -36,7 +36,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -96,7 +96,7 @@
 		exit(json_encode($result_set));
 	}
 
-	if (!($_SESSION["BBS_priv"]->checkpriv($sid, S_POST) && 
+	if (!($_SESSION["BBS_priv"]->checkpriv($sid, S_POST) &&
 		($_SESSION["BBS_priv"]->checkpriv($sid, S_MAN_S) || $_SESSION["BBS_uid"] == $uid)))
 	{
 		$result_set["return"]["code"] = -1;
@@ -129,7 +129,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Change exp error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
@@ -146,7 +146,7 @@
 				VALUES($BBS_sys_uid, $uid, '" .
 				mysqli_real_escape_string($db_conn, $msg_content) .
 				"', NOW(), '" . client_addr() . "')";
-		
+
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
 		{
@@ -164,7 +164,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Add log error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}

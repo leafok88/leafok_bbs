@@ -37,7 +37,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -115,7 +115,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Add log error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}

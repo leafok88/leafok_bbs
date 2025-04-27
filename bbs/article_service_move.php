@@ -37,7 +37,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -123,7 +123,7 @@
 
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
-	} 
+	}
 
 	$sql = "UPDATE bbs SET old_SID = $sid, SID = $sid_set WHERE AID = $id OR TID = $id";
 
@@ -143,7 +143,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Change exp error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
@@ -153,7 +153,7 @@
 		"[/url]号文章，与所在版块主题不符，现已被移至“" . $section_title . "”版块。" .
 		"[align right]执行人：[user " . $_SESSION["BBS_uid"] . "]" .
 		$_SESSION["BBS_username"] . "[/user][/align]";
-	
+
 	$msg_content = mysqli_real_escape_string($db_conn, $msg_content);
 
 	$sql = "INSERT INTO bbs_msg(fromUID, toUID, content, send_dt, send_ip)
@@ -175,7 +175,7 @@
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Add log error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
