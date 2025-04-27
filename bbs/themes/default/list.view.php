@@ -27,7 +27,7 @@
 			default:
 				$file = "closed.gif";
 		}
-			
+
 		return($file);
 	}
 
@@ -163,7 +163,7 @@
 
 	function ch_sect(sid)
 	{
-		if (sid > 0) 
+		if (sid > 0)
 		{
 			document.change_page.sid.value = sid;
 			document.change_page.page.value = 1;
@@ -284,7 +284,7 @@
 				<font color="red">x</font>
 			HTML;
 		}
-		
+
 		$status_pic = pic_file($status);
 		$title = split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 50, 2, "<br />");
 		$user_viewable = (isset($result_set["data"]["author_list"][$article["uid"]]) ? "true" : "false");
@@ -426,7 +426,7 @@
 				</form>
 			</td>
 		</tr>
-	</table>  
+	</table>
 	</center>
 	HTML;
 
