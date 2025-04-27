@@ -418,7 +418,7 @@
 					<a class="s4" id="unset_ontop_{$article['aid']}" style="display: {$unset_ontop_display}" href="" onclick="return article_op('ontop', {$article['aid']}, 0)" title="取消置顶">取消置顶</a>
 				HTML;
 			}
-			if ($article["tid"] == 0 && $_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST) && 
+			if ($article["tid"] == 0 && $_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST) &&
 				($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_MAN_S) || $_SESSION["BBS_uid"] == $article["uid"]))
 			{
 				$set_lock_display = ($article["lock"] ? "none" : "inline");
@@ -453,7 +453,7 @@
 		$nickname = htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8');
 		$title_f = split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />");
 		$title_class = ($article["visible"] ? "title_normal" : "title_deleted");
-		$content_f = LML(htmlspecialchars((isset($article["content"]) ? $article["content"] : ""), ENT_HTML401, 'UTF-8'), true, true, 80);
+		$content_f = LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, true, 80);
 		$content_class = ($article["visible"] ? "content_normal" : "content_deleted");
 
 		$transship_info = "";
@@ -533,7 +533,7 @@
 					作者：&nbsp;<a class="s2" href="view_user.php?uid={$article['uid']}" onclick='return {$user_viewable}' target=_blank title="查看用户资料">{$username}</a>
 				</td>
 				<td width="75%" class="body">
-					<span style="color:#606060;">标题：</span>
+					<span style="color: #606060">标题：</span>
 					<img src="images/expression/{$article['icon']}.gif">
 					<span id="title_{$article['aid']}" class="{$title_class}">
 						{$title_f}
@@ -545,10 +545,10 @@
 			</tr>
 			<tr>
 				<td align="center">
-					昵称：&nbsp;<span style="color: #909090;">{$nickname}</span>
+					昵称：&nbsp;<span style="color: #909090">{$nickname}</span>
 				</td>
 				<td class="body">
-					<span style="color:#606060;">来自：</span>&nbsp;<span style="color: #909090; ">{$article["sub_ip"]}</span>
+					<span style="color: #606060">来自：</span>&nbsp;<span style="color: #909090">{$article["sub_ip"]}</span>
 				</td>
 				<td>
 				</td>
@@ -558,17 +558,17 @@
 					经验值：&nbsp;<span style="color:red;">{$article["exp"]}</span>
 				</td>
 				<td class="body">
-					<span style="color:#606060;">发贴时间：</span>&nbsp;<span style="color: #909090; ">{$article["sub_dt"]->format("Y年m月d日 H:i:s (\U\T\C P)")}</span>
+					<span style="color: #606060">发贴时间：</span>&nbsp;<span style="color: #909090">{$article["sub_dt"]->format("Y年m月d日 H:i:s (\U\T\C P)")}</span>
 				</td>
 				<td>
 				</td>
 			</tr>
 			<tr>
 				<td align="center">
-					等级：&nbsp;<span style="color: #909090;">{$level}</span>
+					等级：&nbsp;<span style="color: #909090">{$level}</span>
 				</td>
 				<td class="body">
-					<span style="color:#606060;">长度：</span>&nbsp;<span style="color: #909090; ">{$article["length"]}字</span>
+					<span style="color: #606060">长度：</span>&nbsp;<span style="color: #909090">{$article["length"]}字</span>
 				</td>
 				<td>
 				</td>
@@ -576,7 +576,7 @@
 			<tr height="2">
 				<td>
 				</td>
-				<td style="background-color: #909090;">
+				<td style="background-color: #909090">
 				</td>
 				<td>
 				</td>
@@ -594,7 +594,7 @@
 			<tr>
 				<td>
 				</td>
-				<td style="color:#000000; ">
+				<td style="color: #000000">
 					========== * * * * * ==========
 					<br />
 					{$atta_list}
