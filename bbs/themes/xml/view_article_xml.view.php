@@ -60,7 +60,7 @@
 				<Length>{$article["length"]}</Length>
 				<Visible>{$article["visible"]}</Visible>
 			</Article>
-			
+
 		HTML;
 	}
 
