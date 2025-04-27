@@ -567,6 +567,7 @@
 	unset($id);
 	unset($ex);
 	unset($trash);
+	unset($aid);
 	unset($tid);
 	unset($uid);
 	unset($sid);
