@@ -83,7 +83,7 @@
 
 	echo <<<HTML
 	<table width="1050" border="0" cellpadding="0" cellspacing="0">
-		<tr height=20 bgcolor=#F3F9FC> 
+		<tr height=20 bgcolor=#F3F9FC>
 			<td width="20">&nbsp;</td>
 			<td>{$BBS_name} &gt;&gt; {$title}</td>
 			<td width="200" align="right">本文已被浏览<font color=red>{$result_set["data"]["view_count"]}</font>次</td>
