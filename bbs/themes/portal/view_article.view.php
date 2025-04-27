@@ -53,12 +53,12 @@
 		}
 
 		$filename = $attachment["filename"];
-		$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
 
 		$atta_list .= <<<HTML
 			<img src="../www/images/dl.gif"><a class="s2" href="../bbs/dl_file.php?aid={$attachment['aid']}" target="_target">{$filename}</a> ({$attachment["size"]}字节)
 		HTML;
 
+		$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 		switch ($ext)
 		{
 			case "bmp":

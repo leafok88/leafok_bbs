@@ -135,7 +135,7 @@
 		foreach ($article["attachments"] as $attachment)
 		{
 			$filename = $attachment["filename"];
-			$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
+			$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
 			if (!copy("../bbs/upload/" . $attachment["aid"], "../gen_ex/attachment/" . $attachment["aid"] . ".$ext"))
 			{

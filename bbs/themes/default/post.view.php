@@ -247,7 +247,6 @@ else if ($quote)
 		foreach ($result_set["data"]["attachments"] as $aid => $attachment)
 		{
 			$filename = $attachment["filename"];
-			$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
 ?>
 			<span id="attachment_<?= $aid; ?>"><img src="images/closed.gif"><a class="s2" href="dl_file.php?aid=<?= $aid; ?>" target="_target"><?= $filename; ?></a> (<?= $attachment["size"]; ?>字节)
 <?php

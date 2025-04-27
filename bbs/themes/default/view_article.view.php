@@ -470,7 +470,6 @@
 		foreach ($article["attachments"] as $attachment)
 		{
 			$filename = $attachment["filename"];
-			$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
 
 			$atta_list .= <<<HTML
 				<span id="attachment_{$attachment['aid']}"><img src="images/closed.gif"><a class="s2" href="dl_file.php?aid={$attachment['aid']}" target="_target">{$filename}</a> ({$attachment["size"]}字节)
@@ -494,6 +493,7 @@
 
 			if ($attachment["check"])
 			{
+				$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 				switch ($ext)
 				{
 					case "bmp":

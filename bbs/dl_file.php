@@ -28,7 +28,6 @@
 		$size = $row["size"];
 		$check = $row["check"];
 		$url = "./upload/$aid";
-		$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
 	}
 	else
 	{

@@ -133,7 +133,7 @@
 			exit(json_encode($result_set));
 		}
 
-		$ext = strtolower(substr($filename, (strrpos($filename, ".") ? strrpos($filename, ".") + 1 : 0)));
+		$ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 		switch ($ext)
 		{
 			case "bmp":
