@@ -13,7 +13,7 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 	define("S_ADMIN", 0xe0);	//(0x80 | 0x40 | 0x20)
 	define("S_ALL", 0xff);
 	define("S_DEFAULT", 0x3);	//0x1 | 0x2
-	
+
 	define("P_GUEST", 0x0);	//游客
 	define("P_USER", 0x1);	//普通用户
 //	define("P_AUTH_USER", 0x2);	// Reserved
@@ -40,7 +40,7 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 		var $level;
 		var $g_priv;
 		var $s_priv_list;
-		
+
 		function __construct($uid = 0, $db_conn = NULL)
 		{
 			$this->loadpriv($uid, $db_conn);
@@ -50,7 +50,7 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 		{
 			return (($this->level & $level) ? true : false);
 		}
-		
+
 		function setpriv($sid, $priv)
 		{
 			if ($sid > 0)
@@ -62,7 +62,7 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 				$this->g_priv = $priv;
 			}
 		}
-		
+
 		function getpriv($sid = 0) : int
 		{
 			if (isset($this->s_priv_list[$sid]))
@@ -72,12 +72,12 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 
 			return ($sid >= 0 ? $this->g_priv : S_NONE);
 		}
-		
+
 		function checkpriv($sid, $priv) : bool
 		{
 			return (($this->getpriv($sid) & $priv) == $priv);
 		}
-		
+
 		function loadpriv($uid = 0, $db_conn = NULL) : int
 		{
 			$this->uid = $uid;
@@ -114,14 +114,14 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 				echo ("Query admin info error: " . mysqli_error($db_conn));
 				return 2;
 			}
-			
+
 			if ($row = mysqli_fetch_array($rs))
 			{
 				$this->level |= ($row["major"] ? P_ADMIN_M : P_ADMIN_S);
 				$this->g_priv |= ($row["major"] ? S_ALL : S_ADMIN);
 			}
 			mysqli_free_result($rs);
-	
+
 			//Section Master
 			$sql = "SELECT section_master.SID, major FROM section_master
 					INNER JOIN section_config ON section_master.SID = section_config.SID

@@ -17,7 +17,7 @@
 		mysqli_close($db_conn);
 		exit();
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -87,10 +87,10 @@
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		$sql = "UPDATE user_pubinfo SET login_notify_dt = NOW()
 				WHERE UID = " . $row["UID"];
-		
+
 		$rs_update = mysqli_query($db_conn, $sql);
 		if ($rs_update == false)
 		{

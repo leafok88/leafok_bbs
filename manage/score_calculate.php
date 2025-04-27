@@ -44,7 +44,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -79,7 +79,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query score error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -96,7 +96,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Update score error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -113,14 +113,14 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Insert score error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
 		}
 
 		mysqli_free_result($rs_score);
-		
+
 		$score_change = intdiv($exp_left, $BBS_exp_score_rate);
 		$exp_left %= $BBS_exp_score_rate;
 

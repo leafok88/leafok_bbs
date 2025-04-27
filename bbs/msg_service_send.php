@@ -37,7 +37,7 @@
 
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
-	} 
+	}
 
 	$r_content = check_badwords(split_line($content, "", 256, 10), "****");
 	if ($content != $r_content)

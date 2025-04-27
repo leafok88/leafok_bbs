@@ -22,7 +22,7 @@
 			HTML;
 			// Load section list
 			$section_hierachy = array();
-		
+
 			$ret = load_section_list($section_hierachy,
 				function (array $section, array $filter_param) : bool
 				{

@@ -37,12 +37,12 @@ function photo_path(int $uid, mysqli $db_conn) : string | false
 			{
 				$path = "images/face/upload_photo/face_" . $uid . "." . $row["photo_ext"];
 			}
-		} 
+		}
 		else
 		{
 			$path = "images/face/check.gif";
 		}
-	} 
+	}
 
 	return $path;
 }

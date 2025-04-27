@@ -12,13 +12,13 @@
 			echo("Query message error: " . mysqli_error($db_conn));
 			return -1;
 		}
-		
+
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$new_msg = $row["msg_count"];
 		}
 
-		mysqli_free_result($rs);		
+		mysqli_free_result($rs);
 
 		return $new_msg;
 	}

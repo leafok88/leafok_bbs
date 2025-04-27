@@ -55,7 +55,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -87,7 +87,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "没有改变";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}

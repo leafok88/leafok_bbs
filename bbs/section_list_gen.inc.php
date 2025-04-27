@@ -16,14 +16,14 @@
 		if ($buffer == false)
 		{
 			ob_start();
-			
+
 			$s_favor = new section_favorite($_SESSION["BBS_uid"], $db_conn);
 
 			if ($_SESSION["BBS_uid"] > 0)
 			{
 				// Load favorite section list
 				$section_hierachy = array();
-			
+
 				$ret = load_section_list($section_hierachy,
 					function (array $section, array $filter_param) : bool
 					{
@@ -72,7 +72,7 @@
 
 			// Load non-favorite section list
 			$section_hierachy = array();
-		
+
 			$ret = load_section_list($section_hierachy,
 				function (array $section, array $filter_param) : bool
 				{

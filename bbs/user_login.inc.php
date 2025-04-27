@@ -40,7 +40,7 @@ function load_user_info($uid, $db_conn)
 	if ((new DateTimeImmutable($last_login_dt)) < (new DateTimeImmutable($BBS_license_dt)))
 	{
 		return (-2); //require update agreement first
-	} 
+	}
 
 	return 0;
 }

@@ -120,7 +120,7 @@
 		));
 	}
 	mysqli_free_result($rs);
-			
+
 	// Load section list
 	$ret = load_section_list($result_set["data"]["section_hierachy"],
 		function (array $section, array $filter_param) : bool

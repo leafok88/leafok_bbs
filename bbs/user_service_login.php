@@ -96,7 +96,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -118,7 +118,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query login log error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -144,7 +144,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query login log error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -208,7 +208,7 @@
 				{
 					$result_set["return"]["code"] = -2;
 					$result_set["return"]["message"] = "Update user life error: " . mysqli_error($db_conn);
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
@@ -225,7 +225,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Update password error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -238,7 +238,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Upgrade password error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -269,13 +269,13 @@
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-		
+
 		// Forbidden user
 		if (!$row["p_login"])
 		{
 			$result_set["return"]["code"] = 3;
 			$result_set["return"]["message"] = "您已被封禁全站登陆权限！";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -291,7 +291,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Write log error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -326,7 +326,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	//Load User Information
 	$ret = load_user_info($uid, $db_conn);
 	switch($ret)
@@ -334,17 +334,17 @@
 		case -1:
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "User data not found: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		case -2:
 			if (!$agreement)
 			{
 				$buffer = file_get_contents("./doc/license/" . (new DateTime($BBS_license_dt))->format("Ymd") . ".txt");
-		
+
 				$result_set["return"]["code"] = 4;
 				$result_set["return"]["message"] = LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, false, 1024);
-			
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -352,7 +352,7 @@
 		case -3:
 			$result_set["return"]["code"] = 3;
 			$result_set["return"]["message"] = "很遗憾，您已经永远离开了我们的世界……";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 	}

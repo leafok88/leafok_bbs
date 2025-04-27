@@ -148,7 +148,7 @@
 			"new" => $row["new"],
 			"nickname" => $row["nickname"],
 		));
-		
+
 		if (!$sent && $row["new"])
 		{
 			$unread_mid_list .= (", " . $row["MID"]);
@@ -166,7 +166,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Update message error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}

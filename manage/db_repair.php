@@ -15,7 +15,7 @@
 	{
 		echo ("没有权限！");
 		exit();
-	} 
+	}
 ?>
 <html>
 <head>
@@ -98,7 +98,7 @@
 	{
 		$content_f = LML($row["content"], false, false, 1024);
 		$length = str_length($content_f);
-		
+
 		if ($row["length"] != $length)
 		{
 			$sql = "UPDATE bbs SET length = $length WHERE AID = " . $row["AID"];
@@ -108,7 +108,7 @@
 				echo("Update article error" . mysqli_error($db_conn));
 				exit();
 			}
-			
+
 			echo ("[" . $row["AID"] . "] " . $row["length"] . " => $length<br />\n");
 		}
 	}

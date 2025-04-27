@@ -43,11 +43,11 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "用户名格式非法";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-		
+
 		$sql = "SELECT UID FROM user_list WHERE LOWER(username) = LOWER('$username')";
 
 		$rs = mysqli_query($db_conn, $sql);
@@ -55,7 +55,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query user error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -68,7 +68,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "用户不存在";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -94,7 +94,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query section error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -229,7 +229,7 @@
 				array_push($visited_aid_list, $row["AID"]);
 			}
 		}
-		
+
 		mysqli_data_seek($rs, 0);
 
 		if ($aid_list != "-1")
@@ -241,16 +241,16 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query view_article_log error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
-		
+
 			while ($row_view = mysqli_fetch_array($rs_view))
 			{
 				array_push($visited_aid_list, $row_view["AID"]);
 			}
-		
+
 			mysqli_free_result($rs_view);
 		}
 	}
@@ -327,7 +327,7 @@
 
 	$result_set["data"]["author_list"] = $author_list;
 	unset($author_list);
-	
+
 	mysqli_close($db_conn);
 
 	// Cleanup
@@ -356,5 +356,5 @@
 	{
 		exit(json_encode($result_set)); // Output data in Json
 	}
-	include $theme_view_file;	
+	include $theme_view_file;
 ?>

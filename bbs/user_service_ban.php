@@ -101,7 +101,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -180,11 +180,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query section error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$section_title=$row["title"];
@@ -193,7 +193,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "版块不存在";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -250,7 +250,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "已存在该类封禁";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -289,14 +289,14 @@
 			($sid > 0 ? "在“" . $section_title . "”版块的"  : "全站") . $p_name .
 			$day . "天。\n如不服本决定, 可在7日内申请复议。\n" .
 			"执行人: " . $_SESSION["BBS_username"] . "\n";
-	} 
+	}
 	else // if (!ban)
 	{
 		if ($bid == 0)
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "不存在该类封禁";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -352,7 +352,7 @@
 			exit(json_encode($result_set));
 		}
 	}
-	
+
 	$sql = "UPDATE user_online SET current_action = '".
 			($ban && $sid == -1 ? "exit" : "reload") ."' WHERE UID = $uid";
 

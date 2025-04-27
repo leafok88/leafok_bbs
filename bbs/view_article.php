@@ -112,7 +112,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query topic error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -133,7 +133,7 @@
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "主题不存在或不可见";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -263,7 +263,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query ex_file error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -321,11 +321,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query ex_dir error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-		
+
 		while ($row = mysqli_fetch_array($rs))
 		{
 			array_push($result_set["data"]["section_ex_dirs"], array(
@@ -487,7 +487,7 @@
 
 	$result_set["data"]["author_list"] = $author_list;
 	unset($author_list);
-	
+
 	if ($_SESSION["BBS_uid"] > 0)
 	{
 		$aid_list = "-1";
@@ -498,24 +498,24 @@
 
 		$sql = "SELECT AID FROM view_article_log
 				WHERE AID IN ($aid_list) AND UID = " . $_SESSION["BBS_uid"];
-	
+
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query view_article_log error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		while ($row = mysqli_fetch_array($rs))
 		{
 			unset($aid_array[$row["AID"]]);
 		}
-	
+
 		mysqli_free_result($rs);
-	
+
 		if (count($aid_array) > 0)
 		{
 			$first_aid = true;
@@ -538,7 +538,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Add view_article_log error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -555,7 +555,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Update topic error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}

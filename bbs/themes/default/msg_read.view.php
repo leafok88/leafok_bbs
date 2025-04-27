@@ -248,7 +248,7 @@ foreach ($result_set["data"]["messages"] as $message)
 				</td>
 			</tr>
 <?php
-} 
+}
 ?>
 			<tr bgcolor="#ffdead" height="5">
 				<td colspan="2">

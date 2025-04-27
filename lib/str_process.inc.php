@@ -38,7 +38,7 @@ function split_line(string $str, string $prefix = "", int $width = 76, int $line
 	{
 		return $str;
 	}
-	
+
 	$result = "";
 	$len = strlen($str);
 	$prefix_len = str_length($prefix);
@@ -56,7 +56,7 @@ function split_line(string $str, string $prefix = "", int $width = 76, int $line
 		{
 			continue;
 		}
-				
+
 		if ($c == "\n")
 		{
 			if ($lines_count + 1 >= $lines_limit)

@@ -26,7 +26,7 @@
 			default:
 				$file = "closed.gif";
 		}
-			
+
 		return($file);
 	}
 
@@ -282,7 +282,7 @@
 			<td width="25%">
 			</td>
 		</tr>
-	</table>  
+	</table>
 	</center>
 	HTML;
 

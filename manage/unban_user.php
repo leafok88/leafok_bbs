@@ -47,7 +47,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -89,7 +89,7 @@
 	mysqli_free_result($rs);
 
 	// Check expired ban record
-	$sql = "SELECT BID, ban_user_list.UID, ban_user_list.SID, username, title FROM ban_user_list 
+	$sql = "SELECT BID, ban_user_list.UID, ban_user_list.SID, username, title FROM ban_user_list
 			LEFT JOIN user_list ON ban_user_list.UID = user_list.UID
 			LEFT JOIN section_config ON ban_user_list.SID = section_config.SID
 			WHERE ban_user_list.enable AND unban_dt <= NOW()";
@@ -166,7 +166,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Update user privilege error: " . mysqli_error($db_conn);
-	
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}

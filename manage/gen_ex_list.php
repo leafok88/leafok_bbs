@@ -249,7 +249,7 @@
 				</tr>
 				<tr>
 					<td colspan="3" align="center">
-						Copyright &copy; <?= $BBS_copyright_duration; ?> <?= $BBS_name . "(" . $BBS_host_name . ")"; ?><br /> 
+						Copyright &copy; <?= $BBS_copyright_duration; ?> <?= $BBS_name . "(" . $BBS_host_name . ")"; ?><br />
 						All Rights Reserved
 					</td>
 				</tr>

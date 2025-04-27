@@ -37,7 +37,7 @@ if (!defined("_BBS_SESSION_INIT_"))
 					$sql = "DELETE FROM user_online WHERE SID='" .
 							session_id() . "'";
 					mysqli_query($db_conn, $sql);
-						
+
 					session_unset();
 					session_destroy();
 					force_login(2);
@@ -60,7 +60,7 @@ if (!defined("_BBS_SESSION_INIT_"))
 				", ip = '" . client_addr() . "', current_action = '', login_tm = '".
 				date("Y-m-d H:i:s", $_SESSION["BBS_login_tm"]) . "', last_tm = NOW() " .
 				"WHERE SID = '" . session_id() . "'";
-		
+
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
 		{
@@ -136,7 +136,7 @@ if (!defined("_BBS_SESSION_INIT_"))
 				echo ("Delete online user error: " . mysqli_error($db_conn));
 				exit();
 			}
-		
+
 			$sql = "INSERT INTO user_online(SID, UID, ip, login_tm, last_tm) VALUES('" .
 					session_id() . "', " . $_SESSION["BBS_uid"] . ", '" .
 					client_addr() . "', NOW(), NOW())";

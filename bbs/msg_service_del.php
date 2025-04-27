@@ -47,13 +47,13 @@
 				" = 1 WHERE MID IN ($msg_id_list) AND " .
 				($sent ? "fromUID" : "toUID") . " = " . $_SESSION["BBS_uid"] .
 				" AND " . ($sent ? "s_deleted" : "deleted") . " = 0";
-	
+
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Delete message error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}

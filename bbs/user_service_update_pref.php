@@ -108,7 +108,7 @@
 				"id" => "photo_file",
 				"errMsg" => "上传文件错误",
 			));
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -128,7 +128,7 @@
 				"id" => "photo_file",
 				"errMsg" => "文件大小超过限制",
 			));
-		
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -150,11 +150,11 @@
 					"id" => "photo_file",
 					"errMsg" => "不支持的文件扩展名",
 				));
-					
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 		}
-	
+
 		$finfo = new finfo(FILEINFO_MIME_TYPE);
 		$mime_type = $finfo->file($_FILES['photo_file']['tmp_name'][$i]);
 		$real_ext = array_search($mime_type, array(
@@ -164,7 +164,7 @@
 				'gif' => 'image/gif',
 				'tif' => 'image/tiff',
 				), true);
-			
+
 		if ($real_ext === false)
 		{
 			$result_set["return"]["code"] = -1;
@@ -172,7 +172,7 @@
 				"id" => "photo_file",
 				"errMsg" => "不支持的文件格式",
 			));
-				
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -184,11 +184,11 @@
 				"id" => "photo_file",
 				"errMsg" => "分析文件出错",
 			));
-				
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-			
+
 		if ($size[0] > 120 || $size[1] > 120)
 		{
 			$result_set["return"]["code"] = -1;
@@ -196,7 +196,7 @@
 				"id" => "photo_file",
 				"errMsg" => "图片尺寸超过限制",
 			));
-				
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -207,7 +207,7 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Copy file error";
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}

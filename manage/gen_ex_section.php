@@ -21,8 +21,8 @@
 		{
 			echo ("没有权限！");
 			exit();
-		} 
-		
+		}
+
 		if (!isset($_GET["sid"]))
 		{
 			echo ("Invalid SID!");

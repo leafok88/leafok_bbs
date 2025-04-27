@@ -148,7 +148,7 @@
 	// Secure SQL statement
 	$nickname = mysqli_real_escape_string($db_conn, $nickname);
 	$realname = mysqli_real_escape_string($db_conn, $realname);
-	
+
 	// Begin transaction
 	$rs = mysqli_query($db_conn, "SET autocommit=0");
 	if ($rs == false)
@@ -159,7 +159,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -172,7 +172,7 @@
 
 	// Check availability of username and nickname
 	$sql = "SELECT UID FROM user_list WHERE username = '$username' FOR UPDATE";
-	
+
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
 	{
@@ -214,9 +214,9 @@
 		));
 	}
 	mysqli_free_result($rs);
-	
+
 	$sql = "SELECT UID FROM user_pubinfo WHERE email = '$email' FOR UPDATE";
-	
+
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
 	{

@@ -90,7 +90,7 @@
 	$BBS_exp_score_rate			=	100;
 	$BBS_score_transfer_fee		=	0.1; // 10%
 	$BBS_nickname_change_fee	=	2;
-	
+
 	$BBS_stat_gen_interval		= 	60 * 60 * 8; // 8 hours
 
 	$BBS_user_purge_duration	=	7;

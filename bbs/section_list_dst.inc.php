@@ -37,7 +37,7 @@
 				<option value="0">-----选择版块-----</option>
 			HTML;
 		}
-		
+
 		foreach ($section_hierachy as $c_index => $section_class)
 		{
 			echo <<<HTML

@@ -35,7 +35,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -77,7 +77,7 @@
 	}
 	mysqli_free_result($rs);
 
-	if (!($_SESSION["BBS_priv"]->checkpriv($sid, S_POST) && 
+	if (!($_SESSION["BBS_priv"]->checkpriv($sid, S_POST) &&
 		($_SESSION["BBS_priv"]->checkpriv($sid, S_MAN_S) || $_SESSION["BBS_uid"] == $uid)
 		&& (!$excerption)))
 	{

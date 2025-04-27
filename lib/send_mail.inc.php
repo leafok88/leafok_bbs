@@ -103,14 +103,14 @@ function send_mail($from, $fromname, $to, $toname, $subject, $body, $db_conn)
 
 	$body .= ($no_reply ? "\n（本邮件来自一个无人值守的信箱，请不要回复本邮件。）\n" : "");
 
-	$sql = "INSERT INTO email(fromemail, fromname, toemail, toname, subject, body, set_dt) VALUES('" . 
+	$sql = "INSERT INTO email(fromemail, fromname, toemail, toname, subject, body, set_dt) VALUES('" .
 			mysqli_real_escape_string($db_conn, $from) . "', '" .
 			mysqli_real_escape_string($db_conn, $fromname) . "', '" .
 			mysqli_real_escape_string($db_conn, $to) . "', '" .
 			mysqli_real_escape_string($db_conn, $toname) . "', '" .
 			mysqli_real_escape_string($db_conn, $subject) . "', '" .
 			mysqli_real_escape_string($db_conn, $body) . "', NOW())";
-	
+
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
 	{

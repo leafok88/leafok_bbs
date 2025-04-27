@@ -19,7 +19,7 @@ function verify_pass_complexity($password, $username, $min_len)
 	for ($i = 0; $i < $len; $i++)
 	{
 		$c = $password[$i];
-		
+
 		if (is_numeric($c))
 		{
 			$num_count++;
@@ -54,7 +54,7 @@ function gen_passwd($len)
 	    $num = mt_rand(0, 61);
 	    $str .= chr($num < 10 ? (ord("0") + $num) : ($num < 36 ? (ord("A") + $num - 10) : (ord("a") + $num - 36)));
 	}
-	
+
 	return $str;
 }
 

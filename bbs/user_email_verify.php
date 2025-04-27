@@ -22,7 +22,7 @@
 		mysqli_close($db_conn);
 		exit();
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{

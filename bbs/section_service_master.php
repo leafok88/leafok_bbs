@@ -10,7 +10,7 @@
 	$op = (isset($data["op"]) ? intval($data["op"]) : 0);
 	$username = (isset($data["username"]) ? trim($data["username"]) : "");
 	$type = (isset($data["type"]) && $data["type"] == "1" ? 1 : 0);
-	
+
 	$result_set = array(
 		"return" => array(
 			"code" => 0,
@@ -60,7 +60,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -136,17 +136,17 @@
 	$sql = "SELECT UID, major FROM section_master
 			WHERE SID = $sid AND enable AND (NOW() BETWEEN begin_dt AND end_dt)
 			FOR UPDATE";
-	
+
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
 	{
 		$result_set["return"]["code"] = -2;
 		$result_set["return"]["message"] = "Query section master error: " . mysqli_error($db_conn);
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	while ($row = mysqli_fetch_array($rs))
 	{
 		if ($uid == $row["UID"])
@@ -154,14 +154,14 @@
 			$user_found = true;
 			$user_type = $row["major"];
 		}
-	
+
 		if (!$has_major && $row["major"])
 		{
 			$has_major = true;
 		}
 	}
 	mysqli_free_result($rs);
-	
+
 	if ($user_found && $op == 1)
 	{
 		$result_set["return"]["code"] = -1;
@@ -169,7 +169,7 @@
 			"id" => "master",
 			"errMsg" => "用户已经是版主",
 		));
-	
+
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
@@ -183,7 +183,7 @@
 				"id" => "master",
 				"errMsg" => "未找到记录",
 			));
-		
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -195,7 +195,7 @@
 				"id" => "master",
 				"errMsg" => "没有管理员权限",
 			));
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -285,7 +285,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	mysqli_close($db_conn);
 	exit(json_encode($result_set));
 ?>

@@ -11,7 +11,7 @@
 	$dir = (isset($data["dir"]) ? trim($data["dir"]) : "");
 	$dir_name = (isset($data["dir_name"]) ? trim($data["dir_name"]) : "");
 	$dir_op = (isset($data["dir_op"]) ? intval($data["dir_op"]) : 0);
-	
+
 	$result_set = array(
 		"return" => array(
 			"code" => 0,
@@ -82,7 +82,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -102,11 +102,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query ex_dir error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		if ($row = mysqli_fetch_array($rs))
 		{
 			$fid = $row["FID"];
@@ -119,7 +119,7 @@
 				"id" => "current_dir",
 				"errMsg" => "目录不存在",
 			));
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
@@ -143,7 +143,7 @@
 					"id" => "dir",
 					"errMsg" => "目录和名称都不能为空",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -155,11 +155,11 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query ex_dir error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
-		
+
 			if (mysqli_num_rows($rs) > 0)
 			{
 				$result_set["return"]["code"] = -1;
@@ -167,7 +167,7 @@
 					"id" => "dir",
 					"errMsg" => "目录已存在",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -181,7 +181,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Create ex_dir error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -195,7 +195,7 @@
 					"id" => "current_dir",
 					"errMsg" => "根目录不能改名",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -207,7 +207,7 @@
 					"id" => "dir",
 					"errMsg" => "目录和名称不能同时为空",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -221,7 +221,7 @@
 					"id" => "dir",
 					"errMsg" => "没有更改",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -238,7 +238,7 @@
 				{
 					$result_set["return"]["code"] = -2;
 					$result_set["return"]["message"] = "Query ex_dir error: " . mysqli_error($db_conn);
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
@@ -254,7 +254,7 @@
 					{
 						$result_set["return"]["code"] = -2;
 						$result_set["return"]["message"] = "Update ex_dir error: " . mysqli_error($db_conn);
-				
+
 						mysqli_close($db_conn);
 						exit(json_encode($result_set));
 					}
@@ -271,7 +271,7 @@
 				{
 					$result_set["return"]["code"] = -2;
 					$result_set["return"]["message"] = "Update ex_dir error: " . mysqli_error($db_conn);
-			
+
 					mysqli_close($db_conn);
 					exit(json_encode($result_set));
 				}
@@ -286,7 +286,7 @@
 					"id" => "current_dir",
 					"errMsg" => "根目录不能删除",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -298,7 +298,7 @@
 					"id" => "dir",
 					"errMsg" => "目录和名称必须都为空",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -310,7 +310,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query ex_dir error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -322,7 +322,7 @@
 					"id" => "current_dir",
 					"errMsg" => "目录中有子目录存在",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -335,7 +335,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query ex_file error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -347,7 +347,7 @@
 					"id" => "current_dir",
 					"errMsg" => "目录中有文章存在",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -360,7 +360,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Delete ex_dir error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}

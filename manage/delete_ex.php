@@ -9,7 +9,7 @@
 	{
 		echo ("没有权限！");
 		exit();
-	} 
+	}
 
 	$sql = "SELECT section_config.SID, section_config.title AS s_title FROM section_config
 			INNER JOIN section_class ON section_config.CID = section_class.CID

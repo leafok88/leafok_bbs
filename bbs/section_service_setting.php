@@ -17,7 +17,7 @@
 	$announcement = (isset($data["announcement"]) ? $data["announcement"] : "");
 	$sort_order = (isset($data["sort_order"]) ? intval($data["sort_order"]) : 0);
 	$ex_update = (isset($data["ex_update"]) && $data["ex_update"] == "1" ? 1 : 0);
-	
+
 	$result_set = array(
 		"return" => array(
 			"code" => 0,
@@ -103,7 +103,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -143,7 +143,7 @@
 		exit(json_encode($result_set));
 	}
 	mysqli_free_result($rs);
-	
+
 	if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M))
 	{
 		// Set sort order of sections in the same section class
@@ -201,7 +201,7 @@
 					{
 						$result_set["return"]["code"] = -2;
 						$result_set["return"]["message"] = "Update section error: " . mysqli_error($db_conn);
-				
+
 						mysqli_close($db_conn);
 						exit(json_encode($result_set));
 					}
@@ -225,7 +225,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Update section error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -241,7 +241,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Update section error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}

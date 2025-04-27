@@ -35,7 +35,7 @@ TD
 	{
 		$c_user_all = 0;
 	}
-	
+
 	mysqli_free_result($rs);
 
 	$rs = mysqli_query($db_conn, "SELECT COUNT(AID) AS c_topic FROM bbs WHERE TID = 0 AND visible")

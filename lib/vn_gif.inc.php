@@ -16,7 +16,7 @@ function VN_gif_display(string $str)
 		$text_color = imagecolorallocate($im, 30 + mt_rand(0, 100), 30 + mt_rand(0, 100), 30 + mt_rand(0, 100));
 		imagestring($im, 10 + mt_rand(0, 4), $i * 14 + mt_rand(5, 10), mt_rand(2, 7), $str[$i], $text_color);
 	}
-	
+
 	//output image
 	header("Content-type: image/png");
 	imagepng($im);
@@ -32,6 +32,6 @@ function VN_gen_str(int $len) : string
 		$str .= chr($num < 10 ? (ord("0") + $num) : ($num < 36 ? (ord("A") + $num - 10) : (ord("a") + $num - 36)));
 	}
 	return $str;
-} 
+}
 
 ?>

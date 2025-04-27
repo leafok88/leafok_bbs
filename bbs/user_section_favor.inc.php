@@ -37,10 +37,10 @@ if (!isset($_BBS_S_FAVOR_CLASS_INIT_))
 				array_push($this->s_list, $row["SID"]);
 			}
 			mysqli_free_result($rs);
-			
+
 			return 0;
 		}
-		
+
 		function save_s_favor($uid, $db_conn)
 		{
 			if ($db_conn == NULL)
@@ -52,7 +52,7 @@ if (!isset($_BBS_S_FAVOR_CLASS_INIT_))
 			{
 				return -2;
 			}
-			
+
 			foreach ($this->s_list as $sid)
 			{
 				if (mysqli_query($db_conn, "INSERT INTO section_favorite(UID, SID) VALUES($uid, $sid)") == false)
@@ -63,7 +63,7 @@ if (!isset($_BBS_S_FAVOR_CLASS_INIT_))
 
 			return 0;
 		}
-		
+
 		function is_in($sid)
 		{
 			return in_array($sid, $this->s_list);

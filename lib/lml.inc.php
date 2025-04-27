@@ -315,7 +315,7 @@ function split_long_str(string $str, string &$pre, int $width = 76, bool $html_t
 function FB2LML(string $str) : string
 {
 	$result = "";
-	
+
 	$lines = explode("\n", $str);
 	foreach ($lines as $line)
 	{
@@ -327,7 +327,7 @@ function FB2LML(string $str) : string
 		$result .= (str_repeat("[quote]", $count) . $line .
 			str_repeat("[/quote]", $count) . "\n");
 	}
-	
+
 	return $result;
 }
 
@@ -335,7 +335,7 @@ function LMLtagFilter(string $str) : string
 {
 	$result = "";
 	$len = strlen($str);
-	
+
 	for ($i = 0; $i < $len; $i++)
 	{
 		$c = $str[$i];
@@ -352,7 +352,7 @@ function LMLtagFilter(string $str) : string
 				break;
 		}
 	}
-	
+
 	return $result;
 }
 

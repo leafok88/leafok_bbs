@@ -63,7 +63,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	while ($row = mysqli_fetch_array($rs))
 	{
 		array_push($result_set["data"]["nicknames"], $row["nickname"]);

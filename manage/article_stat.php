@@ -18,7 +18,7 @@
 		echo ("没有权限！");
 		exit();
 	}
-	 
+
 	$output_str = "";
 	$count_max = 0;
 
@@ -147,7 +147,7 @@
 
 	imageline($im, $im_zero_x, $im_zero_x, $im_zero_x, $im_height - $im_zero_y, $color);
 	imageline($im, $im_zero_x, $im_height - $im_zero_y, $im_width - $im_zero_x, $im_height - $im_zero_y, $color);
-	
+
 	for ($x = $im_zero_x, $i=0; $x <= $im_width - $im_zero_x; $x += 100, $i += (100 * $im_x_ratio))
 	{
 		imagearc($im, $x, $im_height - $im_zero_y, 3, 3, 0, 360, $color);

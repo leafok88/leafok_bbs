@@ -112,7 +112,7 @@
 	// Secure SQL statement
 	$nickname = mysqli_real_escape_string($db_conn, $nickname);
 	$realname = mysqli_real_escape_string($db_conn, $realname);
-	
+
 	// Begin transaction
 	$rs = mysqli_query($db_conn, "SET autocommit=0");
 	if ($rs == false)
@@ -123,7 +123,7 @@
 		mysqli_close($db_conn);
 		exit(json_encode($result_set));
 	}
-	
+
 	$rs = mysqli_query($db_conn, "BEGIN");
 	if ($rs == false)
 	{
@@ -173,11 +173,11 @@
 		{
 			$result_set["return"]["code"] = -2;
 			$result_set["return"]["message"] = "Query nickname error: " . mysqli_error($db_conn);
-	
+
 			mysqli_close($db_conn);
 			exit(json_encode($result_set));
 		}
-	
+
 		$free_change = false;
 		if ($row = mysqli_fetch_array($rs))
 		{
@@ -192,7 +192,7 @@
 					"id" => "nickname",
 					"errMsg" => "昵称已存在",
 				));
-	
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -206,7 +206,7 @@
 			{
 				$result_set["return"]["code"] = -2;
 				$result_set["return"]["message"] = "Query score error: " . mysqli_error($db_conn);
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}
@@ -217,7 +217,7 @@
 					"id" => "nickname",
 					"errMsg" => "积分不足",
 				));
-		
+
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));
 			}

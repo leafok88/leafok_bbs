@@ -184,7 +184,7 @@
 			echo ("Delete content error: " . mysqli_error($db_conn));
 			exit();
 		}
-		
+
 		$sql = "DELETE FROM bbs WHERE AID IN ($aid_list)";
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
@@ -192,7 +192,7 @@
 			echo ("Delete article error: " . mysqli_error($db_conn));
 			exit();
 		}
-		
+
 		echo ("Purged " . mysqli_affected_rows($db_conn) . " articles<br />\n");
 	}
 
@@ -226,15 +226,15 @@
 
 	if (file_exists("../bbs/upload"))
 	{
-		$handle = opendir("../bbs/upload"); 
-		while (false !== ($file = readdir($handle))) 
+		$handle = opendir("../bbs/upload");
+		while (false !== ($file = readdir($handle)))
 		{
 			if ($file != "." && $file != ".." && !in_array($file, $file_reserved))
 			{
 				unlink("../bbs/upload/$file");
-			} 
+			}
 		}
-		closedir($handle); 
+		closedir($handle);
 	}
 
 	//Delete expired upload photo
@@ -256,15 +256,15 @@
 
 	if (file_exists("../bbs/images/face/upload_photo"))
 	{
-		$handle = opendir("../bbs/images/face/upload_photo"); 
-		while (false !== ($file = readdir($handle))) 
+		$handle = opendir("../bbs/images/face/upload_photo");
+		while (false !== ($file = readdir($handle)))
 		{
 			if ($file != "." && $file != ".." && !in_array($file, $file_reserved))
 			{
 				unlink("../bbs/images/face/upload_photo/$file");
-			} 
+			}
 		}
-		closedir($handle); 
+		closedir($handle);
 	}
 
 	//Purge dead ID
@@ -307,7 +307,7 @@
 			"user_score_log" => "UID",
 			"user_modify_email_verify" => "UID",
 		);
-		
+
 		foreach($user_db as $table => $column)
 		{
 			$sql = "DELETE from $table WHERE $column IN ($uid_list)";
