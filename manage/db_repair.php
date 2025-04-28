@@ -7,14 +7,18 @@
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/lml.inc.php";
 	require_once "../lib/str_process.inc.php";
-	require_once "../bbs/session_init.inc.php";
 
-	force_login();
-
-	if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M) && !isset($_SERVER["argc"]))
+	if (!isset($_SERVER["argc"]))
 	{
-		echo ("没有权限！");
-		exit();
+		require_once "../bbs/session_init.inc.php";
+
+		force_login();
+
+		if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M))
+		{
+			echo ("没有权限！");
+			exit();
+		}
 	}
 ?>
 <html>

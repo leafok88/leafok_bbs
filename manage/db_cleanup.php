@@ -4,15 +4,20 @@
 		chdir(dirname($_SERVER["argv"][0]));
 	}
 
+	require_once "../lib/common.inc.php";
 	require_once "../lib/db_open.inc.php";
-	require_once "../bbs/session_init.inc.php";
 
-	force_login();
-
-	if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S) && !isset($_SERVER["argc"]))
+	if (!isset($_SERVER["argc"]))
 	{
-		echo ("没有权限！");
-		exit();
+		require_once "../bbs/session_init.inc.php";
+
+		force_login();
+
+		if (!$_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
+		{
+			echo ("没有权限！");
+			exit();
+		}
 	}
 ?>
 <html>

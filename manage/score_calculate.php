@@ -12,6 +12,12 @@
 		require_once "../bbs/session_init.inc.php";
 
 		force_login();
+
+		if (!(isset($_SESSION["BBS_priv"]) && $_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S)))
+		{
+			echo ("没有权限！");
+			exit();
+		}
 	}
 
 	$result_set = array(
@@ -23,16 +29,6 @@
 	);
 
 	header("Content-Type:application/json; charset=utf-8");
-
-	if (!(isset($_SESSION["BBS_priv"]) && $_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S))
-		&& !isset($_SERVER["argc"]))
-	{
-		$result_set["return"]["code"] = -1;
-		$result_set["return"]["message"] = "没有权限";
-
-		mysqli_close($db_conn);
-		exit(json_encode($result_set));
-	}
 
    	// Begin transaction
 	$rs = mysqli_query($db_conn, "SET autocommit=0");
