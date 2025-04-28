@@ -106,7 +106,7 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 			mysqli_free_result($rs);
 
 			//Admin
-			$sql = "SELECT aid, major FROM admin_config WHERE UID = $uid
+			$sql = "SELECT major FROM admin_config WHERE UID = $uid
 					AND enable AND (NOW() BETWEEN begin_dt AND end_dt)";
 			$rs = mysqli_query($db_conn, $sql);
 			if ($rs == false)
