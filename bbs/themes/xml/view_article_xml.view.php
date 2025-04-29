@@ -68,5 +68,4 @@
 		</Articles>
 	</Topic>
 	HTML;
-?>
-
+//?>
