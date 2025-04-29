@@ -57,4 +57,3 @@
 		exit(json_encode($result_set)); // Output data in Json
 	}
 	include $theme_view_file;
-?>

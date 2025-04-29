@@ -16,4 +16,3 @@ function Date2Astro(int $month, int $day) : string
 
 	return $astro[$month];
 }
-?>

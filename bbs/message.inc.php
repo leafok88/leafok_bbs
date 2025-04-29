@@ -22,4 +22,3 @@
 
 		return $new_msg;
 	}
-?>

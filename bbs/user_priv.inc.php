@@ -223,4 +223,3 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 		}
 	}
 }
-?>

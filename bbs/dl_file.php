@@ -70,4 +70,3 @@
 	}
 
 	fclose ($file);
-?>

@@ -46,4 +46,3 @@ function photo_path(int $uid, mysqli $db_conn) : string | false
 
 	return $path;
 }
-?>

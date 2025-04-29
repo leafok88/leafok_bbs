@@ -36,5 +36,3 @@ function user_exp_change(int $uid, int $exp_change, mysqli $db_conn = null) : my
 
 	return $ret;
 }
-
-?>

@@ -69,4 +69,3 @@ if (!defined("_BBS_THEME_INIT_"))
 		return $file;
 	}
 }
-?>

@@ -25,4 +25,3 @@ function user_level($e)
 
 	return $BBS_level[$l];
 }
-?>

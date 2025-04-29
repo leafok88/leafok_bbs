@@ -109,4 +109,3 @@
 
 	// Assume DateTime fields retrieved from DB are in $BBS_runtime_tz timezone
 	date_default_timezone_set($BBS_timezone);
-?>

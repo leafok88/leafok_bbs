@@ -5,4 +5,3 @@
 	$DB_database			=	"leafok";
 
 	$DB_session_timezone	=	"+08:00"; //Keep consistent with DB server config
-?>

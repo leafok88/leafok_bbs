@@ -143,4 +143,3 @@
 
 	mysqli_close($db_conn);
 	exit(json_encode($result_set));
-?>

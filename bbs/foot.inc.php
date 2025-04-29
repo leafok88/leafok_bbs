@@ -57,4 +57,3 @@
 		页面运行使用{$page_exec_duration}毫秒
 	</p>
 	HTML;
-?>

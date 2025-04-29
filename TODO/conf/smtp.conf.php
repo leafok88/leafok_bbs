@@ -6,4 +6,3 @@
 	$Mail_User = "root@localhost";
 	$Mail_Pass = "123456";
 	$Mail_Sender = "root@localhost";
-?>

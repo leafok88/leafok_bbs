@@ -4,4 +4,3 @@
 
 	$_SESSION["BBS_vn_str"] = VN_gen_str(4);
 	VN_gif_display($_SESSION["BBS_vn_str"]);
-?>

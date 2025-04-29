@@ -33,5 +33,3 @@ function VN_gen_str(int $len) : string
 	}
 	return $str;
 }
-
-?>

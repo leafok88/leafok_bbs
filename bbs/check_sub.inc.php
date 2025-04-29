@@ -51,5 +51,3 @@ function check_post_count(int $count_limit, int $sid, bool $topic_only, mysqli $
 
 	return ($s_topic_count < $count_limit);
 }
-
-?>

@@ -22,4 +22,3 @@ function ip_mask(string $ip, int $level = 2, string $mask = "*") : string
 
 	return $ret;
 }
-?>

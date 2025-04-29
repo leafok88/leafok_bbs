@@ -1,9 +1,8 @@
 <?php
-	require_once "../conf/smtp.conf.php";
-	require_once "../lib/common.inc.php";
-	require_once "Mail.php";
-?>
-<?php
+require_once "../conf/smtp.conf.php";
+require_once "../lib/common.inc.php";
+require_once "Mail.php";
+
 function send_mail_do($db_conn)
 {
 	global $Mail_Type;
@@ -125,4 +124,3 @@ function send_mail($from, $fromname, $to, $toname, $subject, $body, $db_conn)
 
 	return true;
 }
-?>

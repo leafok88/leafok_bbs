@@ -44,4 +44,3 @@ function load_user_info($uid, $db_conn)
 
 	return 0;
 }
-?>

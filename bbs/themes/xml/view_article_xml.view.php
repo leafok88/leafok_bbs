@@ -68,4 +68,3 @@
 		</Articles>
 	</Topic>
 	HTML;
-//?>

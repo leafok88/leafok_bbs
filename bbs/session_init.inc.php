@@ -158,4 +158,3 @@ if (!defined("_BBS_SESSION_INIT_"))
 		}
 	}
 }
-?>

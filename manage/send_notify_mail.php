@@ -7,8 +7,7 @@
 	require_once "../lib/common.inc.php";
 	require_once "../lib/db_open.inc.php";
 	require_once "../lib/send_mail.inc.php";
-?>
-<?php
+
 	// Begin transaction
 	$rs = mysqli_query($db_conn, "SET autocommit=0");
 	if ($rs == false)
@@ -111,4 +110,3 @@
 	}
 
 	mysqli_close($db_conn);
-?>

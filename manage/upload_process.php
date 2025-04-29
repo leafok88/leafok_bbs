@@ -46,4 +46,3 @@
 	mysqli_close($db_conn);
 
 	header("Location: upload_list.php");
-?>

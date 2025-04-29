@@ -56,13 +56,13 @@
 				foreach ($section_hierachy as $c_index => $section_class)
 				{
 					echo <<<HTML
-						<option value="-{$section_class["cid"]}">=={$section_class["title"]}==</option>
+						<option value="-{$section_class['cid']}">=={$section_class["title"]}==</option>
 					HTML;
 
 					foreach ($section_class["sections"] as $s_index => $section)
 					{
 						echo <<<HTML
-						<option value="{$section["sid"]}">&nbsp;&nbsp;├{$section["title"]}</option>
+						<option value="{$section['sid']}">&nbsp;&nbsp;├{$section["title"]}</option>
 						HTML;
 					}
 				}
@@ -104,13 +104,13 @@
 			foreach ($section_hierachy as $c_index => $section_class)
 			{
 				echo <<<HTML
-					<option value="-{$section_class["cid"]}">=={$section_class["title"]}==</option>
+					<option value="-{$section_class['cid']}">=={$section_class["title"]}==</option>
 				HTML;
 
 				foreach ($section_class["sections"] as $s_index => $section)
 				{
 					echo <<<HTML
-					<option value="{$section["sid"]}">&nbsp;&nbsp;├{$section["title"]}</option>
+					<option value="{$section['sid']}">&nbsp;&nbsp;├{$section["title"]}</option>
 					HTML;
 				}
 			}
@@ -124,4 +124,3 @@
 
 		return $buffer;
 	}
-?>

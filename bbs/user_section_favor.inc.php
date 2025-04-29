@@ -70,4 +70,3 @@ if (!isset($_BBS_S_FAVOR_CLASS_INIT_))
 		}
 	}
 }
-?>

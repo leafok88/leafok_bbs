@@ -127,4 +127,3 @@ function split_line(string $str, string $prefix = "", int $width = 76, int $line
 
 	return $result;
 }
-?>

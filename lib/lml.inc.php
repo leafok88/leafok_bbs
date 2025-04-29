@@ -355,5 +355,3 @@ function LMLtagFilter(string $str) : string
 
 	return $result;
 }
-
-?>

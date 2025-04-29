@@ -57,5 +57,3 @@ function score_change(int $uid, int $score_change, string $reason, mysqli $db_co
 
 	return 0;
 }
-
-?>

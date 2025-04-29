@@ -59,4 +59,3 @@ function load_section_list(array & $result, callable $filter, callable $udf_valu
 
     return true;
 }
-?>

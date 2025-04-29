@@ -48,4 +48,3 @@
 	mysqli_close($db_conn);
 
 	header("Location: photo_list.php");
-?>

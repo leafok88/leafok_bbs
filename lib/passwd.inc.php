@@ -57,5 +57,3 @@ function gen_passwd($len)
 
 	return $str;
 }
-
-?>

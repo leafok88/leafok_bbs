@@ -24,4 +24,3 @@ function check_str($str) : bool
 
 	return true;
 }
-?>
