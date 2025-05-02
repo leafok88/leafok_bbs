@@ -48,6 +48,10 @@ if (!isset($_BBS_PRIV_CLASS_INIT_))
 
 		function checklevel($level) : bool
 		{
+			if ($level == P_GUEST)
+			{
+				return true;
+			}
 			return (($this->level & $level) ? true : false);
 		}
 
