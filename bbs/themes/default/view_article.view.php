@@ -325,7 +325,10 @@
 		{
 			f.addEventListener("submit", (e) => {
 				e.preventDefault();
-				move_article(f.sid.value);
+				if (f.sid.value > 0)
+				{
+					move_article(f.sid.value);
+				}
 			});
 		}
 	});
