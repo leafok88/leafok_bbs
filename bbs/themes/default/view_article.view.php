@@ -100,7 +100,7 @@
 		text-decoration: line-through;
 	}
 	</style>
-	<script type="text/javascript" src="../js/img_adjust.js"></script>
+	<script src="../js/img_adjust.js"></script>
 	<script src="../js/polyfill.min.js"></script>
 	<script src="../js/axios.min.js"></script>
 	<script type="text/javascript">
@@ -505,7 +505,7 @@
 					case "tiff":
 						$atta_list .= <<<HTML
 							<br />
-							<img onmousewheel="return bbs_img_zoom(event, this)" src="dl_file.php?aid={$attachment['aid']}">
+							<img onload="return img_adjust(this, {$BBS_img_max_width})" onmousewheel="return bbs_img_zoom(event, this)" src="dl_file.php?aid={$attachment['aid']}">
 						HTML;
 						break;
 				}

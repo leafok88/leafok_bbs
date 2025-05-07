@@ -87,6 +87,8 @@
 	$BBS_upload_count_limit		=	3;
 	$BBS_upload_size_limit		=	2; // MB
 
+	$BBS_img_max_width			=	750;
+	
 	$BBS_exp_score_rate			=	100;
 	$BBS_score_transfer_fee		=	0.1; // 10%
 	$BBS_nickname_change_fee	=	2;

@@ -29,7 +29,7 @@
 		line-height: 26px;
 	}
 	</style>
-	<script type="text/javascript" src="../js/img_adjust.js"></script>
+	<script src="../js/img_adjust.js"></script>
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3013347141025996" crossorigin="anonymous">
 	</script>
 	</head>
@@ -71,7 +71,7 @@
 			case "tiff":
 				$atta_list .= <<<HTML
 					<br />
-					<img onmousewheel="return bbs_img_zoom(event, this)" src="../bbs/dl_file.php?aid={$attachment['aid']}">
+					<img onload="return img_adjust(this, {$BBS_img_max_width})" onmousewheel="return bbs_img_zoom(event, this)" src="../bbs/dl_file.php?aid={$attachment['aid']}">
 				HTML;
 				break;
 		}

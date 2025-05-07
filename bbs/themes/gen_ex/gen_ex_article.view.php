@@ -45,7 +45,7 @@
 		font-size: 16px;
 	}
 	</style>
-	<script type="text/javascript" src="{$section_path}../img_adjust.js"></script>
+	<script src="{$section_path}../../js/img_adjust.js"></script>
 	</head>
 	<body>
 		<a name="top"></a>
@@ -125,7 +125,7 @@
 				case "tiff":
 					$atta_list .= <<<HTML
 						<br />
-						<img onmousewheel="return bbs_img_zoom(event, this)" src="{$section_path}../attachment/{$attachment['aid']}.$ext">
+						<img onload="return img_adjust(this, {$BBS_img_max_width})" onmousewheel="return bbs_img_zoom(event, this)" src="{$section_path}../attachment/{$attachment['aid']}.$ext">
 					HTML;
 					break;
 			}
