@@ -99,10 +99,14 @@
 		font-size: 16px;
 		text-decoration: line-through;
 	}
+	IMG.auto_adjust
+	{
+		display: none;
+	}
 	</style>
-	<script src="../js/img_adjust.js"></script>
 	<script src="../js/polyfill.min.js"></script>
 	<script src="../js/axios.min.js"></script>
+	<script src="../js/jquery.min.js"></script>
 	<script type="text/javascript">
 	function ch_page(page)
 	{
@@ -326,6 +330,23 @@
 		}
 	});
 
+	$(document).ready(function() {
+		$("img[class=auto_adjust]").on("load", function() {
+			if ($(this).width() > {$BBS_img_max_width})
+			{
+				$(this).width({$BBS_img_max_width});
+			}
+			$(this).show();
+		})
+		.on("mousewheel", function(e) {
+			var zoom = parseFloat($(this).css("zoom"));
+			zoom *= (1 + e.originalEvent.wheelDelta / 1000);
+			if (zoom > 0)
+			{
+				$(this).css("zoom", zoom);
+			}
+		});
+	});
 	</script>
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3013347141025996" crossorigin="anonymous">
 	</script>
@@ -505,7 +526,7 @@
 					case "tiff":
 						$atta_list .= <<<HTML
 							<br />
-							<img onload="return img_adjust(this, {$BBS_img_max_width})" onmousewheel="return bbs_img_zoom(event, this)" src="dl_file.php?aid={$attachment['aid']}">
+							<img class="auto_adjust" src="dl_file.php?aid={$attachment['aid']}">
 						HTML;
 						break;
 				}

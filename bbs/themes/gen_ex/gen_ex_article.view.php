@@ -44,8 +44,31 @@
 	{
 		font-size: 16px;
 	}
+	IMG.auto_adjust
+	{
+		display: none;
+	}
 	</style>
-	<script src="{$section_path}../../js/img_adjust.js"></script>
+	<script src="{$section_path}../../js/jquery.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$("img[class=auto_adjust]").on("load", function() {
+			if ($(this).width() > {$BBS_img_max_width})
+			{
+				$(this).width({$BBS_img_max_width});
+			}
+			$(this).show();
+		})
+		.on("mousewheel", function(e) {
+			var zoom = parseFloat($(this).css("zoom"));
+			zoom *= (1 + e.originalEvent.wheelDelta / 1000);
+			if (zoom > 0)
+			{
+				$(this).css("zoom", zoom);
+			}
+		});
+	});
+	</script>
 	</head>
 	<body>
 		<a name="top"></a>
@@ -125,7 +148,7 @@
 				case "tiff":
 					$atta_list .= <<<HTML
 						<br />
-						<img onload="return img_adjust(this, {$BBS_img_max_width})" onmousewheel="return bbs_img_zoom(event, this)" src="{$section_path}../attachment/{$attachment['aid']}.$ext">
+						<img class="auto_adjust" src="{$section_path}../attachment/{$attachment['aid']}.$ext">
 					HTML;
 					break;
 			}
