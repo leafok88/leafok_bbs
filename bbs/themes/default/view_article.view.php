@@ -311,19 +311,26 @@
 		baseURL: document.location.protocol + '//' + document.location.hostname + (document.location.port=='' ? '' : (':' + document.location.port)) + '/bbs/',
 	});
 
+	window.addEventListener("load", () => {
+		var s = document.getElementById("ex_dir");
+		if (s)
+		{
+			s.addEventListener("change", (e) => {
+				set_ex_dir(s.value);
+			});
+		}
+
+		var f = document.getElementById("move_article");
+		if (f)
+		{
+			f.addEventListener("submit", (e) => {
+				e.preventDefault();
+				move_article(f.sid.value);
+			});
+		}
+	});
+
 	$(document).ready(function() {
-		$("#ex_dir").on("change", function(e) {
-			set_ex_dir($("#ex_dir").find(":selected").val());
-		});
-
-		$("#move_article").on("submit", (e) => {
-			e.preventDefault();
-			if ($("#move_article").find("#sid").find(":selected").val() > 0)
-			{
-				move_article($("#move_article").find("#sid").find(":selected").val());
-			}
-		});
-
 		$("img[class=auto_adjust]").on("load", function() {
 			if ($(this).width() > {$BBS_img_max_width})
 			{
