@@ -153,8 +153,8 @@
 				exit();
 			}
 
-			echo ("Deleted " . mysqli_affected_rows($db_conn) . " articles from section [" .
-				$row["SID"] . "]<br />\n");
+			echo ("Set " . mysqli_affected_rows($db_conn) . " articles in section [" .
+				$row["SID"] . "] as invisible<br />\n");
 		}
 	}
 	mysqli_free_result($rs);
@@ -168,7 +168,7 @@
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
 	{
-		echo ("Update deleted article error: " . mysqli_error($db_conn));
+		echo ("Query article to be purged error: " . mysqli_error($db_conn));
 		exit();
 	}
 
