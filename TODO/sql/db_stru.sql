@@ -276,7 +276,9 @@ CREATE TABLE `user_pubinfo` (
   `sign_2` mediumtext,
   `sign_3` mediumtext,
   `upload_limit` int NOT NULL DEFAULT '1048576',
-  `login_notify_dt` datetime DEFAULT NULL
+  `login_notify_dt` datetime DEFAULT NULL,
+  `user_timezone` varchar(50) NOT NULL DEFAULT '',
+  `game_money` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `user_reginfo` (
