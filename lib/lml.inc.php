@@ -40,7 +40,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 			$tag_result = "";
 
 			$p_space = strpos($source_str, " ", $p_start + 1);
-			$p_end = strpos($source_str, "]", $p_start+1);
+			$p_end = strpos($source_str, "]", $p_start + 1);
 			if ($p_end === false)
 			{
 				$p_end = $l_source - 1;
@@ -65,7 +65,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 				switch ($tag_str)
 				{
 					case "quote":
-						$tag_result = "<span style=\"color: " . $quote_color[$quote_level % 3] . ";\">";
+						$tag_result = "<span style=\"color: " . $quote_color[$quote_level % 3] . "\">";
 						$quote_level++;
 						break;
 					case "/quote":
@@ -76,7 +76,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 						$tag_result = "</span>";
 						break;
 					case "bwf":
-						$tag_result = "<span style=\"color: red;\">****</span>";
+						$tag_result = "<span style=\"color: red\">****</span>";
 						break;
 				}
 
@@ -96,7 +96,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 							break;
 						case "bold":
 						case "b":
-							$tag_result = "<span style=\"font-weight: bold;\">";
+							$tag_result = "<span style=\"font-weight: bold\">";
 							break;
 						case "/bold":
 						case "/b":
@@ -104,7 +104,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 							break;
 						case "italic":
 						case "i":
-							$tag_result = "<span style=\"font-style: italic;\">";
+							$tag_result = "<span style=\"font-style: italic\">";
 							break;
 						case "/italic":
 						case "/i":
@@ -112,21 +112,21 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 							break;
 						case "underline":
 						case "u":
-							$tag_result = "<span style=\"text-decoration: underline;\">";
+							$tag_result = "<span style=\"text-decoration: underline\">";
 							break;
 						case "/underline":
 						case "/u":
 							$tag_result = "</span>";
 							break;
 						case "color":
-							$tag_result = "<span style=\"color: " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . ";\">";
+							$tag_result = "<span style=\"color: " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
 							break;
 						case "/color":
 							$tag_result = "</span>";
 							break;
 						case "size":
 							$tag_result = "<span style=\"font-size: " .
-								(is_numeric($tag_arg) ? intval($tag_arg * 4) . "px" : htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8')) . ";\">";
+								(is_numeric($tag_arg) ? intval($tag_arg * 4) . "px" : htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8')) . "\">";
 							break;
 						case "/size":
 							$tag_result = "</span>";
