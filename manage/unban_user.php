@@ -88,7 +88,7 @@
 	$sql = "SELECT BID, ban_user_list.UID, ban_user_list.SID, username, title FROM ban_user_list
 			LEFT JOIN user_list ON ban_user_list.UID = user_list.UID
 			LEFT JOIN section_config ON ban_user_list.SID = section_config.SID
-			WHERE ban_user_list.enable AND unban_dt <= NOW()";
+			WHERE ban_user_list.enable AND unban_dt <= NOW() AND ban_user_list.UID <> ban_uid";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
