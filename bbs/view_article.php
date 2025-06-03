@@ -52,7 +52,7 @@
 
 	$ip_mask_level = ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S) ? 1 : 2);
 
-	$sql = "SELECT bbs.SID, TID, UID, bbs.title AS title, visible, excerption,
+	$sql = "SELECT bbs.SID, TID, UID, bbs.title AS title, visible, excerption, ontop, `lock`,
 			gen_ex, view_count, reply_count, section_config.title AS s_title FROM bbs
 			INNER JOIN section_config ON bbs.SID = section_config.SID
 			WHERE AID = $id" .
@@ -78,6 +78,8 @@
 		$visible = $row["visible"];
 		$section_title = $row["s_title"];
 		$excerption = $row["excerption"];
+		$ontop = $row["ontop"];
+		$lock = $row["lock"];
 		$gen_ex = $row["gen_ex"];
 		$view_count = $row["view_count"] + 1;
 		$reply_count = $row["reply_count"];
@@ -100,7 +102,7 @@
 	{
 		$id = $tid;
 
-		$sql = "SELECT bbs.SID, UID, bbs.title AS title, visible, excerption,
+		$sql = "SELECT bbs.SID, UID, bbs.title AS title, visible, excerption, ontop, `lock`,
 				gen_ex, view_count, reply_count, section_config.title AS s_title FROM bbs
 				INNER JOIN section_config ON bbs.SID = section_config.SID
 				WHERE AID = $id AND TID = 0" .
@@ -125,6 +127,8 @@
 			$visible = $row["visible"];
 			$section_title = $row["s_title"];
 			$excerption = $row["excerption"];
+			$ontop = $row["ontop"];
+			$lock = $row["lock"];
 			$gen_ex = $row["gen_ex"];
 			$view_count = $row["view_count"] + 1;
 			$reply_count = $row["reply_count"];
@@ -294,6 +298,8 @@
 		"title" => $title,
 		"section_title" => $section_title,
 		"excerption" => $excerption,
+		"ontop" => $ontop,
+		"lock" => $lock,
 		"gen_ex" => $gen_ex,
 		"visible" => $visible,
 		"view_count" => $view_count,
@@ -414,9 +420,7 @@
 			"exp" => $row["exp"],
 			"m_del" => $row["m_del"],
 			"excerption" => $row["excerption"],
-			"ontop" => $row["ontop"],
 			"transship" => $row["transship"],
-			"lock" => $row["lock"],
 			"title" => $row["title"],
 			"content" => $row_content["content"],
 			"length" => $row["length"],

@@ -414,7 +414,8 @@
 					<span id="set_delete_{$article['aid']}"><img src="images/del.gif" width="16" height="16"><a class="s4" href="" onclick="return article_op('delete', {$article['aid']}, 1, true);" title="删除该文章">删除</a></span>
 				HTML;
 			}
-			if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST))
+			if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST) &&
+				(!$result_set["data"]["lock"]))
 			{
 				$article_ctrl_bar .= <<<HTML
 					<img src="images/edit.gif" width="16" height="16"><a class="s4" href="article_post.php?reply_id={$article['aid']}" title="引用回复该文章">回复</a>
@@ -432,8 +433,8 @@
 			}
 			if ($article["tid"] == 0 && $_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST | S_MAN_S))
 			{
-				$set_ontop_display = ($article["ontop"] ? "none" : "inline");
-				$unset_ontop_display = ($article["ontop"] ? "inline" : "none");
+				$set_ontop_display = ($result_set["data"]["ontop"] ? "none" : "inline");
+				$unset_ontop_display = ($result_set["data"]["ontop"] ? "inline" : "none");
 
 				$article_ctrl_bar .= <<<HTML
 					<a class="s4" id="set_ontop_{$article['aid']}" style="display: {$set_ontop_display}" href="" onclick="return article_op('ontop', {$article['aid']}, 1, true)" title="置顶">置顶</a>
@@ -443,8 +444,8 @@
 			if ($article["tid"] == 0 && $_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST) &&
 				($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_MAN_S) || $_SESSION["BBS_uid"] == $article["uid"]))
 			{
-				$set_lock_display = ($article["lock"] ? "none" : "inline");
-				$unset_lock_display = ($article["lock"] ? "inline" : "none");
+				$set_lock_display = ($result_set["data"]["lock"] ? "none" : "inline");
+				$unset_lock_display = ($result_set["data"]["lock"] ? "inline" : "none");
 
 				$article_ctrl_bar .= <<<HTML
 					<a class="s4" id="set_lock_{$article['aid']}" style="display: {$set_lock_display}" href="" onclick="return article_op('lock', {$article['aid']}, 1);" title="禁止回复">静默</a>
