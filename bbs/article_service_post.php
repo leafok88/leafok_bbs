@@ -122,7 +122,7 @@
 	// Append indication of article update
 	if ($id != 0)
 	{
-		$content .= ("\n--\n※作者已于 " . date("Y-m-d H:i:s") . " 修改本文※\n");
+		$content .= ("\n--\n※ 作者已于 " . (new DateTimeImmutable("", $_SESSION["BBS_user_tz"]))->format("Y-m-d H:i:s (\U\T\C P)") . " 修改本文※\n");
 	}
 
 	// Calculate length of content
