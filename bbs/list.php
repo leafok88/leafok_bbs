@@ -269,7 +269,7 @@
 			"last_reply_uid" => $row["last_reply_UID"],
 			"last_reply_username" => $row["last_reply_username"],
 			"last_reply_nickname" => $row["last_reply_nickname"],
-			"visited" => (($_SESSION["BBS_uid"] > 0 && in_array($row["AID"], $visited_aid_list)) ? 1 : 0),
+			"visited" => (($_SESSION["BBS_uid"] > 0 && ($row["UID"] == $_SESSION["BBS_uid"] || in_array($row["AID"], $visited_aid_list))) ? 1 : 0),
 		));
 
 		if (!isset($author_list[$row["UID"]]))

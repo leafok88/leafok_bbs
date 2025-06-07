@@ -284,7 +284,7 @@
 			"class_title" => $row["c_title"],
 			"section_name" => $row["sname"],
 			"section_title" => $row["s_title"],
-			"visited" => (($_SESSION["BBS_uid"] > 0 && in_array($row["AID"], $visited_aid_list)) ? 1 : 0),
+			"visited" => (($_SESSION["BBS_uid"] > 0 && ($row["UID"] == $_SESSION["BBS_uid"] || in_array($row["AID"], $visited_aid_list))) ? 1 : 0),
 		));
 
 		if (!isset($author_list[$row["UID"]]))
