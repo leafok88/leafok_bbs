@@ -471,6 +471,7 @@ ALTER TABLE `user_score_log`
 
 ALTER TABLE `view_article_log`
   ADD PRIMARY KEY (`AID`,`UID`),
+  ADD UNIQUE KEY `UID` (`UID`,`AID`),
   ADD KEY `dt` (`dt`);
 
 ALTER TABLE `visit_log`
