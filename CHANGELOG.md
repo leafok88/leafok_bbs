@@ -6,7 +6,7 @@ https://www.leafok.com
 
 2025-06
 =================
-DB schema change for LBBS (terminal server version)
+DB schema change for LBBS (terminal server version)  
 Minor enhancement and bug fix
 
 2025-04
