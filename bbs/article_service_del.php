@@ -123,7 +123,7 @@
 	// Update exp
 	$exp_change = ($uid == $_SESSION["BBS_uid"] ? ($tid == 0 ? -20 : -5) : ($tid == 0 ? -50 : -15));
 
-	$rs = user_exp_change($uid, ($tid == 0 ? -20 : -5), $db_conn);
+	$rs = user_exp_change($uid, $exp_change, $db_conn);
 
 	if ($rs == false)
 	{
