@@ -329,26 +329,48 @@ function FB2LML(string $str) : string
 	}
 
 	$patterns = array(
-		"/\033\[([01]?;)?30(;[0-9]{2})?m/",
-		"/\033\[([01]?;)?31(;[0-9]{2})?m/",
-		"/\033\[([01]?;)?32(;[0-9]{2})?m/",
-		"/\033\[([01]?;)?33(;[0-9]{2})?m/",
-		"/\033\[([01]?;)?34(;[0-9]{2})?m/",
-		"/\033\[([01]?;)?35(;[0-9]{2})?m/",
-		"/\033\[([01]?;)?36(;[0-9]{2})?m/",
-		"/\033\[([01]?;)?37(;[0-9]{2})?m/",
+		// FG color only
+		"/\033\[([01]?;)?30m/",
+		"/\033\[([01]?;)?31m/",
+		"/\033\[([01]?;)?32m/",
+		"/\033\[([01]?;)?33m/",
+		"/\033\[([01]?;)?34m/",
+		"/\033\[([01]?;)?35m/",
+		"/\033\[([01]?;)?36m/",
+		"/\033\[([01]?;)?37m/",
+		// FG + BG color
+		"/\033\[([01]?;)?([0-9]{2};)30m/",
+		"/\033\[([01]?;)?([0-9]{2};)31m/",
+		"/\033\[([01]?;)?([0-9]{2};)32m/",
+		"/\033\[([01]?;)?([0-9]{2};)33m/",
+		"/\033\[([01]?;)?([0-9]{2};)34m/",
+		"/\033\[([01]?;)?([0-9]{2};)35m/",
+		"/\033\[([01]?;)?([0-9]{2};)36m/",
+		"/\033\[([01]?;)?([0-9]{2};)37m/",
+		// Reset
 		"/\033\[m/",
 	);
 	$replaces = array(
-		"[color black]",
-		"[color red]",
-		"[color green]",
-		"[color orange]", // yellow -> orange
-		"[color blue]",
-		"[color magenta]",
-		"[color cyan]",
-		"[color white]",
-		"[/color]",
+		// FG color only
+		"[/color][color black]",
+		"[/color][color red]",
+		"[/color][color green]",
+		"[/color][color orange]", // yellow -> orange
+		"[/color][color blue]",
+		"[/color][color magenta]",
+		"[/color][color cyan]",
+		"[/color][color white]",
+		// FG + BG color
+		"[/color][color black]",
+		"[/color][color red]",
+		"[/color][color green]",
+		"[/color][color orange]", // yellow -> orange
+		"[/color][color blue]",
+		"[/color][color magenta]",
+		"[/color][color cyan]",
+		"[/color][color black]", // white -> black
+		// Reset
+		"[/color]", // default -> black
 	);
 	$result = preg_replace($patterns, $replaces, $result);
 
