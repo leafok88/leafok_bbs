@@ -328,6 +328,30 @@ function FB2LML(string $str) : string
 			str_repeat("[/quote]", $count) . "\n");
 	}
 
+	$patterns = array(
+		"/\033\[([01]?;)?30(;[0-9]{2})?m/",
+		"/\033\[([01]?;)?31(;[0-9]{2})?m/",
+		"/\033\[([01]?;)?32(;[0-9]{2})?m/",
+		"/\033\[([01]?;)?33(;[0-9]{2})?m/",
+		"/\033\[([01]?;)?34(;[0-9]{2})?m/",
+		"/\033\[([01]?;)?35(;[0-9]{2})?m/",
+		"/\033\[([01]?;)?36(;[0-9]{2})?m/",
+		"/\033\[([01]?;)?37(;[0-9]{2})?m/",
+		"/\033\[m/",
+	);
+	$replaces = array(
+		"[color black]",
+		"[color red]",
+		"[color green]",
+		"[color orange]", // yellow -> orange
+		"[color blue]",
+		"[color magenta]",
+		"[color cyan]",
+		"[color white]",
+		"[/color]",
+	);
+	$result = preg_replace($patterns, $replaces, $result);
+
 	return $result;
 }
 
