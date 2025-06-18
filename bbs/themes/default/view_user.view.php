@@ -289,6 +289,42 @@ window.addEventListener("load", () => {
 				</td>
 				<td>
 					<?= $result_set["data"]["last_tm"]->format("Y年m月d日 H:i:s"); ?>
+<?php
+	switch($result_set["data"]["current_action"])
+	{
+		case "MENU":
+			$current_action_name = "菜单选择";
+			break;
+		case "VIEW_FILE":
+			$current_action_name = "查看文档";
+			break;
+		case "VIEW_ARTICLE":
+			$current_action_name = "阅读文章";
+			break;
+		case "POST_ARTICLE":
+			$current_action_name = "撰写文章";
+			break;
+		case "EDIT_ARTICLE":
+			$current_action_name = "修改文章";
+			break;
+		case "REPLY_ARTICLE":
+			$current_action_name = "回复文章";
+			break;
+		case "BBS_NET":
+			$current_action_name = "站点穿梭";
+			break;
+		case "CHICKEN":
+			$current_action_name = "电子小鸡";
+			break;
+		default:
+			$current_action_name = "Web浏览";
+	}
+
+	if ($current_action_name != "")
+	{
+		echo " <font color=green>[" . $current_action_name . "]</font>";
+	}
+?>
 				</td>
 			</tr>
 			<tr>
