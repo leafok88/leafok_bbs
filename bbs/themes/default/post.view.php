@@ -211,7 +211,7 @@ else if ($quote)
 		</td>
 	</tr>
 	<tr>
-		<td align="right"><a class="s0" href="lml.htm" target=_blank>LML</a>助手</td>
+		<td align="right"><a class="s0" href="view_article.php?id=472081" target=_blank>LML</a>助手</td>
 		<td>
 			<INPUT type="button" value="B" onclick="b_bold(textarea_content)" style="font-weight:bold; width:25px;">
 			<INPUT type="button" value="I" onclick="b_italic(textarea_content)" style="font-style:italic; width:25px;">
