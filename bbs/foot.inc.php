@@ -49,7 +49,7 @@
 	$page_exec_duration = round((microtime(true) - $time_start) * 1000, 2);
 
 	echo <<<HTML
-		| <a class="s4" href="get_help.htm" target=_blank>常见问题</a> |
+		| <a class="s4" href="view_article.php?id=472080" target=_blank>常见问题</a> |
 	</p>
 	<p align="center" style="color:gray;">
 		Copyright &copy; {$BBS_copyright_duration} <a class="s8" href="/" target=_blank>{$BBS_name}({$BBS_host_name})</a> All Rights Reserved<br />
