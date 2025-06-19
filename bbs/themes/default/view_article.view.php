@@ -23,8 +23,16 @@
 
 	$navigator_bar = <<<HTML
 		<a class="s2" href="main.php?sid={$result_set['data']['sid']}">{$BBS_name}</a>&gt;&gt;<a class="s2" href="list.php?sid={$result_set['data']['sid']}">{$result_set["data"]["section_title"]}</a>&gt;&gt;<a class="s2" href="list.php?sid={$result_set['data']['sid']}&ex={$result_set['data']['ex']}">{$section_scope}</a>
+	HTML;
+
+	if ($_SESSION["BBS_priv"]->checkpriv($result_set["data"]["sid"], S_POST) &&
+		(!$result_set["data"]["lock"]))
+	{
+	$navigator_bar .= <<<HTML
 		<a class="s2" href="article_post.php?reply_id={$result_set['data']['id']}&quote=0" title="直接回复该文章">[快速回复]</a>
 	HTML;
+	}
+
 	if ($previous_id > 0)
 	{
 		$navigator_bar .= <<<HTML
