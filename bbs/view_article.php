@@ -150,6 +150,11 @@
 	if ($_SESSION["BBS_uid"] != $uid &&
 		(!$_SESSION["BBS_priv"]->checkpriv($sid, S_LIST) ||	(!$master && !$visible)))
 	{
+		if ($_SESSION["BBS_uid"] == 0)
+		{
+			force_login();
+		}
+
 		$result_set["return"]["code"] = -1;
 		$result_set["return"]["message"] = "无权访问";
 
