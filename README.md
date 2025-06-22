@@ -18,10 +18,11 @@ Copyright (C) LeafOK.com, 2001-2025
 =================
 数据库结构位于 TODO/sql/db_stru.sql ，需先导入  
 将 TODO/conf/ 目录下的文件复制到 conf 目录下，并修改  
-在数据库中建立系统帐号、栏目、版块等
 修改 lib/common.inc.php 文件（站点个性化配置）  
+通过注册页面创建管理员账号等初始账号（涉及多张数据表，不建议直接在数据库中创建）  
+在数据库中添加管理员帐号、栏目、版块等（分别位于admin_config、section_class、section_config表）  
 BBS程序位于 bbs 目录下  
-管理程序位于 manage 目录下  
+管理程序和定时后台作业（需要自行添加crontab）位于 manage 目录下  
 生成的精华区位于 gen_ex 目录下  
 
 
