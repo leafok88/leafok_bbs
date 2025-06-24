@@ -253,14 +253,14 @@
 		$sql = "UPDATE section_config SET sname = '$sname', title = '$title',
 				exp_get = $exp_get, recommend = $recommend, read_user_level = $read_user_level,
 				write_user_level = $write_user_level, comment = '$comment',
-				announcement = '$announcement', ex_update = $ex_update,
+				announcement = '$announcement', ex_update = $ex_update, ex_menu_update = $ex_update,
 				set_UID = " . $_SESSION["BBS_uid"] . ", set_dt = NOW(), set_ip='" .
 				client_addr() ."' WHERE SID = $sid";
 	}
 	else
 	{
 		$sql = "UPDATE section_config SET comment = '$comment',
-				announcement = '$announcement', ex_update = $ex_update,
+				announcement = '$announcement', ex_update = $ex_update, ex_menu_update = $ex_update,
 				set_UID = " . $_SESSION["BBS_uid"] . ", set_dt = NOW(), set_ip='" .
 				client_addr() ."' WHERE SID = $sid";
 	}

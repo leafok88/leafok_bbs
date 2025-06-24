@@ -145,6 +145,8 @@ CREATE TABLE `section_config` (
   `sort_order` smallint NOT NULL DEFAULT '10',
   `ex_gen_tm` datetime DEFAULT NULL,
   `ex_update` tinyint UNSIGNED NOT NULL DEFAULT '0',
+  `ex_menu_tm` datetime DEFAULT NULL,
+  `ex_menu_update` tinyint NOT NULL DEFAULT '0',
   `read_user_level` smallint NOT NULL DEFAULT '0',
   `write_user_level` smallint NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

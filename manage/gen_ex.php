@@ -21,7 +21,7 @@
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
 	{
-		echo ("Update section error: " . mysqli_error($db_conn));
+		echo ("Query section error: " . mysqli_error($db_conn));
 		exit();
 	}
 ?>

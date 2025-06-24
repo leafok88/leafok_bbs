@@ -65,7 +65,7 @@
 		unlink($file);
 	}
 
-	$sql = "UPDATE section_config SET ex_update = 1 WHERE SID IN ($sid_list)";
+	$sql = "UPDATE section_config SET ex_update = 1, ex_menu_update = 1 WHERE SID IN ($sid_list)";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
