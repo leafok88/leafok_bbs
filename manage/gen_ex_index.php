@@ -6,7 +6,6 @@
 			section_config.title AS s_title, section_class.title AS c_title FROM section_config
 			INNER JOIN section_class ON section_config.CID=section_class.CID
 			WHERE section_config.enable AND section_class.enable
-			AND section_config.read_user_level <= 1
 			ORDER BY section_class.sort_order, section_config.sort_order";
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)

@@ -16,6 +16,8 @@
 
 	if (isset($_SERVER["argc"]) && $_SERVER["argc"] == 2)
 	{
+		$priv_check = false;
+
 		$id = intval($_SERVER["argv"][1]);
 		$ex = 1;
 		$trash = 0;
@@ -26,6 +28,8 @@
 	}
 	else
 	{
+		$priv_check = true;
+
 		$id = (isset($_GET["id"]) ? intval($_GET["id"]) : 0);
 		$ex = (isset($_GET["ex"]) && $_GET["ex"] == "1" ? 1 : 0);
 		$trash = (isset($_GET["trash"]) && $_GET["trash"] == "1" ? 1 : 0);
@@ -147,7 +151,7 @@
 
 	$master = ($_SESSION["BBS_priv"]->checkpriv($sid, S_LIST) && $_SESSION["BBS_priv"]->checkpriv($sid, S_MAN_S));
 
-	if ($_SESSION["BBS_uid"] != $uid &&
+	if ($priv_check && $_SESSION["BBS_uid"] != $uid &&
 		(!$_SESSION["BBS_priv"]->checkpriv($sid, S_LIST) ||	(!$master && !$visible)))
 	{
 		if ($_SESSION["BBS_uid"] == 0)
