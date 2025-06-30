@@ -237,7 +237,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 	return $result_str;
 }
 
-function split_long_str(string $str, string &$pre, int $width = 76, bool $html_tag = false) : string
+function split_long_str(string $str, int &$pre, int $width = 76, bool $html_tag = false) : string
 {
 	//$pre			length of string before $str
 	//$width		length of line, 0 means unlimited
