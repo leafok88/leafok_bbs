@@ -76,7 +76,7 @@
 			<table border="0" cellpadding="0" cellspacing="0" width="1050">
 				<tr>
 					<td>
-						<a href="{$section_path}../index.html"><?= $BBS_name; ?>精华区</a>&gt;&gt;<a href="{$section_path}index.html">{$result_set["data"]["section_title"]}</a>{$ex_dir_link}
+						<a href="{$section_path}../index.html">{$BBS_name}精华区</a>&gt;&gt;<a href="{$section_path}index.html">{$result_set["data"]["section_title"]}</a>{$ex_dir_link}
 					</td>
 				</tr>
 				<tr bgcolor="#d0d3F0" height="25">
