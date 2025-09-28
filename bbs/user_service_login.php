@@ -125,7 +125,7 @@
 
 		if ($row = mysqli_fetch_array($rs))
 		{
-			if ($row["err_count"] >= 2)
+			if ($row["err_count"] >= 10)
 			{
 				$result_set["return"]["code"] = 1;
 				$result_set["return"]["message"] = "来源存在多次失败登陆尝试，请输入验证码";
@@ -136,9 +136,13 @@
 		}
 		mysqli_free_result($rs);
 
-		// Failed login attempts against the current username during certain time period
+		// Failed login attempts against the current username since last successful login
 		$sql = "SELECT COUNT(*) AS err_count FROM user_err_login_log
-				WHERE username = '$username' AND login_dt >= SUBDATE(NOW(), INTERVAL 1 DAY)";
+				LEFT JOIN user_list ON user_err_login_log.username = user_list.username
+				LEFT JOIN user_pubinfo ON user_list.UID = user_pubinfo.UID
+				WHERE user_err_login_log.username = '$username'
+				AND (user_err_login_log.login_dt >= user_pubinfo.last_login_dt
+				OR user_pubinfo.last_login_dt IS NULL)";
 		$rs = mysqli_query($db_conn, $sql);
 		if ($rs == false)
 		{
@@ -151,7 +155,7 @@
 
 		if ($row = mysqli_fetch_array($rs))
 		{
-			if ($row["err_count"] >= 5)
+			if ($row["err_count"] >= 3)
 			{
 				$result_set["return"]["code"] = 1;
 				$result_set["return"]["message"] = "账户存在多次失败登陆尝试，请输入验证码";
