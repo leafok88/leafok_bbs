@@ -5,10 +5,8 @@
 	require_once "./session_init.inc.php";
 	require_once "./check_sub.inc.php";
 
-	$data = json_decode(file_get_contents("php://input"), true);
-
-	$uid = (isset($data["uid"]) ? intval($data["uid"]) : 0);
-	$content = (isset($data["content"]) ? $data["content"] : "");
+	$uid = (isset($_POST["uid"]) ? intval($_POST["uid"]) : 0);
+	$content = (isset($_POST["content"]) ? $_POST["content"] : "");
 
 	$result_set = array(
 		"return" => array(
@@ -39,7 +37,8 @@
 		exit(json_encode($result_set));
 	}
 
-	$r_content = check_badwords(split_line($content, "", 256, 10), "****");
+	$content = split_line($content, "", 256, 10);
+	$r_content = check_badwords($content, "****");
 	if ($content != $r_content)
 	{
 		$result_set["return"]["code"] = -1;

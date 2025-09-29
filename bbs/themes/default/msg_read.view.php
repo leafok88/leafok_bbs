@@ -77,7 +77,11 @@ function send_msg()
 	instance.post('msg_service_send.php', {
 		uid: document.getElementById("uid").value,
 		content: document.getElementById("content").value,
-    })
+    }, {
+		headers: {
+			'Content-Type': 'multipart/form-data',
+		}
+	})
     .then(function (response) {
         var ret = response.data;
 		var errorFieldMap = new Map();
@@ -244,7 +248,7 @@ foreach ($result_set["data"]["messages"] as $message)
 			</tr>
 			<tr bgcolor="<?= $color[0]; ?>">
 				<td colspan="2">
-					<?= LML(htmlspecialchars($message["content"], ENT_HTML401, 'UTF-8'), true, true, 100); ?>
+					<pre><?= LML(htmlspecialchars($message["content"], ENT_HTML401, 'UTF-8'), true, true, 100); ?></pre>
 				</td>
 			</tr>
 <?php
