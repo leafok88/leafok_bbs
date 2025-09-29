@@ -8,10 +8,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 	global $BBS_theme_current;
 
 	//For compatibility with FB2000
-	if ($lml_tag)
-	{
-		$source_str = FB2LML($source_str);
-	}
+	$source_str = FB2LML($source_str);
 
 	$lml_user_set = $lml_tag;
 	$result_str = "";
