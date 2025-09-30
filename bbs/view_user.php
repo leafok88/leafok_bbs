@@ -66,7 +66,7 @@
 		"dead" => false,
 		"online" => false,
 		"last_tm" => (new DateTimeImmutable($row["last_login_dt"]))->setTimezone($_SESSION["BBS_user_tz"]),
-		"current_action" => "",
+		"current_action" => array(),
 		"ip" => "",
 		"is_friend" => false,
 		"photo" => "",
@@ -87,7 +87,8 @@
 
 	$sql = "SELECT IF(last_tm < SUBDATE(NOW(), INTERVAL $BBS_user_off_line SECOND), 1, 0) AS timeout,
 			ip, last_tm, current_action FROM user_online WHERE UID = $uid
-			ORDER BY last_tm DESC LIMIT 1";
+			AND last_tm >= SUBDATE(NOW(), INTERVAL $BBS_user_off_line SECOND)
+			ORDER BY last_tm DESC";
 
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
@@ -99,12 +100,15 @@
 		exit(json_encode($result_set));
 	}
 
-	if ($row = mysqli_fetch_array($rs))
+	while ($row = mysqli_fetch_array($rs))
 	{
-		$result_set["data"]["online"] = ($row["timeout"] == 0);
-		$result_set["data"]["ip"] = ip_mask($row["ip"], $ip_mask_level);
-		$result_set["data"]["last_tm"] = (new DateTimeImmutable($row["last_tm"]))->setTimezone($_SESSION["BBS_user_tz"]);
-		$result_set["data"]["current_action"] = $row["current_action"];
+		if ($result_set["data"]["online"] == false)
+		{
+			$result_set["data"]["online"] = true;
+			$result_set["data"]["ip"] = ip_mask($row["ip"], $ip_mask_level);
+			$result_set["data"]["last_tm"] = (new DateTimeImmutable($row["last_tm"]))->setTimezone($_SESSION["BBS_user_tz"]);
+		}
+		array_push($result_set["data"]["current_action"], $row["current_action"]);
 	}
 	mysqli_free_result($rs);
 
