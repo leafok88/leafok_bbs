@@ -248,10 +248,25 @@
 
 	while ($row = mysqli_fetch_array($rs))
 	{
+		// Rewrite title with "Re: Re: " prefix into "Re: ... "
+		$title = $row["title"];
+		if ($row["TID"] != 0)
+		{
+			$j = 0;
+			while (substr_compare($row["title"], "Re: ", $j, strlen("Re: ")) == 0)
+			{
+				$j += strlen("Re: ");
+			}
+			if ($j >= strlen("Re: Re: "))
+			{
+				$title = "Re: ... " . substr($row["title"], $j);
+			}
+		}
+
 		array_push($result_set["data"]["articles"], array(
 			"aid" => $row["AID"],
 			"tid" => $row["TID"],
-			"title" => $row["title"],
+			"title" => $title,
 			"sub_dt" => (new DateTimeImmutable($row["sub_dt"]))->setTimezone($_SESSION["BBS_user_tz"]),
 			"length" => $row["length"],
 			"icon" => $row["icon"],
@@ -280,6 +295,8 @@
 		{
 			$author_list[$row["last_reply_UID"]] = true;
 		}
+
+		unset($title);
 	}
 	mysqli_free_result($rs);
 
