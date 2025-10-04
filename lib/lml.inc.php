@@ -335,6 +335,8 @@ function FB2LML(string $str) : string
 		"/\033\[([01]?;)?([0-9]{2};)?37m(;[0-9]{2})?/",
 		// Reset
 		"/\033\[m/",
+		// Unknown
+		"/\033\[I/",
 	);
 	$replaces = array(
 		"[/color][color black]",
@@ -347,6 +349,8 @@ function FB2LML(string $str) : string
 		"[/color][color white]",
 		// Reset
 		"[/color]", // default -> black
+		// Unknown
+		"",
 	);
 	$result = preg_replace($patterns, $replaces, $result);
 
