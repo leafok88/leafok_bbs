@@ -1,11 +1,16 @@
 <?php
-function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $width = 76, bool $quote_mode = false) : string
+function LML(string | null $source_str, bool $lml_tag, bool $use_proxy = true, int $width = 76, bool $quote_mode = false) : string
 {
 	//$lml_tag		whether LML tag should be processed
 	//$use_proxy	whether use proxy to display image or flash
 	//$width		length of line, 0 means unlimited
 
 	global $BBS_theme_current;
+
+	if ($source_str == null)
+	{
+		$source_str = "";
+	}
 
 	//For compatibility with FB2000
 	$source_str = FB2LML($source_str);
