@@ -1,5 +1,5 @@
 <?php
-function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $width = 76) : string
+function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $width = 76, bool $quote_mode = false) : string
 {
 	//$lml_tag		whether LML tag should be processed
 	//$use_proxy	whether use proxy to display image or flash
@@ -10,6 +10,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 	//For compatibility with FB2000
 	$source_str = FB2LML($source_str);
 
+	$lml_disabled = false;
 	$lml_user_set = $lml_tag;
 	$result_str = "";
 	$pre = 0;
@@ -25,7 +26,7 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 	while ($p_current < $l_source)
 	{
 		$p_start = strpos($source_str, "[", $p_current);
-		if ($p_start !== false)
+		if (!$lml_disabled && $p_start !== false)
 		{
 			if ($p_start > $p_current)
 			{
@@ -81,7 +82,10 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 				{
 					switch ($tag_str)
 					{
-						case "nolml": //User disable LML
+						case "plain": // User disable LML unrecoverably
+							$lml_disabled = true;
+							break;
+						case "nolml": // User disable LML recoverably
 							$lml_user_set = false;
 							$tag_result = "";
 							break;
@@ -199,15 +203,19 @@ function LML(string $source_str, bool $lml_tag, bool $use_proxy = true, int $wid
 			{
 				switch ($tag_str)
 				{
+					case "plain": // User disable LML unrecoverably
+						$lml_disabled = true;
+						$tag_result = ($quote_mode ? "[plain]" : "");
+						break;
 					case "lml": //User re-enable LML
 						if ($lml_tag)
 							$lml_user_set = true;
 						break;
 					case "left":
-						$tag_result = "[";
+						$tag_result = ($quote_mode ? "[left]" : "[");
 						break;
 					case "right":
-						$tag_result = "]";
+						$tag_result = ($quote_mode ? "[right]" : "]");
 						break;
 					case "image": //show URL only
 						$tag_result = $tag_arg;
@@ -310,11 +318,25 @@ function split_long_str(string $str, int &$pre, int $width = 76, bool $html_tag 
 
 function FB2LML(string $str) : string
 {
+	$lml_disabled = false;
 	$result = "";
 
 	$lines = explode("\n", $str);
 	foreach ($lines as $line)
 	{
+		if ($lml_disabled)
+		{
+			$result .= $line . "\n";
+			continue;
+		}
+
+		if (strstr($line, "[plain]"))
+		{
+			$lml_disabled = true;
+			$result .= $line . "\n";
+			continue;
+		}
+
 		$count = 0;
 		if (preg_match("/^([:][[:space:]])*/", $line, $regs))
 		{
@@ -355,31 +377,6 @@ function FB2LML(string $str) : string
 		"",
 	);
 	$result = preg_replace($patterns, $replaces, $result);
-
-	return $result;
-}
-
-function LMLtagFilter(string $str) : string
-{
-	$result = "";
-	$len = strlen($str);
-
-	for ($i = 0; $i < $len; $i++)
-	{
-		$c = $str[$i];
-		switch($c)
-		{
-			case "[":
-				$result .= "[left]";
-				break;
-			case "]":
-				$result .= "[right]";
-				break;
-			default:
-				$result .= $c;
-				break;
-		}
-	}
 
 	return $result;
 }

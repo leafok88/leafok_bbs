@@ -205,7 +205,7 @@ else if ($quote)
 
 【 在 <?= htmlspecialchars($result_set["data"]["r_username"], ENT_HTML401, 'UTF-8'); ?> (<?= htmlspecialchars($result_set["data"]["r_nickname"], ENT_HTML401, 'UTF-8'); ?>) 的大作中提到: 】
 <?php
-	echo htmlspecialchars(LMLtagFilter(LML(split_line($result_set["data"]["content"], ": ", 76, 20), false, false, 1024)), ENT_HTML401, 'UTF-8');
+	echo htmlspecialchars(LML(split_line($result_set["data"]["content"], ": ", 76, 20), false, false, 1024, true), ENT_HTML401, 'UTF-8');
 }
 ?></textarea>
 		</td>
