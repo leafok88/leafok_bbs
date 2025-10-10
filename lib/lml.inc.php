@@ -191,12 +191,6 @@ function LML(string | null $source_str, bool $lml_tag, bool $use_proxy = true, i
 						case "/marquee":
 							$tag_result = "</marquee>";
 							break;
-						case "hide":
-							$tag_result = "<span style=\"display: none;\">";
-							break;
-						case "/hide":
-							$tag_result = "</span>";
-							break;
 						case "flash":
 							$tag_result = "<a class=\"s7\" href=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" target=_blank>View Flash</a>";
 							break;
