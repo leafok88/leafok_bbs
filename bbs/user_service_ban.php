@@ -418,7 +418,7 @@
 	// Prepare message
 	if ($ban)
 	{
-		$msg_content = "[hide]SYS_Ban_User[/hide]您" .
+		$msg_content = "您" .
 			($sid > 0 ? "在“" . $section_title . "”版块的" : "全站") . $p_name .
 			"已被封禁，详见[article " . $aid . "]处罚公告[/article]。" .
 			"[align right]执行人：[user " . $_SESSION["BBS_uid"] . "]" .
@@ -426,7 +426,7 @@
 	}
 	else
 	{
-		$msg_content = "[hide]SYS_Unban_User[/hide]您" .
+		$msg_content = "您" .
 			($sid > 0 ? "在“" . $section_title . "”版块的" : "全站") . $p_name .
 			"已被恢复。[align right]执行人：[user " . $_SESSION["BBS_uid"] . "]" .
 			$_SESSION["BBS_username"] . "[/user][/align]";

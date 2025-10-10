@@ -137,7 +137,7 @@
 	if ($uid != $_SESSION["BBS_uid"]) // Delete by admin
 	{
 		//Send alarm message
-		$msg_content = "[hide]SYS_Delete_Article[/hide]您所发表的[article $id]$id" .
+		$msg_content = "您所发表的[article $id]$id" .
 			"[/url]号文章，违反了本论坛的相关规定，现已被移至“回收站”。" .
 			"[align right]执行人：[user " .	$_SESSION["BBS_uid"] . "]" .
 			$_SESSION["BBS_username"] . "[/user][/align]";

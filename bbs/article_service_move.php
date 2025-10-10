@@ -149,7 +149,7 @@
 	}
 
 	//Send alarm message
-	$msg_content = "[hide]SYS_Move_Article[/hide]您所发表的[article $id]$id" .
+	$msg_content = "您所发表的[article $id]$id" .
 		"[/url]号文章，与所在版块主题不符，现已被移至“" . $section_title . "”版块。" .
 		"[align right]执行人：[user " . $_SESSION["BBS_uid"] . "]" .
 		$_SESSION["BBS_username"] . "[/user][/align]";

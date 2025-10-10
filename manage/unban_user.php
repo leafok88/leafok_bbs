@@ -229,7 +229,7 @@
 		}
 
 		// Prepare message
-		$msg_content = "[hide]SYS_Unban_User[/hide]您" .
+		$msg_content = "您" .
 			($row["SID"] > 0 ? "在“" . $row["title"] . "”版块的" : "全站") . $p_name .
 			"已被恢复。[align right]执行人：[user " . $BBS_sys_uid . "]" .
 			$sys_user . "[/user][/align]";

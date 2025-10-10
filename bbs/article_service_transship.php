@@ -121,7 +121,7 @@
 	}
 
 	//Send alarm message
-	$msg_content = "[hide]SYS_Transship_Article[/hide]您所发表的[article $id]$id" .
+	$msg_content = "您所发表的[article $id]$id" .
 		"[/article]号文章，违反了本论坛的相关规定，现已被设为转载。" .
 		"[align right]执行人：[user " . $_SESSION["BBS_uid"] . "]" .
 		$_SESSION["BBS_username"] . "[/user][/align]";

@@ -654,7 +654,7 @@
 			while ($row = mysqli_fetch_array($rs))
 			{
 				//Send notification message
-				$msg_content = "[hide]SYS_Reply_Article[/hide]有人回复了您所发表/回复的文章，快来".
+				$msg_content = "有人回复了您所发表/回复的文章，快来".
 					"[article $aid]看看[/article]《" . $r_title . "》吧！\n";
 
 				$sql = "INSERT INTO bbs_msg(fromUID, toUID, content, send_dt, send_ip)
