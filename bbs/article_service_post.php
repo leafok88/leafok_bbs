@@ -637,8 +637,8 @@
 				exit(json_encode($result_set));
 			}
 
-			//Notify the authors of the topic which is replyed.
-			$sql = "SELECT DISTINCT UID FROM bbs WHERE (AID = $tid OR TID = $tid)
+			//Notify the authors of the topic / article which is replyed.
+			$sql = "SELECT DISTINCT UID FROM bbs WHERE (AID = $tid OR AID = $reply_id)
 					AND visible AND reply_note AND UID <> " . $_SESSION["BBS_uid"];
 
 			$rs = mysqli_query($db_conn, $sql);
@@ -654,7 +654,7 @@
 			while ($row = mysqli_fetch_array($rs))
 			{
 				//Send notification message
-				$msg_content = "[hide]SYS_Reply_Article[/hide]有人回复了您所发表/回复的主题文章，快来".
+				$msg_content = "[hide]SYS_Reply_Article[/hide]有人回复了您所发表/回复的文章，快来".
 					"[article $aid]看看[/article]《" . $r_title . "》吧！\n";
 
 				$sql = "INSERT INTO bbs_msg(fromUID, toUID, content, send_dt, send_ip)

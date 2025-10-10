@@ -301,7 +301,7 @@ else if ($quote)
 ?>
 	<tr>
 		<td align="right"></td>
-		<td><input type="checkbox" name="reply_note" id="reply_note" <?= ($result_set["data"]["reply_note"] ? "checked":""); ?>>有人回复该主题时通知我</td>
+		<td><input type="checkbox" name="reply_note" id="reply_note" <?= ($result_set["data"]["reply_note"] ? "checked":""); ?>>有人回复该文章时通知我</td>
 	</tr>
 </table>
 <p><input type="submit" value="提交" name="submit">&nbsp;&nbsp;&nbsp;<input type="reset" value="重填" name="reset"></p>
