@@ -318,8 +318,11 @@ window.addEventListener("load", () => {
 			case "CHICKEN":
 				$current_action_name = "电子小鸡";
 				break;
-			default:
+			case "":
 				$current_action_name = "Web浏览";
+				break;
+			default:
+				$current_action_name = $current_action;
 		}
 
 		if ($current_action_name != "")
