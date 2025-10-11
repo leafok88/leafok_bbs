@@ -10,6 +10,11 @@ CREATE TABLE `admin_config` (
   `major` tinyint UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE `article_favorite` (
+  `UID` mediumint NOT NULL,
+  `AID` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 CREATE TABLE `ban_user_list` (
   `BID` smallint NOT NULL,
   `SID` smallint NOT NULL DEFAULT '0',
@@ -323,6 +328,10 @@ CREATE TABLE `visit_log` (
 ALTER TABLE `admin_config`
   ADD PRIMARY KEY (`AID`),
   ADD KEY `UID` (`UID`);
+
+ALTER TABLE `article_favorite`
+  ADD PRIMARY KEY (`UID`,`AID`),
+  ADD KEY `AID` (`AID`);
 
 ALTER TABLE `ban_user_list`
   ADD PRIMARY KEY (`BID`),
