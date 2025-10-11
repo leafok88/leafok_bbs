@@ -146,6 +146,7 @@ window.addEventListener("load", () => {
 	if ($_SESSION["BBS_priv"]->checklevel(P_ADMIN_M | P_ADMIN_S | P_MAN_M | P_MAN_S))
 	{
 ?>
+				<input type="checkbox" name="favorite" id="favorite" value="1">收藏
 				<input type="checkbox" name="trash" id="trash" value="1">回收站
 <?php
 	}

@@ -33,6 +33,7 @@
 	$reply = (isset($_GET["reply"]) && $_GET["reply"] == "1" ? 1 : 0);
 	$use_nick = (isset($_GET["use_nick"]) && $_GET["use_nick"] == "1" ? 1 : 0);
 	$original = (isset($_GET["original"]) && $_GET["original"] == "1" ? 1 : 0);
+	$favorite = (isset($_GET["favorite"]) && $_GET["favorite"] == "1" ? 1 : 0);
 	$trash = (isset($_GET["trash"]) && $_GET["trash"] == "1" ? 1 : 0);
 	$page = (isset($_GET["page"]) ? intval($_GET["page"]) : 1);
 	$rpp = (isset($_GET["rpp"]) ? intval($_GET["rpp"]) : 10);
@@ -114,6 +115,7 @@
 
 	$sql = "SELECT count(*) AS article_count FROM bbs" .
 		($content == "" ? "" : " INNER JOIN bbs_content ON bbs.CID = bbs_content.CID") .
+		($favorite == 1 ? " INNER JOIN article_favorite ON IF(bbs.TID = 0, bbs.AID, bbs.TID) = article_favorite.AID AND article_favorite.UID = " . $_SESSION["BBS_uid"] : "") .
 		" WHERE SID in ($sid_list) AND " .
 		($reply ? "" : "TID = 0 AND ") .
 		($uid ? "UID = $uid AND ":"") .
@@ -173,6 +175,7 @@
 		"content" => $content,
 		"begin_dt" => $begin_dt,
 		"end_dt" => $end_dt,
+		"favorite" => $favorite,
 		"trash" => $trash,
 		"toa" => $toa,
 		"page" => $page,
@@ -188,6 +191,7 @@
 		INNER JOIN section_config ON bbs.SID = section_config.SID
 		INNER JOIN section_class ON section_config.CID = section_class.CID" .
 		($content == "" ? "" : " INNER JOIN bbs_content ON bbs.CID = bbs_content.CID") .
+		($favorite == 1 ? " INNER JOIN article_favorite ON IF(bbs.TID = 0, bbs.AID, bbs.TID) = article_favorite.AID AND article_favorite.UID = " . $_SESSION["BBS_uid"] : "") .
 		" WHERE bbs.SID in ($sid_list) AND " .
 		($reply ? "" : "TID = 0 AND ") .
 		($uid ? "UID = $uid AND ":"") .
@@ -344,6 +348,7 @@
 	unset($begin_dt);
 	unset($end_dt);
 	unset($search_topic);
+	unset($favorite);
 	unset($trash);
 	unset($toa);
 	unset($page);

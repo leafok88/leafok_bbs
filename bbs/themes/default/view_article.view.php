@@ -187,6 +187,7 @@
 			["ontop", "article_service_ontop.php"],
 			["lock", "article_service_lock.php"],
 			["transship", "article_service_transship.php"],
+			["favorite", "article_service_favor.php"],
 		]);
 
 		var opNeedRefresh = new Set([
@@ -467,6 +468,16 @@
 				$article_ctrl_bar .= <<<HTML
 					<a class="s4" id="set_transship_{$article['aid']}" style="display: {$set_transship_display}" href="" onclick="return article_op('transship', {$article['aid']}, 1, true);" title="设为转载">设为转载</a>
 					<a class="s4" id="unset_transship_{$article['aid']}" style="display: none" href=""></a>
+				HTML;
+			}
+			if ($article["tid"] == 0)
+			{
+				$set_favorite_display = ($result_set["data"]["topic_favorite"] ? "none" : "inline");
+				$unset_favorite_display = ($result_set["data"]["topic_favorite"] ? "inline" : "none");
+
+				$article_ctrl_bar .= <<<HTML
+					<a class="s4" id="set_favorite_{$article['aid']}" style="display: {$set_favorite_display}" href="" onclick="return article_op('favorite', {$article['aid']}, 1);" title="收藏主题">收藏</a>
+					<a class="s4" id="unset_favorite_{$article['aid']}" style="display: {$unset_favorite_display}" href="" onclick="return article_op('favorite', {$article['aid']}, 0);" title="取消收藏主题">取消收藏</a>
 				HTML;
 			}
 		}

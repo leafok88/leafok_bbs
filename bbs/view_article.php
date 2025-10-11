@@ -166,6 +166,23 @@
 		exit(json_encode($result_set));
 	}
 
+	// Query topic favorite state
+	$sql = "SELECT AID FROM article_favorite WHERE UID = " . $_SESSION["BBS_uid"] .
+			" AND AID = $id";
+
+	$rs = mysqli_query($db_conn, $sql);
+	if ($rs == false)
+	{
+		$result_set["return"]["code"] = -2;
+		$result_set["return"]["message"] = "Query favorite state error: " . mysqli_error($db_conn);
+
+		mysqli_close($db_conn);
+		exit(json_encode($result_set));
+	}
+
+	$topic_favorite = (mysqli_num_rows($rs) > 0);
+	mysqli_free_result($rs);
+
 	// Get ID of next article
 	$sql = "SELECT AID FROM bbs WHERE AID > $id AND TID = 0 AND SID = $sid" .
 			($trash ? ($master ? "" : " AND (visible OR UID=" . $_SESSION["BBS_uid"] . ")") : " AND visible") .
@@ -319,6 +336,7 @@
 		"fid" => $fid,
 		"ex_dir" => $ex_dir,
 		"ex_name" => $ex_name,
+		"topic_favorite" => $topic_favorite,
 
 		"section_ex_dirs" => array(),
 		"section_list_options" => ($excerption ? "" : section_list_dst($db_conn, $sid)),
@@ -597,6 +615,7 @@
 	unset($fid);
 	unset($ex_dir);
 	unset($ex_name);
+	unset($topic_favorite);
 
 	// Output with theme view
 	$theme_view_file = get_theme_file("view/view_article", $theme_name);

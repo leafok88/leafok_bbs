@@ -236,6 +236,7 @@
 				<input type="hidden" id="ex" name="ex" value="{$result_set['data']['ex']}">
 				<input type="hidden" id="use_nick" name="use_nick" value="{$result_set['data']['use_nick']}">
 				<input type="hidden" id="original" name="original" value="{$result_set['data']['original']}">
+				<input type="hidden" id="favorite" name="favorite" value="{$result_set['data']['favorite']}">
 				<input type="hidden" id="trash" name="trash" value="{$result_set['data']['trash']}">
 				每页<select size="1" id="rpp" name="rpp" onchange="ch_rpp();">
 				{$rpp_options}
