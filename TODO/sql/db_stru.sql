@@ -279,6 +279,7 @@ CREATE TABLE `user_pubinfo` (
   `visit_count` mediumint NOT NULL DEFAULT '0',
   `gender_pub` tinyint UNSIGNED NOT NULL DEFAULT '0',
   `last_login_dt` datetime DEFAULT NULL,
+  `last_logout_dt` datetime DEFAULT NULL,
   `sign_1` mediumtext,
   `sign_2` mediumtext,
   `sign_3` mediumtext,
