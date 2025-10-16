@@ -4,10 +4,9 @@
 
 	// +1 exp for every 5 minutes online since last logout
 	// but at most 1 hour worth of exp can be gained in Web session
-	$sql = "UPDATE user_pubinfo SET exp = exp + 
-			FLOOR((UNIX_TIMESTAMP() - GREATEST(IF(last_logout_dt IS NULL, 0, UNIX_TIMESTAMP(last_logout_dt)), " . 
-			max($_SESSION["BBS_login_tm"], time() - 60 * 60) . ")) / 60 / 5), 
-			last_logout_dt = NOW()
+	$sql = "UPDATE user_pubinfo SET exp = exp + FLOOR(LEAST(TIMESTAMPDIFF(
+			SECOND, GREATEST(last_login_dt, IF(last_logout_dt IS NULL, last_login_dt, last_logout_dt)), NOW()
+			) / 60 / 5, 12)), last_logout_dt = NOW()
 			WHERE UID = " . $_SESSION["BBS_uid"];
 	$rs = mysqli_query($db_conn, $sql);
 	if ($rs == false)
