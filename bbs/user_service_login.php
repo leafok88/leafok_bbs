@@ -167,7 +167,7 @@
 		mysqli_free_result($rs);
 	}
 
-	$sql = "SELECT UID, p_login, verified, temp_password,
+	$sql = "SELECT UID, username, p_login, verified, temp_password,
 			password = MD5('$password') AS old_pass
 			FROM user_list WHERE username = '$username' AND
 			(password = MD5('$password') OR password = SHA2('$password', 256) OR
@@ -189,6 +189,7 @@
 	if ($row = mysqli_fetch_array($rs))
 	{
 		$uid = intval($row["UID"]);
+		$username = $row["username"];
 
 		if ($password == $row["temp_password"] && !$ch_passwd)
 		{
