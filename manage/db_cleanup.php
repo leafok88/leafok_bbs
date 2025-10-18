@@ -176,7 +176,6 @@
 	while ($row = mysqli_fetch_array($rs))
 	{
 		$aid_list .= (", " . $row["AID"]);
-		$aid_count++;
 	}
 	mysqli_free_result($rs);
 
@@ -301,6 +300,7 @@
 		echo ("Purge UID in list ($uid_list)<br />\n");
 
 		$user_db = array(
+			"article_favorite" => "UID",
 			"bbs_msg" => "toUID",
 			"section_favorite" => "UID",
 			"user_pubinfo" => "UID",
@@ -311,6 +311,7 @@
 			"user_score" => "UID",
 			"user_score_log" => "UID",
 			"user_modify_email_verify" => "UID",
+			"view_article_log" => "UID",
 		);
 
 		foreach($user_db as $table => $column)
