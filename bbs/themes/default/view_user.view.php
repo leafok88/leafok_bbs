@@ -297,6 +297,12 @@ window.addEventListener("load", () => {
 			case "MENU":
 				$current_action_name = "菜单选择";
 				break;
+			case "USER_LIST":
+				$current_action_name = "查花名册";
+				break;
+			case "USER_ONLINE":
+				$current_action_name = "环顾四周";
+				break;
 			case "VIEW_FILE":
 				$current_action_name = "查看文档";
 				break;
