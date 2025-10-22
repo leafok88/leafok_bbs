@@ -57,7 +57,7 @@ if (!defined("_BBS_SESSION_INIT_"))
 
 		//Update user_online status
 		$sql = "UPDATE user_online SET UID = " . $_SESSION["BBS_uid"] .
-				", ip = '" . client_addr() . "', current_action = '', login_tm = '".
+				", ip = '" . client_addr() . "', current_action = 'WWW', login_tm = '".
 				date("Y-m-d H:i:s", $_SESSION["BBS_login_tm"]) . "', last_tm = NOW() " .
 				"WHERE SID = '" . session_id() . "'";
 
