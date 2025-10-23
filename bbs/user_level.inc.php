@@ -9,17 +9,21 @@ function user_level($e)
 	$l = 0;
 	$r = count($BBS_exp) - 1;
 
-	while ($l + 1 < $r)
+	while ($l < $r)
 	{
 		$m = intdiv(($l + $r), 2);
-
-		if ($e < $BBS_exp[$m])
+		if ($e < $BBS_exp[$m + 1])
 		{
 			$r = $m;
 		}
-		else
+		else if ($e > $BBS_exp[$m + 1])
 		{
-			$l = $m;
+			$l = $m + 1;
+		}
+		else // if ($e == $BBS_exp[$m + 1])
+		{
+			$l = $m + 1;
+			break;
 		}
 	}
 
