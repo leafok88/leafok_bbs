@@ -458,7 +458,7 @@ window.addEventListener("load", () => {
 					<table border="0" cellspacing="0" cellpadding="0" width="80%">
 						<tr>
 							<td style="color:gray; font-size:14px;">
-								<?= LML(htmlspecialchars($result_set["data"]["introduction"], ENT_HTML401, 'UTF-8'), true, true, 80); ?>
+								<pre><?= LML(htmlspecialchars($result_set["data"]["introduction"], ENT_HTML401, 'UTF-8'), true, true, 80); ?></pre>
 							</td>
 						</tr>
 					</table>
