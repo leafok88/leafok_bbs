@@ -3,6 +3,7 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 {
 	//$lml_tag		whether LML tag should be processed
 	//$width		length of line, 0 means unlimited
+	//$quote_mode	whether output text is used as quoted content in text editor
 
 	global $BBS_theme_current;
 
@@ -15,7 +16,7 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 	$source_str = FB2LML($source_str);
 
 	$lml_disabled = false;
-	$lml_user_set = $lml_tag;
+	$lml_user_disabled = !$lml_tag;
 	$result_str = "";
 	$pre = 0;
 	$p_current = 0;
@@ -82,7 +83,7 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 						break;
 				}
 
-				if ($lml_user_set)
+				if (!$quote_mode && !$lml_user_disabled)
 				{
 					switch ($tag_str)
 					{
@@ -90,7 +91,7 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 							$lml_disabled = true;
 							break;
 						case "nolml": // User disable LML recoverably
-							$lml_user_set = false;
+							$lml_user_disabled = true;
 							$tag_result = "";
 							break;
 						case "left":
@@ -189,7 +190,7 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 				}
 			}
 
-			if (!$lml_user_set)
+			if ($quote_mode || $lml_user_disabled)
 			{
 				switch ($tag_str)
 				{
@@ -199,13 +200,15 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 						break;
 					case "lml": //User re-enable LML
 						if ($lml_tag)
-							$lml_user_set = true;
+						{
+							$lml_user_disabled = false;
+						}
 						break;
 					case "left":
-						$tag_result = ($quote_mode ? "[left]" : "[");
+						$tag_result = "[left]";
 						break;
 					case "right":
-						$tag_result = ($quote_mode ? "[right]" : "]");
+						$tag_result = "[right]";
 						break;
 					case "image": //show URL only
 						$tag_result = $tag_arg;
