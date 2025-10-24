@@ -327,7 +327,7 @@ window.addEventListener("load", () => {
 			case "CHICKEN":
 				$current_action_name = "电子小鸡";
 				break;
-			case "":
+			case "WWW":
 				$current_action_name = "Web浏览";
 				break;
 			default:
