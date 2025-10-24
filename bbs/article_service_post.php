@@ -126,7 +126,7 @@
 	}
 
 	// Calculate length of content
-	$length = str_length(LML($content, false, false, 1024));
+	$length = str_length(LML($content, false, 1024));
 
 	// Initial variables
 	$tid = 0;

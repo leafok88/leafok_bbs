@@ -1,8 +1,7 @@
 <?php
-function LML(string | null $source_str, bool $lml_tag, bool $use_proxy = true, int $width = 76, bool $quote_mode = false) : string
+function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $quote_mode = false) : string
 {
 	//$lml_tag		whether LML tag should be processed
-	//$use_proxy	whether use proxy to display image or flash
 	//$width		length of line, 0 means unlimited
 
 	global $BBS_theme_current;
@@ -144,15 +143,7 @@ function LML(string | null $source_str, bool $lml_tag, bool $use_proxy = true, i
 							$tag_result = "</p>\n";
 							break;
 						case "image":
-							if ($use_proxy)
-							{
-								$tag_result = "<img onmousewheel=\"return bbs_img_zoom(event, this)\" src=\"" .
-									htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" border=0>";
-							}
-							else
-							{
-								$tag_result = "<img src=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" border=0>";
-							}
+							$tag_result = "<img src=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" border=0>";
 							break;
 						case "link":
 						case "url":

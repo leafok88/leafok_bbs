@@ -495,7 +495,7 @@
 		$nickname = htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8');
 		$title_f = split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />");
 		$title_class = ($article["visible"] ? "title_normal" : "title_deleted");
-		$content_f = LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, true, 80);
+		$content_f = LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, 80);
 		$content_class = ($article["visible"] ? "content_normal" : "content_deleted");
 
 		$transship_info = "";

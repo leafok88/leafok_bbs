@@ -100,7 +100,7 @@
 
 	while ($row = mysqli_fetch_array($rs))
 	{
-		$content_f = LML($row["content"], false, false, 1024);
+		$content_f = LML($row["content"], false, 1024);
 		$length = str_length($content_f);
 
 		if ($row["length"] != $length)
