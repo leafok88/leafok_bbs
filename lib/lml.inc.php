@@ -13,10 +13,12 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 	}
 
 	//For compatibility with FB2000
-	$source_str = FB2LML($source_str);
+	if (!$quote_mode)
+	{
+		$source_str = FB2LML($source_str);
+	}
 
-	$lml_disabled = false;
-	$lml_user_disabled = !$lml_tag;
+	$lml_disabled = !$lml_tag;
 	$result_str = "";
 	$pre = 0;
 	$p_current = 0;
@@ -46,8 +48,10 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 			$p_end = strpos($source_str, "]", $p_start + 1);
 			if ($p_end === false)
 			{
-				$p_end = $l_source - 1;
+				$result_str .= substr($source_str, $p_start, $l_source - $p_start);
+				break;
 			}
+
 			if (($p_space !== false) && ($p_space < $p_end))
 			{
 				$p_tag_end = $p_space;
@@ -63,10 +67,109 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 				$tag_str = strtolower(trim(substr($source_str, $p_start + 1, $p_tag_end - $p_start - 1)));
 			}
 
-			if ($lml_tag)
+			if (!$quote_mode)
 			{
 				switch ($tag_str)
 				{
+					case "plain": // User disable LML unrecoverably
+						$lml_disabled = true;
+						break;
+					case "lml": // deprecated
+						break;
+					case "nolml": // deprecated
+						break;
+					case "left":
+						$tag_result = "[";
+						break;
+					case "right":
+						$tag_result = "]";
+						break;
+					case "bold":
+					case "b":
+						$tag_result = "<span style=\"font-weight: bold\">";
+						break;
+					case "/bold":
+					case "/b":
+						$tag_result = "</span>";
+						break;
+					case "italic":
+					case "i":
+						$tag_result = "<span style=\"font-style: italic\">";
+						break;
+					case "/italic":
+					case "/i":
+						$tag_result = "</span>";
+						break;
+					case "underline":
+					case "u":
+						$tag_result = "<span style=\"text-decoration: underline\">";
+						break;
+					case "/underline":
+					case "/u":
+						$tag_result = "</span>";
+						break;
+					case "color":
+						$tag_result = "<span style=\"color: " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
+						break;
+					case "/color":
+						$tag_result = "</span>";
+						break;
+					case "size":
+						$tag_result = "<span style=\"font-size: " .
+							(is_numeric($tag_arg) ? intval($tag_arg * 4) . "px" : htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8')) . "\">";
+						break;
+					case "/size":
+						$tag_result = "</span>";
+						break;
+					case "align":
+						$tag_result = "\n<p align=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
+						break;
+					case "/align":
+						$tag_result = "</p>\n";
+						break;
+					case "image":
+						$tag_result = "<img src=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" border=0>";
+						break;
+					case "link":
+					case "url":
+						if (preg_match("/script:/i", $tag_arg)) // Filter milicious code
+						{
+							$tag_arg = "#";
+						}
+						$tag_result = "<a class=\"s7\" href=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" target=_blank>";
+						break;
+					case "/link":
+					case "/url":
+						$tag_result = "</a>";
+						break;
+					case "email":
+						$tag_result = "<a class=\"s7\" href=\"mailto:" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
+						break;
+					case "/email":
+						$tag_result = "</a>";
+						break;
+					case "article":
+						$tag_result = "<a class=\"s7\" href=\"/bbs/view_article.php?tn=" .
+							(isset($BBS_theme_current) ? $BBS_theme_current : "") . "&trash=1&id=" . intval($tag_arg) . "#"  . intval($tag_arg) . "\" target=_blank>";
+						break;
+					case "/article":
+						$tag_result = "</a>";
+						break;
+					case "user":
+						$tag_result = "<a class=\"s7\" href=\"view_user.php?uid=" . intval($tag_arg) . "\" target=_blank>";
+						break;
+					case "/user":
+						$tag_result = "</a>";
+						break;
+					case "marquee":
+						$tag_result = "<marquee " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . ">";
+						break;
+					case "/marquee":
+						$tag_result = "</marquee>";
+						break;
+					case "flash":
+						$tag_result = "<a class=\"s7\" href=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" target=_blank>View Flash</a>";
+						break;
 					case "quote":
 						$tag_result = "<span style=\"color: " . $quote_color[$quote_level % 3] . "\">";
 						$quote_level++;
@@ -81,128 +184,22 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 					case "bwf":
 						$tag_result = "<span style=\"color: red\">****</span>";
 						break;
-				}
-
-				if (!$quote_mode && !$lml_user_disabled)
-				{
-					switch ($tag_str)
-					{
-						case "plain": // User disable LML unrecoverably
-							$lml_disabled = true;
-							break;
-						case "nolml": // User disable LML recoverably
-							$lml_user_disabled = true;
-							$tag_result = "";
-							break;
-						case "left":
-							$tag_result = "[";
-							break;
-						case "right":
-							$tag_result = "]";
-							break;
-						case "bold":
-						case "b":
-							$tag_result = "<span style=\"font-weight: bold\">";
-							break;
-						case "/bold":
-						case "/b":
-							$tag_result = "</span>";
-							break;
-						case "italic":
-						case "i":
-							$tag_result = "<span style=\"font-style: italic\">";
-							break;
-						case "/italic":
-						case "/i":
-							$tag_result = "</span>";
-							break;
-						case "underline":
-						case "u":
-							$tag_result = "<span style=\"text-decoration: underline\">";
-							break;
-						case "/underline":
-						case "/u":
-							$tag_result = "</span>";
-							break;
-						case "color":
-							$tag_result = "<span style=\"color: " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
-							break;
-						case "/color":
-							$tag_result = "</span>";
-							break;
-						case "size":
-							$tag_result = "<span style=\"font-size: " .
-								(is_numeric($tag_arg) ? intval($tag_arg * 4) . "px" : htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8')) . "\">";
-							break;
-						case "/size":
-							$tag_result = "</span>";
-							break;
-						case "align":
-							$tag_result = "\n<p align=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
-							break;
-						case "/align":
-							$tag_result = "</p>\n";
-							break;
-						case "image":
-							$tag_result = "<img src=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" border=0>";
-							break;
-						case "link":
-						case "url":
-							if (preg_match("/script:/i", $tag_arg)) // Filter milicious code
-							{
-								$tag_arg = "#";
-							}
-							$tag_result = "<a class=\"s7\" href=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" target=_blank>";
-							break;
-						case "/link":
-						case "/url":
-							$tag_result = "</a>";
-							break;
-						case "email":
-							$tag_result = "<a class=\"s7\" href=\"mailto:" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
-							break;
-						case "/email":
-							$tag_result = "</a>";
-							break;
-						case "article":
-							$tag_result = "<a class=\"s7\" href=\"/bbs/view_article.php?tn=" .
-								(isset($BBS_theme_current) ? $BBS_theme_current : "") . "&trash=1&id=" . intval($tag_arg) . "#"  . intval($tag_arg) . "\" target=_blank>";
-							break;
-						case "/article":
-							$tag_result = "</a>";
-							break;
-						case "user":
-							$tag_result = "<a class=\"s7\" href=\"view_user.php?uid=" . intval($tag_arg) . "\" target=_blank>";
-							break;
-						case "/user":
-							$tag_result = "</a>";
-							break;
-						case "marquee":
-							$tag_result = "<marquee " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . ">";
-							break;
-						case "/marquee":
-							$tag_result = "</marquee>";
-							break;
-						case "flash":
-							$tag_result = "<a class=\"s7\" href=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" target=_blank>View Flash</a>";
-							break;
-					}
+					default:
+						$tag_result = substr($source_str, $p_start, $p_end - $p_start + 1);
 				}
 			}
 
-			if ($quote_mode || $lml_user_disabled)
+			if ($quote_mode)
 			{
 				switch ($tag_str)
 				{
 					case "plain": // User disable LML unrecoverably
 						$lml_disabled = true;
-						$tag_result = ($quote_mode ? "[plain]" : "");
+						$tag_result = "[plain]";
 						break;
-					case "lml": //User re-enable LML
-						if ($lml_tag)
-						{
-							$lml_user_disabled = false;
-						}
+					case "lml": // deprecated
+						break;
+					case "nolml": // deprecated
 						break;
 					case "left":
 						$tag_result = "[left]";
@@ -216,6 +213,8 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 					case "bwf": //blocked word
 						$tag_result = "****";
 						break;
+					default:
+						$tag_result = substr($source_str, $p_start, $p_end - $p_start + 1);
 				}
 			}
 
