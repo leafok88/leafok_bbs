@@ -372,3 +372,51 @@ function FB2LML(string $str) : string
 
 	return $result;
 }
+
+function lml_test()
+{
+	$test_str_in = array(
+		"[left]ABCD[right]EFG",
+		"A[u]B[italic]CD[/i]E[/u]F[b]G[/bold]",
+		"A[url BC DE]测试a网址[/url]FG",
+		"AB[email CDE]F[/eMAil]G01[emaiL]23456[/email]789",
+		"A[user DE]BC[/User]FG",
+		"[article A B CD]EF[  /article]G[article 789]123[/article]456",
+		"A[ image  BCD]EFG",
+		"AB[ Flash  CDE ]FG",
+		"AB[bwf]CDEFG",
+		"[lef]A[rightBCD[right]EF[left[left[]G[left",
+		"A[ color  BCD]EF[/color]G[color black]0[/color][color magenta]1[color cyan]23[/color]4[color red]5[/color]6[color yellOw]7[/color]8[color green]9[color blue]0[/color]",
+		"A[quote]B[quote]C[quote]D[quote]E[/quote]F[/quote]G[/quote]0[/quote]1[/quote]2[quote]3[/quote]4[/quote]56789",
+		": ABCDE[quote]FG\r\nab[/quote]cd[quote]ef[quote]g\r\n: : 012[/quote]345[/quote]6789\nABC[quote]DEFG",
+		"\033[35mabc\033[m",
+		"123456",
+		"[color red]Red[/color][plain][color blue]Blue[/color][plain]",
+		"[color yellow]Yellow[/color][nolml][left][color blue]Blue[/color][right][lml][color red]Red[/color]",
+		"[abc][left ][ right ][ colory ][left  \nABCD[left]EFG[right ",
+		"ABCD]EFG"
+	);
+
+	echo ("Test #1\n");
+	foreach($test_str_in as $str_in)
+	{
+		$str_out = LML($str_in, true, 80, false);
+		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	}
+
+	echo ("Test #2\n");
+	foreach($test_str_in as $str_in)
+	{
+		$str_out = LML($str_in, true, 80, true);
+		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	}
+
+	// echo ("Test #3\n");
+	// foreach($test_str_in as $str_in)
+	// {
+	// 	$str_out = LML($str_in, false, 80, false);
+	// 	echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	// }
+}
+
+lml_test();
