@@ -419,4 +419,7 @@ function lml_test()
 	// }
 }
 
-// lml_test();
+if (isset($_SERVER["argc"]))
+{
+	lml_test();
+}
