@@ -1,0 +1,381 @@
+<?php
+$lml_tag_disabled = false;
+$lml_tag_quote_level = 0;
+$lml_tag_quote_color = array(
+	"#90a040",
+	"#b010b0",
+	"#404040",
+);
+
+$lml_tag_def = array(
+	// Definition of tuple: lml_tag => array(lml_output, default_param, quote_mode_output)
+	"plain" => array(NULL, NULL, NULL),
+	"nolml" => array("", NULL, ""), // deprecated
+	"lml" => array("", NULL, ""),   // deprecated
+	"align" => array("\n<p align=\"%s\">", "", ""),
+	"/align" => array("</p>\n", "", ""),
+	"size" => array(NULL, "", ""),
+	"/size" => array("</span>", "", ""),
+	"left" => array("[", "", "[left]"),
+	"right" => array("]", "", "[right]"),
+	"bold" => array("<span style=\"font-weight: bold\">", "", ""),
+	"/bold" => array("</span>", NULL, ""),
+	"b" => array("<span style=\"font-weight: bold\">", "", ""),
+	"/b" => array("</span>", NULL, ""),
+	"italic" => array("<span style=\"font-style: italic\">", "", ""),
+	"/italic" => array("</span>", NULL, ""),
+	"i" => array("<span style=\"font-style: italic\">", "", ""),
+	"/i" => array("</span>", NULL, ""),
+	"underline" => array("<span style=\"text-decoration: underline\">", "", ""),
+	"/underline" => array("</span>", NULL, ""),
+	"u" => array("<span style=\"text-decoration: underline\">", "", ""),
+	"/u" => array("</span>", NULL, ""),
+	"color" => array(NULL, "", ""),
+	"/color" => array(NULL, "", ""),
+	"quote" => array(NULL, "", ""),
+	"/quote" => array(NULL, "", ""),
+	"url" => array(NULL, "", ""),
+	"/url" => array("</a>", NULL, ""),
+	"link" => array(NULL, "", ""),
+	"/link" => array("</a>", NULL, ""),
+	"email" => array("<a class=\"s7\" href=\"mailto:%s\">", "", ""),
+	"/email" => array("</a>", NULL, ""),
+	"user" => array("<a class=\"s7\" href=\"view_user.php?uid=%s\" target=_blank>", "", ""),
+	"/user" => array("</a>", NULL, ""),
+	"article" => array(NULL, "", ""),
+	"/article" => array("</a>", NULL, ""),
+	"marquee" => array("<marquee %s>", "", ""),
+	"/marquee" => array("</marquee>", NULL, ""),
+	"image" => array("<img src=\"%s\" border=0>", "", "%s"),
+	"flash" => array("<a class=\"s7\" href=\"%s\" target=_blank>View Flash</a>", "", ""),
+	"bwf" => array("<span style=\"color: red\">****</span>", "", "****"),
+);
+
+function lml_tag_filter(string $tag_name, string | null $tag_arg, bool $quote_mode) : string
+{
+	global $BBS_theme_current;
+	global $lml_tag_disabled;
+	global $lml_tag_quote_level;
+	global $lml_tag_quote_color;
+
+	$tag_result = "";
+
+	switch ($tag_name)
+	{
+		case "plain":
+			$lml_tag_disabled = true;
+			$tag_result = ($quote_mode ? "[plain]" : "");
+			break;
+		case "link":
+		case "url":
+			if (preg_match("/script:/i", $tag_arg)) // Filter milicious code
+			{
+				$tag_arg = "#";
+			}
+			$tag_result = "<a class=\"s7\" href=\"" . $tag_arg . "\" target=_blank>";
+			break;
+		case "article":
+			$tag_result = "<a class=\"s7\" href=\"/bbs/view_article.php?tn=" .
+							(isset($BBS_theme_current) ? $BBS_theme_current : "") . "&trash=1&id=" . intval($tag_arg) .
+							"#"  . intval($tag_arg) . "\" target=_blank>";
+			break;
+		case "color":
+			$tag_result = "<span style=\"color: " . $tag_arg . "\">";
+			break;
+		case "/color":
+			$tag_result = "</span>";
+			break;
+		case "quote":
+			$lml_tag_quote_level++;
+			$tag_result = "<span style=\"color: " . $lml_tag_quote_color[$lml_tag_quote_level % count($lml_tag_quote_color)] . "\">";
+			break;
+		case "/quote":
+			if ($lml_tag_quote_level > 0)
+			{
+				$lml_tag_quote_level--;
+				$tag_result = "</span>";
+			}
+			break;
+		case "size":
+			$tag_result = "<span style=\"font-size: " .
+				(is_numeric($tag_arg) ? intval($tag_arg * 4) . "px" : $tag_arg) . "\">";
+			break;
+	}
+
+	return $tag_result;
+}
+
+function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_mode = false) : string
+{
+	//$lml_tag		whether LML tag should be processed
+	//$width		length of line, 0 means unlimited
+	//$quote_mode	whether output text is used as quoted content in text editor
+
+	global $lml_tag_disabled;
+	global $lml_tag_quote_level;
+	global $lml_tag_quote_color;
+	global $lml_tag_def;
+
+	if ($str_in == null)
+	{
+		$str_in = "";
+	}
+
+	$str_out = "";
+
+	$tag_start_pos = -1;
+	$tag_name_pos = -1;
+	$tag_end_pos = -1;
+	$tag_param_pos = -1;
+	$new_line = true;
+	$fb_quote_level = 0;
+	$tag_name_found = false;
+
+	$lml_tag_disabled = !$lml_tag;
+	$lml_tag_quote_level = 0;
+
+	for ($i = 0; isset($str_in[$i]) && ord($str_in[$i]) != 0; $i++)
+	{
+		if (!$quote_mode && !$lml_tag_disabled && $new_line)
+		{
+			$fb_quote_level = 0;
+
+			while ($str_in[$i + $fb_quote_level * 2] == ':' && $str_in[$i + $fb_quote_level * 2 + 1] == " ") // FB2000 quote leading str
+			{
+				$fb_quote_level++;
+			}
+
+			$lml_tag_quote_level += $fb_quote_level;
+
+			if ($lml_tag_quote_level > 0)
+			{
+				$tag_output_buf = lml_tag_filter("color", $lml_tag_quote_color[$lml_tag_quote_level % count($lml_tag_quote_color)], $quote_mode);
+				$str_out .= $tag_output_buf;
+			}
+
+			$new_line = false;
+		}
+		
+		if (ord($str_in[$i]) == 0x1b && $str_in[$i + 1] == "[") // Escape sequence -- copy directly
+		{
+			for ($k = $i + 2; ord($str_in[$k]) != 0 && $str_in[$k] != "m"; $k++)
+				;
+
+			if ($str_in[$k] == "m") // Valid
+			{
+				$str_out .= substr($str_in, $i, $k - $i + 1);
+				$i = $k;
+				continue;
+			}
+			else // reach end of string
+			{
+				break;
+			}
+		}
+
+		if (ord($str_in[$i]) == 0x0a) // jump out of tag at end of line
+		{
+			if ($tag_start_pos != -1) // tag is not closed
+			{
+				$tag_end_pos = $i - 1;
+				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+			}
+
+			if ($fb_quote_level > 0)
+			{
+				$lml_tag_quote_level -= $fb_quote_level;
+
+				$tag_output_buf = lml_tag_filter("/color", "", $quote_mode);
+				$str_out .= $tag_output_buf;
+			}
+
+			$tag_start_pos = -1;
+			$tag_name_pos = -1;
+			$new_line = true;
+		}
+		else if (ord($str_in[$i]) == 0x0d)
+		{
+			continue; // ignore "\r"
+		}
+
+		if (!$lml_tag_disabled && $str_in[$i] == "[")
+		{
+			if ($tag_start_pos != -1) // tag is not closed
+			{
+				$tag_end_pos = $i - 1;
+				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+			}
+
+			$tag_start_pos = $i;
+			$tag_name_pos = $i + 1;
+		}
+		else if (!$lml_tag_disabled && $str_in[$i] == "]" && $tag_name_pos >= 0)
+		{
+				$tag_end_pos = $i;
+
+				// Skip space characters
+				while ($str_in[$tag_name_pos] == " ")
+				{
+					$tag_name_pos++;
+				}
+
+				$k = $tag_name_pos;
+				while ($k < $tag_end_pos && $str_in[$k] != " ")
+				{
+					$k++;
+				}
+
+				$tag_name = strtolower(substr($str_in, $tag_name_pos, $k - $tag_name_pos));
+
+				if (isset($lml_tag_def[$tag_name]))
+				{
+						$tag_param_pos = -1;
+						$tag_param_buf = "";
+
+						if ($str_in[$k] == " ")
+						{
+							$tag_param_pos = $k + 1;
+							while ($str_in[$tag_param_pos] == " ")
+							{
+								$tag_param_pos++;
+							}
+							$tag_param_buf = substr($str_in, $tag_param_pos, $tag_end_pos - $tag_param_pos);
+							$tag_param_buf = htmlspecialchars($tag_param_buf, ENT_QUOTES | ENT_HTML401, 'UTF-8');
+						}
+
+						if ($str_in[$k] == " " || $str_in[$k] == "]")
+						{
+							if ($tag_param_pos == -1 &&
+								$lml_tag_def[$tag_name][0] !== NULL &&
+								$lml_tag_def[$tag_name][1] !== NULL) // Apply default param if not defined
+							{
+								$tag_param_buf = $lml_tag_def[$tag_name][1];
+							}
+							if (!$quote_mode)
+							{
+								if ($lml_tag_def[$tag_name][0] !== NULL)
+								{
+									$tag_output_buf = sprintf($lml_tag_def[$tag_name][0], $tag_param_buf);
+								}
+								else
+								{
+									$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, false);
+								}
+							}
+							else // if ($quote_mode)
+							{
+								if ($lml_tag_def[$tag_name][2] !== NULL)
+								{
+									$tag_output_buf = sprintf($lml_tag_def[$tag_name][2], $tag_param_buf);
+								}
+								else
+								{
+									$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, true);
+								}
+							}
+
+							$str_out .= $tag_output_buf;
+						}
+				}
+				else
+				{
+					$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+					$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+				}
+
+				$tag_start_pos = -1;
+				$tag_name_pos = -1;
+		}
+		else if ($lml_tag_disabled || $tag_name_pos == -1) // not in LML tag
+		{
+			$c = ord($str_in[$i]);
+			if ($c & 0x80) // head of multi-byte character
+			{
+				$c = ($c & 0x70) << 1;
+				while ($c & 0x80)
+				{
+					$str_out .= $str_in[$i++];
+					if (ord($str_in[$i]) == 0)
+					{
+						return $str_out;
+					}
+					$c = ($c & 0x7f) << 1;
+				}
+			}
+
+			$str_out .= $str_in[$i];
+		}
+		else // in LML tag
+		{
+			// Do nothing
+		}		
+	}
+
+	if ($tag_start_pos != -1) // tag is not closed
+	{
+		$tag_end_pos = $i - 1;
+		$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+		$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+	}
+
+	if (!$quote_mode && !$lml_tag_disabled && $lml_tag_quote_level > 0)
+	{
+		$tag_output_buf = lml_tag_filter("/quote", "", $quote_mode);
+		$str_out .= $tag_output_buf;
+	}
+
+	return $str_out;
+}
+
+function lml_test()
+{
+	$test_str_in = array(
+		"[left]ABCD[right]EFG",
+		"A[u]B[italic]CD[/i]E[/u]F[b]G[/bold]",
+		"A[url BC DE]测试a网址[/url]FG",
+		"AB[email CDE]F[/eMAil]G01[emaiL]23456[/email]789",
+		"A[user DE]BC[/User]FG",
+		"[article A B CD]EF[  /article]G[article 789]123[/article]456",
+		"A[ image  BCD]EFG",
+		"AB[ Flash  CDE ]FG",
+		"AB[bwf]CDEFG",
+		"[lef]A[rightBCD[right]EF[left[left[]G[left",
+		"A[ color  BCD]EF[/color]G[color black]0[/color][color magenta]1[color cyan]23[/color]4[color red]5[/color]6[color yellOw]7[/color]8[color green]9[color blue]0[/color]",
+		"A[quote]B[quote]C[quote]D[quote]E[/quote]F[/quote]G[/quote]0[/quote]1[/quote]2[quote]3[/quote]4[/quote]56789",
+		": ABCDE[quote]FG\r\nab[/quote]cd[quote]ef[quote]g\r\n: : 012[/quote]345[/quote]6789\nABC[quote]DEFG",
+		"\033[35mabc\033[m",
+		"123456",
+		"[color red]Red[/color][plain][color blue]Blue[/color][plain]",
+		"[color yellow]Yellow[/color][nolml][left][color blue]Blue[/color][right][lml][color red]Red[/color]",
+		"[abc][left ][ right ][ colory ][left  \nABCD[left]EFG[right ",
+		"ABCD]EFG"
+	);
+
+	echo ("Test #1\n");
+	foreach($test_str_in as $str_in)
+	{
+		$str_out = LML($str_in, true, 80, false);
+		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	}
+
+	echo ("Test #2\n");
+	foreach($test_str_in as $str_in)
+	{
+		$str_out = LML($str_in, true, 80, true);
+		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	}
+
+	// echo ("Test #3\n");
+	// foreach($test_str_in as $str_in)
+	// {
+	// 	$str_out = LML($str_in, false, 80, false);
+	// 	echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	// }
+}
+
+if (isset($_SERVER["argc"]))
+{
+	lml_test();
+}
