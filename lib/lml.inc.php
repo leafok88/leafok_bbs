@@ -1,376 +1,433 @@
 <?php
-function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $quote_mode = false) : string
+$lml_tag_disabled = false;
+$lml_tag_quote_level = 0;
+$lml_tag_quote_color = array(
+	"#a0a010", // yellow
+	"#408040", // green
+	"#b010b0", // magenta
+);
+
+$lml_tag_ansi_color = array(
+	30 => "black",
+	31 => "red",
+	32 => "green",
+	33 => "orange", // yellow -> orange
+	34 => "blue",
+	35 => "magenta",
+	36 => "cyan",
+	37 => "white",
+);
+
+$lml_tag_def = array(
+	// Definition of tuple: lml_tag => array(lml_output, default_param, quote_mode_output)
+	"plain" => array(NULL, NULL, NULL),
+	"nolml" => array("", NULL, ""), // deprecated
+	"lml" => array("", NULL, ""),   // deprecated
+	"align" => array("\n<p align=\"%s\">", "", ""),
+	"/align" => array("</p>\n", "", ""),
+	"size" => array(NULL, "", ""),
+	"/size" => array("</span>", "", ""),
+	"left" => array("[", "", "[left]"),
+	"right" => array("]", "", "[right]"),
+	"bold" => array("<span style=\"font-weight: bold\">", "", ""),
+	"/bold" => array("</span>", NULL, ""),
+	"b" => array("<span style=\"font-weight: bold\">", "", ""),
+	"/b" => array("</span>", NULL, ""),
+	"italic" => array("<span style=\"font-style: italic\">", "", ""),
+	"/italic" => array("</span>", NULL, ""),
+	"i" => array("<span style=\"font-style: italic\">", "", ""),
+	"/i" => array("</span>", NULL, ""),
+	"underline" => array("<span style=\"text-decoration: underline\">", "", ""),
+	"/underline" => array("</span>", NULL, ""),
+	"u" => array("<span style=\"text-decoration: underline\">", "", ""),
+	"/u" => array("</span>", NULL, ""),
+	"color" => array(NULL, "", ""),
+	"/color" => array(NULL, "", ""),
+	"quote" => array(NULL, "", ""),
+	"/quote" => array(NULL, "", ""),
+	"url" => array(NULL, "", ""),
+	"/url" => array("</a>", NULL, ""),
+	"link" => array(NULL, "", ""),
+	"/link" => array("</a>", NULL, ""),
+	"email" => array("<a class=\"s7\" href=\"mailto:%s\">", "", ""),
+	"/email" => array("</a>", NULL, ""),
+	"user" => array("<a class=\"s7\" href=\"view_user.php?uid=%s\" target=_blank>", "", ""),
+	"/user" => array("</a>", NULL, ""),
+	"article" => array(NULL, "", ""),
+	"/article" => array("</a>", NULL, ""),
+	"marquee" => array("<marquee %s>", "", ""),
+	"/marquee" => array("</marquee>", NULL, ""),
+	"image" => array("<img src=\"%s\" border=0>", "", "%s"),
+	"flash" => array("<a class=\"s7\" href=\"%s\" target=_blank>View Flash</a>", "", ""),
+	"bwf" => array("<span style=\"color: red\">****</span>", "", "****"),
+);
+
+function lml_tag_filter(string $tag_name, string | null $tag_arg, bool $quote_mode) : string
+{
+	global $BBS_theme_current;
+	global $lml_tag_disabled;
+	global $lml_tag_quote_level;
+	global $lml_tag_quote_color;
+
+	$tag_result = "";
+
+	switch ($tag_name)
+	{
+		case "plain":
+			$lml_tag_disabled = true;
+			$tag_result = ($quote_mode ? "[plain]" : "");
+			break;
+		case "link":
+		case "url":
+			if (preg_match("/script:/i", $tag_arg)) // Filter milicious code
+			{
+				$tag_arg = "#";
+			}
+			$tag_result = "<a class=\"s7\" href=\"" . $tag_arg . "\" target=_blank>";
+			break;
+		case "article":
+			$tag_result = "<a class=\"s7\" href=\"/bbs/view_article.php?tn=" .
+							(isset($BBS_theme_current) ? $BBS_theme_current : "") . "&trash=1&id=" . intval($tag_arg) .
+							"#"  . intval($tag_arg) . "\" target=_blank>";
+			break;
+		case "color":
+			$tag_result = ($quote_mode ? "" : "<span style=\"color: " . $tag_arg . "\">");
+			break;
+		case "/color":
+			$tag_result = ($quote_mode ? "" : "</span>");
+			break;
+		case "quote":
+			$lml_tag_quote_level++;
+			$tag_result = "<span style=\"color: " . $lml_tag_quote_color[$lml_tag_quote_level % count($lml_tag_quote_color)] . "\">";
+			break;
+		case "/quote":
+			if ($lml_tag_quote_level > 0)
+			{
+				$lml_tag_quote_level--;
+				$tag_result = "</span>";
+			}
+			break;
+		case "size":
+			$tag_result = "<span style=\"font-size: " .
+				(is_numeric($tag_arg) ? intval($tag_arg * 4) . "px" : $tag_arg) . "\">";
+			break;
+	}
+
+	return $tag_result;
+}
+
+function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_mode = false) : string
 {
 	//$lml_tag		whether LML tag should be processed
 	//$width		length of line, 0 means unlimited
 	//$quote_mode	whether output text is used as quoted content in text editor
 
-	global $BBS_theme_current;
+	global $lml_tag_disabled;
+	global $lml_tag_quote_level;
+	global $lml_tag_quote_color;
+	global $lml_tag_ansi_color;
+	global $lml_tag_def;
 
-	if ($source_str == null)
+	if ($str_in == null)
 	{
-		$source_str = "";
+		$str_in = "";
 	}
 
-	//For compatibility with FB2000
-	if (!$quote_mode)
+	$str_out = "";
+
+	$tag_start_pos = -1;
+	$tag_name_pos = -1;
+	$tag_end_pos = -1;
+	$tag_param_pos = -1;
+	$new_line = true;
+	$fb_quote_level = 0;
+	$tag_name_found = false;
+
+	$lml_tag_disabled = !$lml_tag;
+	$lml_tag_quote_level = 0;
+
+	$line_width = 0;
+
+	if ($width <= 0)
 	{
-		$source_str = FB2LML($source_str);
+		$width = PHP_INT_MAX;
 	}
 
-	$lml_disabled = !$lml_tag;
-	$result_str = "";
-	$pre = 0;
-	$p_current = 0;
-	$l_source = strlen($source_str);
-	$quote_level = 0;
-	$quote_color = array(
-		"#90a040",
-		"#b010b0",
-		"#404040",
-	);
-
-	while ($p_current < $l_source)
+	for ($i = 0; isset($str_in[$i]) && $str_in[$i] != "\0"; $i++)
 	{
-		$p_start = strpos($source_str, "[", $p_current);
-		if (!$lml_disabled && $p_start !== false)
+		if (!$lml_tag_disabled && $new_line)
 		{
-			if ($p_start > $p_current)
+			$fb_quote_level_last = $fb_quote_level;
+
+			while (substr($str_in, $i, 2) == ": ") // FB2000 quote leading str
 			{
-				$result_str .= split_long_str(substr($source_str, $p_current, $p_start - $p_current), $pre, $width, $lml_tag);
+				$fb_quote_level++;
+				$lml_tag_quote_level++;
+				$i += 2;
 			}
 
-			$tag_arg = "";
-			$tag_str = "";
-			$tag_result = "";
-
-			$p_space = strpos($source_str, " ", $p_start + 1);
-			$p_end = strpos($source_str, "]", $p_start + 1);
-			if ($p_end === false)
+			if (!$quote_mode && $lml_tag_quote_level > 0 && $fb_quote_level != $fb_quote_level_last)
 			{
-				$result_str .= substr($source_str, $p_start, $l_source - $p_start);
-				break;
+				$tag_output_buf = lml_tag_filter("color", $lml_tag_quote_color[$lml_tag_quote_level % count($lml_tag_quote_color)], $quote_mode);
+				$str_out .= $tag_output_buf;
 			}
 
-			if (($p_space !== false) && ($p_space < $p_end))
+			for ($k = 0; $k < $fb_quote_level; $k++)
 			{
-				$p_tag_end = $p_space;
-				if ($p_end > $p_tag_end)
-					$tag_arg = trim(substr($source_str, $p_tag_end + 1, $p_end - $p_tag_end - 1));
+				$str_out .= ": ";
+				$line_width += 2;
+			}
+
+			$new_line = false;
+			$i--; // redo at current $i
+			continue;
+		}
+		
+		if (!$quote_mode && !$lml_tag_disabled && $str_in[$i] == "\033" && isset($str_in[$i + 1]) && $str_in[$i + 1] == "[") // Escape sequence
+		{
+			$valid_ansi_color = false;
+			$highlight = false;
+			$fg_color = 0;
+			$bg_color = 0;
+
+			$ansi_color = 0;
+			for ($k = $i + 2;
+				isset($str_in[$k]) && (ctype_digit($str_in[$k]) || $str_in[$k] == ";" || $str_in[$k] == "?" || $str_in[$k] == "m");
+				$k++)
+			{
+				if ($str_in[$k] == ";" || $str_in[$k] == "m")
+				{
+					if ($ansi_color >= 30 && $ansi_color <= 37) // valid FG color
+					{
+						$fg_color = $ansi_color;
+					}
+					if ($ansi_color >= 40 && $ansi_color <= 47) // valid BG color
+					{
+						$bg_color = $ansi_color;
+					}
+					else if ($ansi_color == 0 || $ansi_color == 1) // highlight
+					{
+						$highlight = ($ansi_color == 1);
+					}
+					$ansi_color = 0;
+				}
+				else if (ctype_digit($str_in[$k]))
+				{
+					$ansi_color = $ansi_color * 10 + (ord($str_in[$k]) - ord("0"));
+				}
+
+				if ($str_in[$k] == "m")
+				{
+					break;
+				}
+			}
+
+			if ($str_in[$k] == "m") // valid
+			{
+				if ($fg_color > 0)
+				{
+					$tag_output_buf = lml_tag_filter("color", $lml_tag_ansi_color[$fg_color], $quote_mode);
+					$str_out .= $tag_output_buf;
+				}
+				else if ($bg_color > 0)
+				{
+					// ignore BG color
+				}
+				else // reset
+				{
+					$tag_output_buf = lml_tag_filter("/color", "", $quote_mode);
+					$str_out .= $tag_output_buf;
+				}
+			}
+			else if (ctype_alpha($str_in[$k]))
+			{
+				// unsupported ANSI CSI command
 			}
 			else
 			{
-				$p_tag_end = $p_end;
-			}
-			if ($p_tag_end > $p_start)
-			{
-				$tag_str = strtolower(trim(substr($source_str, $p_start + 1, $p_tag_end - $p_start - 1)));
+				$k--;
 			}
 
-			if (!$quote_mode)
-			{
-				switch ($tag_str)
-				{
-					case "plain": // User disable LML unrecoverably
-						$lml_disabled = true;
-						break;
-					case "lml": // deprecated
-						break;
-					case "nolml": // deprecated
-						break;
-					case "left":
-						$tag_result = "[";
-						break;
-					case "right":
-						$tag_result = "]";
-						break;
-					case "bold":
-					case "b":
-						$tag_result = "<span style=\"font-weight: bold\">";
-						break;
-					case "/bold":
-					case "/b":
-						$tag_result = "</span>";
-						break;
-					case "italic":
-					case "i":
-						$tag_result = "<span style=\"font-style: italic\">";
-						break;
-					case "/italic":
-					case "/i":
-						$tag_result = "</span>";
-						break;
-					case "underline":
-					case "u":
-						$tag_result = "<span style=\"text-decoration: underline\">";
-						break;
-					case "/underline":
-					case "/u":
-						$tag_result = "</span>";
-						break;
-					case "color":
-						$tag_result = "<span style=\"color: " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
-						break;
-					case "/color":
-						$tag_result = "</span>";
-						break;
-					case "size":
-						$tag_result = "<span style=\"font-size: " .
-							(is_numeric($tag_arg) ? intval($tag_arg * 4) . "px" : htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8')) . "\">";
-						break;
-					case "/size":
-						$tag_result = "</span>";
-						break;
-					case "align":
-						$tag_result = "\n<p align=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
-						break;
-					case "/align":
-						$tag_result = "</p>\n";
-						break;
-					case "image":
-						$tag_result = "<img src=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" border=0>";
-						break;
-					case "link":
-					case "url":
-						if (preg_match("/script:/i", $tag_arg)) // Filter milicious code
-						{
-							$tag_arg = "#";
-						}
-						$tag_result = "<a class=\"s7\" href=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" target=_blank>";
-						break;
-					case "/link":
-					case "/url":
-						$tag_result = "</a>";
-						break;
-					case "email":
-						$tag_result = "<a class=\"s7\" href=\"mailto:" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\">";
-						break;
-					case "/email":
-						$tag_result = "</a>";
-						break;
-					case "article":
-						$tag_result = "<a class=\"s7\" href=\"/bbs/view_article.php?tn=" .
-							(isset($BBS_theme_current) ? $BBS_theme_current : "") . "&trash=1&id=" . intval($tag_arg) . "#"  . intval($tag_arg) . "\" target=_blank>";
-						break;
-					case "/article":
-						$tag_result = "</a>";
-						break;
-					case "user":
-						$tag_result = "<a class=\"s7\" href=\"view_user.php?uid=" . intval($tag_arg) . "\" target=_blank>";
-						break;
-					case "/user":
-						$tag_result = "</a>";
-						break;
-					case "marquee":
-						$tag_result = "<marquee " . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . ">";
-						break;
-					case "/marquee":
-						$tag_result = "</marquee>";
-						break;
-					case "flash":
-						$tag_result = "<a class=\"s7\" href=\"" . htmlspecialchars($tag_arg, ENT_QUOTES | ENT_HTML401, 'UTF-8') . "\" target=_blank>View Flash</a>";
-						break;
-					case "quote":
-						$tag_result = "<span style=\"color: " . $quote_color[$quote_level % 3] . "\">";
-						$quote_level++;
-						break;
-					case "/quote":
-						if ($quote_level > 0)
-						{
-							$quote_level--;
-						}
-						$tag_result = "</span>";
-						break;
-					case "bwf":
-						$tag_result = "<span style=\"color: red\">****</span>";
-						break;
-					default:
-						$tag_result = substr($source_str, $p_start, $p_end - $p_start + 1);
-				}
-			}
-
-			if ($quote_mode)
-			{
-				switch ($tag_str)
-				{
-					case "plain": // User disable LML unrecoverably
-						$lml_disabled = true;
-						$tag_result = "[plain]";
-						break;
-					case "lml": // deprecated
-						break;
-					case "nolml": // deprecated
-						break;
-					case "left":
-						$tag_result = "[left]";
-						break;
-					case "right":
-						$tag_result = "[right]";
-						break;
-					case "image": //show URL only
-						$tag_result = $tag_arg;
-						break;
-					case "bwf": //blocked word
-						$tag_result = "****";
-						break;
-					default:
-						$tag_result = substr($source_str, $p_start, $p_end - $p_start + 1);
-				}
-			}
-
-			$result_str .= split_long_str($tag_result, $pre, $width, $lml_tag);
-			$p_current = $p_end + 1;
-		}
-		else
-		{
-			if ($l_source > $p_current)
-			{
-				$result_str .= split_long_str(substr($source_str, $p_current, NULL), $pre, $width, $lml_tag);
-			}
-			$p_current = $l_source;
-		}
-	}
-
-	return $result_str;
-}
-
-function split_long_str(string $str, int &$pre, int $width = 76, bool $html_tag = false) : string
-{
-	//$pre			length of string before $str
-	//$width		length of line, 0 means unlimited
-	//$html_tag		whether html tag should be processed
-
-	$str_r = "";
-	$html_tag_begin = false;
-	$len = strlen($str);
-
-	for($i = 0; $i < $len; $i++)
-	{
-		$c = $str[$i];
-
-		// Skip special characters
-		if ($c == "\r" || $c == "\7")
-		{
+			$i = $k;
 			continue;
 		}
 
-		if ($c == "\n")
+		if ($str_in[$i] == "\n") // jump out of tag at end of line
 		{
-			$str_r .= "\n";
-			$pre = 0;
-			continue;
+			if ($tag_start_pos != -1) // tag is not closed
+			{
+				$tag_end_pos = $i - 1;
+				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+				$line_width += $tag_output_len;
+			}
+
+			if ($fb_quote_level > 0)
+			{
+				$lml_tag_quote_level -= $fb_quote_level;
+
+				$tag_output_buf = lml_tag_filter("/color", "", $quote_mode);
+				$str_out .= $tag_output_buf;
+
+				$fb_quote_level = 0;
+			}
+
+			$tag_start_pos = -1;
+			$tag_name_pos = -1;
+			$new_line = true;
+			$line_width = 0;
+		}
+		else if ($str_in[$i] == "\r" || $str_in[$i] == "\7")
+		{
+			continue; // Skip special characters
 		}
 
-		if ($html_tag && $c == "<")
+		if (!$lml_tag_disabled && $str_in[$i] == "[")
 		{
-			$html_tag_begin = true;
-		}
-		if (!$html_tag_begin)
-		{
-			//Process UTF-8 Chinese characters
-			$v1 = ord($c);
-			if ($v1 & 0x80) //head of multi-byte character
+			if ($tag_start_pos != -1) // tag is not closed
 			{
-				$v2 = ($v1 & 0x70) << 1;
-				while ($v2 & 0x80)
+				$tag_end_pos = $i - 1;
+				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+				$line_width += $tag_output_len;
+			}
+
+			$tag_start_pos = $i;
+			$tag_name_pos = $i + 1;
+		}
+		else if (!$lml_tag_disabled && $str_in[$i] == "]" && $tag_name_pos >= 0)
+		{
+			$tag_end_pos = $i;
+
+			// Skip space characters
+			while ($str_in[$tag_name_pos] == " ")
+			{
+				$tag_name_pos++;
+			}
+
+			$k = $tag_name_pos;
+			while ($k < $tag_end_pos && $str_in[$k] != " ")
+			{
+				$k++;
+			}
+
+			$tag_name = strtolower(substr($str_in, $tag_name_pos, $k - $tag_name_pos));
+
+			if (isset($lml_tag_def[$tag_name]))
+			{
+				$tag_param_pos = -1;
+				$tag_param_buf = "";
+
+				if ($str_in[$k] == " ")
+				{
+					$tag_param_pos = $k + 1;
+					while ($str_in[$tag_param_pos] == " ")
+					{
+						$tag_param_pos++;
+					}
+					$tag_param_buf = substr($str_in, $tag_param_pos, $tag_end_pos - $tag_param_pos);
+					$tag_param_buf = htmlspecialchars($tag_param_buf, ENT_QUOTES | ENT_HTML401, 'UTF-8');
+				}
+
+				if ($str_in[$k] == " " || $str_in[$k] == "]")
+				{
+					if ($tag_param_pos == -1 &&
+						$lml_tag_def[$tag_name][0] !== NULL &&
+						$lml_tag_def[$tag_name][1] !== NULL) // Apply default param if not defined
+					{
+						$tag_param_buf = $lml_tag_def[$tag_name][1];
+					}
+					if (!$quote_mode)
+					{
+						if ($lml_tag_def[$tag_name][0] !== NULL)
+						{
+							$tag_output_buf = sprintf($lml_tag_def[$tag_name][0], $tag_param_buf);
+						}
+						else
+						{
+							$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, false);
+						}
+					}
+					else // if ($quote_mode)
+					{
+						if ($lml_tag_def[$tag_name][2] !== NULL)
+						{
+							$tag_output_buf = sprintf($lml_tag_def[$tag_name][2], $tag_param_buf);
+						}
+						else
+						{
+							$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, true);
+						}
+						$line_width += strlen($tag_output_buf); // Add width of special tags, [plain] [left] [right]
+					}
+
+					$str_out .= $tag_output_buf;
+				}
+			}
+			else // undefined tag
+			{
+				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+				$line_width += $tag_output_len;
+			}
+
+			$tag_start_pos = -1;
+			$tag_name_pos = -1;
+		}
+		else if ($lml_tag_disabled || $tag_name_pos == -1) // not in LML tag
+		{
+			$c = $str_in[$i];
+			$v = ord($c);
+
+			if ($line_width + ($v & 0x80 ? 2 : 1) > $width)
+			{
+				$str_out .= "\n";
+				$new_line = true;
+				$line_width = 0;
+				$i--; // redo at current $i
+				continue;
+			}
+
+			if ($v & 0x80) // head of multi-byte character
+			{
+				$v = ($v & 0x70) << 1;
+				while ($v & 0x80)
 				{
 					$i++;
-					$c .= $str[$i];
-					$v2 = ($v2 & 0x7f) << 1;
+					if (!isset($str_in[$i]))
+					{
+						break;
+					}
+					$c .= $str_in[$i];
+					$v = ($v & 0x7f) << 1;
 				}
-
-				// Each UTF-8 CJK character should use two character length for display
-				if ($pre + 2 > $width)
-				{
-					$str_r .= "\n";
-					$pre = 0;
-				}
-				$pre += 2;
+				$line_width++;
 			}
-			else
-			{
-				$pre++;
-			}
-		}
-		if ($html_tag && $c == ">")
-		{
-			$html_tag_begin = false;
-		}
 
-		if ($pre > $width)
-		{
-			$str_r .= "\n";
-			$pre = 1;
+			$str_out .= $c;
+			$line_width++;
 		}
-
-		$str_r .= $c;
+		else // in LML tag
+		{
+			// Do nothing
+		}		
 	}
-	return $str_r;
-}
 
-function FB2LML(string $str) : string
-{
-	$lml_disabled = false;
-	$result = "";
-
-	$lines = explode("\n", $str);
-	foreach ($lines as $line)
+	if ($tag_start_pos != -1) // tag is not closed
 	{
-		if ($lml_disabled)
-		{
-			$result .= $line . "\n";
-			continue;
-		}
-
-		if (strstr($line, "[plain]"))
-		{
-			$lml_disabled = true;
-			$result .= $line . "\n";
-			continue;
-		}
-
-		$count = 0;
-		if (preg_match("/^([:][[:space:]])*/", $line, $regs))
-		{
-			$count = strlen($regs[0]) / 2;
-		}
-		$result .= (str_repeat("[quote]", $count) . $line .
-			str_repeat("[/quote]", $count) . "\n");
+		$tag_end_pos = $i - 1;
+		$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+		$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+		$line_width += $tag_output_len;
 	}
 
-	$patterns = array(
-		"/\033\[([01]?;)*([0-9]{2};)?30(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*([0-9]{2};)?31(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*([0-9]{2};)?32(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*([0-9]{2};)?33(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*([0-9]{2};)?34(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*([0-9]{2};)?35(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*([0-9]{2};)?36(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*([0-9]{2};)?37(;[0-9]{2})?m/",
-		"/\033\[([01]?;)*4[0-7]m/", // BG color only
-		// Reset
-		"/\033\[[0]?m/",
-		// Unknown
-		"/\033\[I/",
-	);
-	$replaces = array(
-		"[/color][color black]",
-		"[/color][color red]",
-		"[/color][color green]",
-		"[/color][color orange]", // yellow -> orange
-		"[/color][color blue]",
-		"[/color][color magenta]",
-		"[/color][color cyan]",
-		"[/color][color white]",
-		"", // Ignore BG color
-		// Reset
-		"[/color]", // default -> black
-		// Unknown
-		"",
-	);
-	$result = preg_replace($patterns, $replaces, $result);
+	if (!$quote_mode && !$lml_tag_disabled && $lml_tag_quote_level > 0)
+	{
+		$tag_output_buf = lml_tag_filter("/quote", "", $quote_mode);
+		$str_out .= $tag_output_buf;
+	}
 
-	return $result;
+	return $str_out;
 }
 
 function lml_test()
@@ -396,6 +453,7 @@ function lml_test()
 		"[abc][left ][ right ][ colory ][left  \nABCD[left]EFG[right ",
 		"ABCD]EFG",
 		": : A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789",
+		"\033[0m\033[I             \033[1;32m;,                                           ;,\033[m",
 	);
 
 	echo ("Test #1\n");
