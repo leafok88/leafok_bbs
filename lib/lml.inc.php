@@ -394,7 +394,8 @@ function lml_test()
 		"[color red]Red[/color][plain][color blue]Blue[/color][plain]",
 		"[color yellow]Yellow[/color][nolml][left][color blue]Blue[/color][right][lml][color red]Red[/color]",
 		"[abc][left ][ right ][ colory ][left  \nABCD[left]EFG[right ",
-		"ABCD]EFG"
+		"ABCD]EFG",
+		": : A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789",
 	);
 
 	echo ("Test #1\n");
