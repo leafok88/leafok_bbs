@@ -7,6 +7,17 @@ $lml_tag_quote_color = array(
 	"#404040",
 );
 
+$lml_tag_ansi_color = array(
+	30 => "black",
+	31 => "red",
+	32 => "green",
+	33 => "orange", // yellow -> orange
+	34 => "blue",
+	35 => "magenta",
+	36 => "cyan",
+	37 => "white",
+);
+
 $lml_tag_def = array(
 	// Definition of tuple: lml_tag => array(lml_output, default_param, quote_mode_output)
 	"plain" => array(NULL, NULL, NULL),
@@ -114,6 +125,7 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 	global $lml_tag_disabled;
 	global $lml_tag_quote_level;
 	global $lml_tag_quote_color;
+	global $lml_tag_ansi_color;
 	global $lml_tag_def;
 
 	if ($str_in == null)
@@ -134,7 +146,7 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 	$lml_tag_disabled = !$lml_tag;
 	$lml_tag_quote_level = 0;
 
-	for ($i = 0; isset($str_in[$i]) && ord($str_in[$i]) != 0; $i++)
+	for ($i = 0; isset($str_in[$i]) && $str_in[$i] != "\0"; $i++)
 	{
 		if (!$quote_mode && !$lml_tag_disabled && $new_line)
 		{
@@ -156,24 +168,68 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 			$new_line = false;
 		}
 		
-		if (ord($str_in[$i]) == 0x1b && $str_in[$i + 1] == "[") // Escape sequence -- copy directly
+		if (!$quote_mode && !$lml_tag_disabled && $str_in[$i] == "\033" && $str_in[$i + 1] == "[") // Escape sequence
 		{
-			for ($k = $i + 2; ord($str_in[$k]) != 0 && $str_in[$k] != "m"; $k++)
-				;
+			$valid_ansi_color = false;
+			$highlight = false;
+			$fg_color = 0;
+			$bg_color = 0;
 
-			if ($str_in[$k] == "m") // Valid
+			$ansi_color = 0;
+			for ($k = $i + 2; isset($str_in[$k]) && $str_in[$k] != "\0" && $str_in[$k] != "\033"; $k++)
 			{
-				$str_out .= substr($str_in, $i, $k - $i + 1);
-				$i = $k;
-				continue;
+				if ($str_in[$k] == ";" || $str_in[$k] == "m")
+				{
+					if ($ansi_color >= 30 && $ansi_color <= 37) // valid FG color
+					{
+						$fg_color = $ansi_color;
+					}
+					if ($ansi_color >= 40 && $ansi_color <= 47) // valid BG color
+					{
+						$bg_color = $ansi_color;
+					}
+					else if ($ansi_color == 0 || $ansi_color == 1) // highlight
+					{
+						$highlight = ($ansi_color == 1);
+					}
+					$ansi_color = 0;
+				}
+				else if (is_numeric($str_in[$k]))
+				{
+					$ansi_color = $ansi_color * 10 + (ord($str_in[$k]) - ord("0"));
+				}
+
+				if ($str_in[$k] == "m")
+				{
+					$k++;
+					$valid_ansi_color = true;
+					break;
+				}
 			}
-			else // reach end of string
+
+			if ($valid_ansi_color)
 			{
-				break;
+				if ($fg_color > 0)
+				{
+					$tag_output_buf = lml_tag_filter("color", $lml_tag_ansi_color[$fg_color], $quote_mode);
+					$str_out .= $tag_output_buf;
+				}
+				else if ($bg_color > 0)
+				{
+					// ignore BG color
+				}
+				else // reset
+				{
+					$tag_output_buf = lml_tag_filter("/color", "", $quote_mode);
+					$str_out .= $tag_output_buf;
+				}
 			}
+
+			$i = $k - 1;
+			continue;
 		}
 
-		if (ord($str_in[$i]) == 0x0a) // jump out of tag at end of line
+		if ($str_in[$i] == "\n") // jump out of tag at end of line
 		{
 			if ($tag_start_pos != -1) // tag is not closed
 			{
@@ -194,7 +250,7 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 			$tag_name_pos = -1;
 			$new_line = true;
 		}
-		else if (ord($str_in[$i]) == 0x0d)
+		else if ($str_in[$i] == "\r")
 		{
 			continue; // ignore "\r"
 		}
@@ -213,80 +269,80 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 		}
 		else if (!$lml_tag_disabled && $str_in[$i] == "]" && $tag_name_pos >= 0)
 		{
-				$tag_end_pos = $i;
+			$tag_end_pos = $i;
 
-				// Skip space characters
-				while ($str_in[$tag_name_pos] == " ")
+			// Skip space characters
+			while ($str_in[$tag_name_pos] == " ")
+			{
+				$tag_name_pos++;
+			}
+
+			$k = $tag_name_pos;
+			while ($k < $tag_end_pos && $str_in[$k] != " ")
+			{
+				$k++;
+			}
+
+			$tag_name = strtolower(substr($str_in, $tag_name_pos, $k - $tag_name_pos));
+
+			if (isset($lml_tag_def[$tag_name]))
+			{
+				$tag_param_pos = -1;
+				$tag_param_buf = "";
+
+				if ($str_in[$k] == " ")
 				{
-					$tag_name_pos++;
+					$tag_param_pos = $k + 1;
+					while ($str_in[$tag_param_pos] == " ")
+					{
+						$tag_param_pos++;
+					}
+					$tag_param_buf = substr($str_in, $tag_param_pos, $tag_end_pos - $tag_param_pos);
+					$tag_param_buf = htmlspecialchars($tag_param_buf, ENT_QUOTES | ENT_HTML401, 'UTF-8');
 				}
 
-				$k = $tag_name_pos;
-				while ($k < $tag_end_pos && $str_in[$k] != " ")
+				if ($str_in[$k] == " " || $str_in[$k] == "]")
 				{
-					$k++;
-				}
-
-				$tag_name = strtolower(substr($str_in, $tag_name_pos, $k - $tag_name_pos));
-
-				if (isset($lml_tag_def[$tag_name]))
-				{
-						$tag_param_pos = -1;
-						$tag_param_buf = "";
-
-						if ($str_in[$k] == " ")
+					if ($tag_param_pos == -1 &&
+						$lml_tag_def[$tag_name][0] !== NULL &&
+						$lml_tag_def[$tag_name][1] !== NULL) // Apply default param if not defined
+					{
+						$tag_param_buf = $lml_tag_def[$tag_name][1];
+					}
+					if (!$quote_mode)
+					{
+						if ($lml_tag_def[$tag_name][0] !== NULL)
 						{
-							$tag_param_pos = $k + 1;
-							while ($str_in[$tag_param_pos] == " ")
-							{
-								$tag_param_pos++;
-							}
-							$tag_param_buf = substr($str_in, $tag_param_pos, $tag_end_pos - $tag_param_pos);
-							$tag_param_buf = htmlspecialchars($tag_param_buf, ENT_QUOTES | ENT_HTML401, 'UTF-8');
+							$tag_output_buf = sprintf($lml_tag_def[$tag_name][0], $tag_param_buf);
 						}
-
-						if ($str_in[$k] == " " || $str_in[$k] == "]")
+						else
 						{
-							if ($tag_param_pos == -1 &&
-								$lml_tag_def[$tag_name][0] !== NULL &&
-								$lml_tag_def[$tag_name][1] !== NULL) // Apply default param if not defined
-							{
-								$tag_param_buf = $lml_tag_def[$tag_name][1];
-							}
-							if (!$quote_mode)
-							{
-								if ($lml_tag_def[$tag_name][0] !== NULL)
-								{
-									$tag_output_buf = sprintf($lml_tag_def[$tag_name][0], $tag_param_buf);
-								}
-								else
-								{
-									$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, false);
-								}
-							}
-							else // if ($quote_mode)
-							{
-								if ($lml_tag_def[$tag_name][2] !== NULL)
-								{
-									$tag_output_buf = sprintf($lml_tag_def[$tag_name][2], $tag_param_buf);
-								}
-								else
-								{
-									$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, true);
-								}
-							}
-
-							$str_out .= $tag_output_buf;
+							$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, false);
 						}
-				}
-				else
-				{
-					$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
-					$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
-				}
+					}
+					else // if ($quote_mode)
+					{
+						if ($lml_tag_def[$tag_name][2] !== NULL)
+						{
+							$tag_output_buf = sprintf($lml_tag_def[$tag_name][2], $tag_param_buf);
+						}
+						else
+						{
+							$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, true);
+						}
+					}
 
-				$tag_start_pos = -1;
-				$tag_name_pos = -1;
+					$str_out .= $tag_output_buf;
+				}
+			}
+			else
+			{
+				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+			}
+
+			$tag_start_pos = -1;
+			$tag_name_pos = -1;
 		}
 		else if ($lml_tag_disabled || $tag_name_pos == -1) // not in LML tag
 		{
@@ -345,7 +401,7 @@ function lml_test()
 		"A[ color  BCD]EF[/color]G[color black]0[/color][color magenta]1[color cyan]23[/color]4[color red]5[/color]6[color yellOw]7[/color]8[color green]9[color blue]0[/color]",
 		"A[quote]B[quote]C[quote]D[quote]E[/quote]F[/quote]G[/quote]0[/quote]1[/quote]2[quote]3[/quote]4[/quote]56789",
 		": ABCDE[quote]FG\r\nab[/quote]cd[quote]ef[quote]g\r\n: : 012[/quote]345[/quote]6789\nABC[quote]DEFG",
-		"\033[35mabc\033[m",
+		"\033[1;35;42mABC\033[0mDE\033[334mF\033[33mG\033[12345\033[m",
 		"123456",
 		"[color red]Red[/color][plain][color blue]Blue[/color][plain]",
 		"[color yellow]Yellow[/color][nolml][left][color blue]Blue[/color][right][lml][color red]Red[/color]",
