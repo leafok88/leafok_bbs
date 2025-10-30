@@ -91,10 +91,10 @@ function lml_tag_filter(string $tag_name, string | null $tag_arg, bool $quote_mo
 							"#"  . intval($tag_arg) . "\" target=_blank>";
 			break;
 		case "color":
-			$tag_result = "<span style=\"color: " . $tag_arg . "\">";
+			$tag_result = ($quote_mode ? "" : "<span style=\"color: " . $tag_arg . "\">");
 			break;
 		case "/color":
-			$tag_result = "</span>";
+			$tag_result = ($quote_mode ? "" : "</span>");
 			break;
 		case "quote":
 			$lml_tag_quote_level++;
@@ -146,23 +146,34 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 	$lml_tag_disabled = !$lml_tag;
 	$lml_tag_quote_level = 0;
 
+	$line_width = 0;
+
+	if ($width <= 0)
+	{
+		$width = PHP_INT_MAX;
+	}
+
 	for ($i = 0; isset($str_in[$i]) && $str_in[$i] != "\0"; $i++)
 	{
-		if (!$quote_mode && !$lml_tag_disabled && $new_line)
+		if (!$lml_tag_disabled && $new_line)
 		{
-			$fb_quote_level = 0;
-
-			while ($str_in[$i + $fb_quote_level * 2] == ':' && $str_in[$i + $fb_quote_level * 2 + 1] == " ") // FB2000 quote leading str
+			while (substr($str_in, $i, 2) == ": ") // FB2000 quote leading str
 			{
 				$fb_quote_level++;
+				$lml_tag_quote_level++;
+				$i += 2;
 			}
 
-			$lml_tag_quote_level += $fb_quote_level;
-
-			if ($lml_tag_quote_level > 0)
+			if (!$quote_mode && $lml_tag_quote_level > 0)
 			{
 				$tag_output_buf = lml_tag_filter("color", $lml_tag_quote_color[$lml_tag_quote_level % count($lml_tag_quote_color)], $quote_mode);
 				$str_out .= $tag_output_buf;
+			}
+
+			for ($k = 0; $k < $fb_quote_level; $k++)
+			{
+				$str_out .= ": ";
+				$line_width += 2;
 			}
 
 			$new_line = false;
@@ -236,6 +247,7 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 				$tag_end_pos = $i - 1;
 				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
 				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+				$line_width += $tag_output_len;
 			}
 
 			if ($fb_quote_level > 0)
@@ -244,15 +256,18 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 
 				$tag_output_buf = lml_tag_filter("/color", "", $quote_mode);
 				$str_out .= $tag_output_buf;
+
+				$fb_quote_level = 0;
 			}
 
 			$tag_start_pos = -1;
 			$tag_name_pos = -1;
 			$new_line = true;
+			$line_width = 0;
 		}
-		else if ($str_in[$i] == "\r")
+		else if ($str_in[$i] == "\r" || $str_in[$i] == "\7")
 		{
-			continue; // ignore "\r"
+			continue; // Skip special characters
 		}
 
 		if (!$lml_tag_disabled && $str_in[$i] == "[")
@@ -262,6 +277,7 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 				$tag_end_pos = $i - 1;
 				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
 				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+				$line_width += $tag_output_len;
 			}
 
 			$tag_start_pos = $i;
@@ -330,15 +346,17 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 						{
 							$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, true);
 						}
+						$line_width += strlen($tag_output_buf); // Add width of special tags, [plain] [left] [right]
 					}
 
 					$str_out .= $tag_output_buf;
 				}
 			}
-			else
+			else // undefined tag
 			{
 				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
 				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+				$line_width += $tag_output_len;
 			}
 
 			$tag_start_pos = -1;
@@ -346,22 +364,36 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 		}
 		else if ($lml_tag_disabled || $tag_name_pos == -1) // not in LML tag
 		{
-			$c = ord($str_in[$i]);
-			if ($c & 0x80) // head of multi-byte character
+			$c = $str_in[$i];
+			$v = ord($c);
+
+			if ($line_width + ($v & 0x80 ? 2 : 1) > $width)
 			{
-				$c = ($c & 0x70) << 1;
-				while ($c & 0x80)
-				{
-					$str_out .= $str_in[$i++];
-					if (ord($str_in[$i]) == 0)
-					{
-						return $str_out;
-					}
-					$c = ($c & 0x7f) << 1;
-				}
+				$str_out .= "\n";
+				$new_line = true;
+				$line_width = 0;
+				$i--; // redo at current $i
+				continue;
 			}
 
-			$str_out .= $str_in[$i];
+			if ($v & 0x80) // head of multi-byte character
+			{
+				$v = ($v & 0x70) << 1;
+				while ($v & 0x80)
+				{
+					$i++;
+					if (!isset($str_in[$i]))
+					{
+						break;
+					}
+					$c .= $str_in[$i];
+					$v = ($v & 0x7f) << 1;
+				}
+				$line_width++;
+			}
+
+			$str_out .= $c;
+			$line_width++;
 		}
 		else // in LML tag
 		{
@@ -374,6 +406,7 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 		$tag_end_pos = $i - 1;
 		$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
 		$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+		$line_width += $tag_output_len;
 	}
 
 	if (!$quote_mode && !$lml_tag_disabled && $lml_tag_quote_level > 0)
@@ -406,7 +439,8 @@ function lml_test()
 		"[color red]Red[/color][plain][color blue]Blue[/color][plain]",
 		"[color yellow]Yellow[/color][nolml][left][color blue]Blue[/color][right][lml][color red]Red[/color]",
 		"[abc][left ][ right ][ colory ][left  \nABCD[left]EFG[right ",
-		"ABCD]EFG"
+		"ABCD]EFG",
+		": : A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789",
 	);
 
 	echo ("Test #1\n");
