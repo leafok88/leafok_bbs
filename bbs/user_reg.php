@@ -1,6 +1,6 @@
 <?php
 	require_once "../lib/common.inc.php";
-	require_once "../lib/lml.inc.php";
+	require_once "../lib/str_process.inc.php";
 	require_once "./session_init.inc.php";
 ?>
 <html>
@@ -210,7 +210,7 @@ window.addEventListener("load", () => {
 						<span id="err_msg_agreement" name="err_msg" style="color: red;"></span>
 <?php
 	$buffer = file_get_contents("./doc/license/" . (new DateTime($BBS_license_dt))->format("Ymd") . ".txt");
-	$license_f = (LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, 1024));
+	$license_f = (split_line(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), "", 1024));
 
 	echo <<<HTML
 						<textarea rows="15" cols="130">{$license_f}</textarea>
