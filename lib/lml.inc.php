@@ -470,15 +470,23 @@ function lml_test()
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
 
-	// echo ("Test #3\n");
-	// foreach($test_str_in as $str_in)
-	// {
-	// 	$str_out = LML($str_in, false, 80, false);
-	// 	echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
-	// }
+	echo ("Test #3\n");
+	foreach($test_str_in as $str_in)
+	{
+		$str_out = LML($str_in, false, 80, false);
+		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	}
 }
 
 if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")
 {
+	$time_start = microtime(true);
+
 	lml_test();
+
+	$time_end = microtime(true);
+	$page_load_duration = round(($time_end - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
+	$page_exec_duration = round(($time_end - $time_start) * 1000, 2);
+
+	echo "\npage_load_duration=$page_load_duration, page_exec_duration=$page_exec_duration\n";
 }
