@@ -1,6 +1,5 @@
 <?php
 	require_once "../lib/db_open.inc.php";
-	require_once "../lib/lml.inc.php";
 	require_once "../lib/ip_mask.inc.php";
 	require_once "./section_list.inc.php";
 	require_once "./session_init.inc.php";
