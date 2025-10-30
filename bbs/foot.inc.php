@@ -46,7 +46,9 @@
 	$user_tz = (new DateTimeImmutable("", $_SESSION["BBS_user_tz"]))->format("e (\U\T\C P)");
 
 	// Log end time
-	$page_exec_duration = round((microtime(true) - $time_start) * 1000, 2);
+	$time_end = microtime(true);
+	$page_load_duration = round(($time_end - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
+	$page_exec_duration = round(($time_end - $time_start) * 1000, 2);
 
 	echo <<<HTML
 		| <a class="s4" href="view_article.php?id=472080" target=_blank>常见问题</a> |
@@ -54,6 +56,6 @@
 	<p align="center" style="color:gray;">
 		Copyright &copy; {$BBS_copyright_duration} <a class="s8" href="/" target=_blank>{$BBS_name}({$BBS_host_name})</a> All Rights Reserved<br />
 		时间显示基于用户时区设置：<a class="s8" href="update_pref.php" target=_blank>{$user_tz}</a><br />
-		页面运行使用{$page_exec_duration}毫秒
+		页面加载使用{$page_load_duration}毫秒，论坛程序运行{$page_exec_duration}毫秒
 	</p>
 	HTML;
