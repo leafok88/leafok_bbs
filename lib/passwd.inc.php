@@ -20,7 +20,7 @@ function verify_pass_complexity($password, $username, $min_len)
 	{
 		$c = $password[$i];
 
-		if (is_numeric($c))
+		if (ctype_digit($c))
 		{
 			$num_count++;
 		}

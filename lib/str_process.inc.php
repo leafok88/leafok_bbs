@@ -31,11 +31,11 @@ function str_length(string $str) : int
 	return $ret;
 }
 
-function split_line(string $str, string $prefix = "", int $width = 76, int $lines_limit = PHP_INT_MAX, string $end_of_line = "\n") : string
+function split_line(string $str, string $prefix = "", int $width = PHP_INT_MAX, int $lines_limit = PHP_INT_MAX, string $end_of_line = "\n") : string
 {
 	if ($width <= 0)
 	{
-		return $str;
+		$width = PHP_INT_MAX;
 	}
 
 	$result = "";
