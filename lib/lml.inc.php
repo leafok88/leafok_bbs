@@ -1,4 +1,12 @@
 <?php
+if (defined("_BBS_LML_LIB_"))
+{
+	return;
+}
+define("_BBS_LML_LIB_", 1);
+
+$lml_total_exec_duration = 0; // For testing purpose
+
 $lml_tag_disabled = false;
 $lml_tag_quote_level = 0;
 $lml_tag_quote_color = array(
@@ -122,11 +130,14 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 	//$width		length of line, 0 means unlimited
 	//$quote_mode	whether output text is used as quoted content in text editor
 
+	global $lml_total_exec_duration;
 	global $lml_tag_disabled;
 	global $lml_tag_quote_level;
 	global $lml_tag_quote_color;
 	global $lml_tag_ansi_color;
 	global $lml_tag_def;
+
+	$time_start = microtime(true);
 
 	if ($str_in == null)
 	{
@@ -427,6 +438,9 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 		$str_out .= $tag_output_buf;
 	}
 
+	$time_end = microtime(true);
+	$lml_total_exec_duration += ($time_end - $time_start);
+
 	return $str_out;
 }
 
@@ -487,6 +501,7 @@ if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")
 	$time_end = microtime(true);
 	$page_load_duration = round(($time_end - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
 	$page_exec_duration = round(($time_end - $time_start) * 1000, 2);
+	$lml_exec_duration = round($lml_total_exec_duration * 1000, 2);
 
-	echo "\npage_load_duration=$page_load_duration, page_exec_duration=$page_exec_duration\n";
+	echo "\npage_load_duration=$page_load_duration, page_exec_duration=$page_exec_duration, lml_exec_duration=$lml_exec_duration\n";
 }
