@@ -478,7 +478,7 @@ function lml_test()
 	// }
 }
 
-if (isset($_SERVER["argc"]))
+if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")
 {
 	lml_test();
 }
