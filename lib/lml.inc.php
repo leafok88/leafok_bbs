@@ -238,7 +238,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 				}
 			}
 
-			if ($str_in[$k] == "m") // valid
+			if (isset($str_in[$k]) && $str_in[$k] == "m") // valid
 			{
 				if ($fg_color > 0)
 				{
@@ -255,7 +255,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 					$str_out .= $tag_output_buf;
 				}
 			}
-			else if (ctype_alpha($str_in[$k]))
+			else if (isset($str_in[$k]) && ctype_alpha($str_in[$k]))
 			{
 				// unsupported ANSI CSI command
 			}

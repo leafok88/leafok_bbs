@@ -1,5 +1,5 @@
 <?php
-function str_length(string $str) : int
+function str_length(string $str, bool $skip_ctrl_seq = false) : int
 {
 	$len = strlen($str);
 	$ret = 0;
@@ -7,6 +7,34 @@ function str_length(string $str) : int
 	for ($i = 0; $i < $len; $i++)
 	{
 		$c = $str[$i];
+
+		if ($c == "\r" || $c == "\7") // skip
+		{
+			continue;
+		}
+
+		if ($skip_ctrl_seq && $c == "\033" && isset($str[$i + 1]) && $str[$i + 1] == "[") // Skip control sequence
+		{
+			for ($i = $i + 2; 
+				isset($str[$i]) && (ctype_digit($str[$i]) || $str[$i] == ';' || $str[$i] == '?');
+				$i++)
+				;
+
+			if (isset($str[$i]) && $str[$i] == 'm') // valid
+			{
+				// skip
+			}
+			else if (isset($str[$i]) && ctype_alpha($str[$i]))
+			{
+				// unsupported ANSI CSI command
+			}
+			else
+			{
+				$i--;
+			}
+
+			continue;
+		}
 
 		// Process UTF-8 Chinese characters
 		$v1 = ord($c);
