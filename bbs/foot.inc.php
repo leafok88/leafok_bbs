@@ -47,7 +47,8 @@
 
 	// Calculate executing durations
 	$page_exec_duration = round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
-	$lml_exec_duration = defined("_BBS_LML_LIB_") ? round($lml_total_exec_duration * 1000, 2) : 0;
+	$lml_exec_duration = (defined("_BBS_LML_LIB_") && $lml_total_exec_duration > 0) ?
+							 ("，LML渲染使用" . round($lml_total_exec_duration * 1000, 2) . "毫秒") : "";
 
 	echo <<<HTML
 		| <a class="s4" href="view_article.php?id=472080" target=_blank>常见问题</a> |
@@ -55,6 +56,6 @@
 	<p align="center" style="color:gray;">
 		Copyright &copy; {$BBS_copyright_duration} <a class="s8" href="/" target=_blank>{$BBS_name}({$BBS_host_name})</a> All Rights Reserved<br />
 		时间显示基于用户时区设置：<a class="s8" href="update_pref.php" target=_blank>{$user_tz}</a><br />
-		页面运行使用{$page_exec_duration}毫秒，LML渲染使用{$lml_exec_duration}毫秒
+		页面运行使用{$page_exec_duration}毫秒{$lml_exec_duration}
 	</p>
 	HTML;
