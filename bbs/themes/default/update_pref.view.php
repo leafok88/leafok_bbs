@@ -157,7 +157,7 @@ window.addEventListener("load", () => {
 					<td>
 						<span id="err_msg_introduction" name="err_msg" style="color: red;"></span>
 						<textarea id="textarea_introduction" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["introduction"], ENT_HTML401, 'UTF-8'); ?></textarea>
-						限10行80列以内
+						限10行以内
 					</td>
 				</tr>
 				<tr>
@@ -165,7 +165,7 @@ window.addEventListener("load", () => {
 					<td>
 						<span id="err_msg_sign_1" name="err_msg" style="color: red;"></span>
 						<textarea id="textarea_sign_1" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["sign_1"], ENT_HTML401, 'UTF-8'); ?></textarea>
-						限10行80列以内
+						限10行以内
 					</td>
 				</tr>
 				<tr>
@@ -173,7 +173,7 @@ window.addEventListener("load", () => {
 					<td>
 						<span id="err_msg_sign_2" name="err_msg" style="color: red;"></span>
 						<textarea id="textarea_sign_2" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["sign_2"], ENT_HTML401, 'UTF-8'); ?></textarea>
-						限10行80列以内
+						限10行以内
 					</td>
 				</tr>
 				<tr>
@@ -181,7 +181,7 @@ window.addEventListener("load", () => {
 					<td>
 						<span id="err_msg_sign_3" name="err_msg" style="color: red;"></span>
 						<textarea id="textarea_sign_3" name="textarea" cols="80" rows="7"><?= htmlspecialchars($result_set["data"]["sign_3"], ENT_HTML401, 'UTF-8'); ?></textarea>
-						限10行80列以内
+						限10行以内
 					</td>
 				</tr>
 			</table>

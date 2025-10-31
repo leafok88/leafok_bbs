@@ -34,7 +34,7 @@
 		));
 	}
 
-	$r_introduction = check_badwords(split_line($introduction, "", 80, 10), "****");
+	$r_introduction = check_badwords(split_line($introduction, "", 256, 10), "****");
 	if ($introduction != $r_introduction)
 	{
 		$result_set["return"]["code"] = -1;
@@ -45,7 +45,7 @@
 		));
 	}
 
-	$r_sign_1 = check_badwords(split_line($sign_1, "", 80, 10), "****");
+	$r_sign_1 = check_badwords(split_line($sign_1, "", 256, 10), "****");
 	if ($sign_1 != $r_sign_1)
 	{
 		$result_set["return"]["code"] = -1;
@@ -56,7 +56,7 @@
 		));
 	}
 
-	$r_sign_2 = check_badwords(split_line($sign_2, "", 80, 10), "****");
+	$r_sign_2 = check_badwords(split_line($sign_2, "", 256, 10), "****");
 	if ($sign_2 != $r_sign_2)
 	{
 		$result_set["return"]["code"] = -1;
@@ -67,7 +67,7 @@
 		));
 	}
 
-	$r_sign_3 = check_badwords(split_line($sign_3, "", 80, 10), "****");
+	$r_sign_3 = check_badwords(split_line($sign_3, "", 256, 10), "****");
 	if ($sign_3 != $r_sign_3)
 	{
 		$result_set["return"]["code"] = -1;
