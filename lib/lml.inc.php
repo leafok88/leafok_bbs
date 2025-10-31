@@ -124,7 +124,7 @@ function lml_tag_filter(string $tag_name, string | null $tag_arg, bool $quote_mo
 	return $tag_result;
 }
 
-function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_mode = false) : string
+function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool $quote_mode = false, bool $html_trans = true) : string
 {
 	//$lml_tag		whether LML tag should be processed
 	//$width		length of line, 0 means unlimited
@@ -192,6 +192,11 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 			$new_line = false;
 			$i--; // redo at current $i
 			continue;
+		}
+
+		if ($lml_tag_disabled && $new_line)
+		{
+			$new_line = false;
 		}
 		
 		if (!$quote_mode && !$lml_tag_disabled && $str_in[$i] == "\033" && isset($str_in[$i + 1]) && $str_in[$i + 1] == "[") // Escape sequence
@@ -453,6 +458,10 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 					$v = ($v & 0x7f) << 1;
 				}
 				$line_width++;
+			}
+			else if ($html_trans)
+			{
+				$c = htmlspecialchars($c, ENT_QUOTES | ENT_HTML401, 'UTF-8');
 			}
 
 			$str_out .= $c;
