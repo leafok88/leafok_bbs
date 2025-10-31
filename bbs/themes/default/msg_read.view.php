@@ -248,7 +248,7 @@ foreach ($result_set["data"]["messages"] as $message)
 			</tr>
 			<tr bgcolor="<?= $color[0]; ?>">
 				<td colspan="2">
-					<pre><?= LML(htmlspecialchars($message["content"], ENT_HTML401, 'UTF-8'), true, 100); ?></pre>
+					<pre><?= LML($message["content"], true, 100); ?></pre>
 				</td>
 			</tr>
 <?php

@@ -64,7 +64,7 @@
 	$transship_info = ($article["transship"] ? "转载" : "原创");
 	$author_type = ($article["transship"] ? "转载" : "作者");
 	$nickname = htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8');
-	$content_f = LML(htmlspecialchars($article["content"], ENT_HTML401, 'UTF-8'), true, 110);
+	$content_f = LML($article["content"], true, 110);
 
 	$atta_list = "";
 	foreach ($article["attachments"] as $attachment)

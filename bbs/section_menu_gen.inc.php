@@ -55,7 +55,7 @@
 
 				foreach ($section_class["sections"] as $s_index => $section)
 				{
-					$comment_f = htmlspecialchars(LML($section['comment'], false), ENT_QUOTES | ENT_HTML401, 'UTF-8');
+					$comment_f = LML($section['comment'], false, 80);
 					echo <<<HTML
 						<a class="s6" href="list.php?sid={$section['sid']}" title="{$comment_f}">{$section['title']}</a><br />
 					HTML;

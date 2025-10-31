@@ -181,7 +181,7 @@
 		}
 
 		// Calculate length of content
-		$length = str_length(LML($content, false, 1024));
+		$length = str_length($content, true);
 
 		// Post announcement
 		$title = mysqli_real_escape_string($db_conn, $title);
