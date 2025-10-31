@@ -332,13 +332,13 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 			$tag_end_pos = $i;
 
 			// Skip space characters
-			while ($str_in[$tag_name_pos] == " ")
+			while (isset($str_in[$tag_name_pos]) && $str_in[$tag_name_pos] == " ")
 			{
 				$tag_name_pos++;
 			}
 
 			$k = $tag_name_pos;
-			while ($k < $tag_end_pos && $str_in[$k] != " ")
+			while ($k < $tag_end_pos && isset($str_in[$k]) && $str_in[$k] != " ")
 			{
 				$k++;
 			}
@@ -353,7 +353,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 				if ($str_in[$k] == " ")
 				{
 					$tag_param_pos = $k + 1;
-					while ($str_in[$tag_param_pos] == " ")
+					while (isset($str_in[$tag_param_pos]) && $str_in[$tag_param_pos] == " ")
 					{
 						$tag_param_pos++;
 					}
@@ -412,9 +412,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 			}
 			else // undefined tag
 			{
-				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
-
-				if ($line_width + $tag_output_len > $width)
+				if ($line_width + 1 > $width)
 				{
 					$str_out .= "\n";
 					$new_line = true;
@@ -423,8 +421,12 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 					continue;
 				}
 
-				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
-				$line_width += $tag_output_len;
+				$str_out .= "[";
+				$line_width++;
+				$i = $tag_start_pos; // restart from $tag_start_pos + 1
+				$tag_start_pos = -1;
+				$tag_name_pos = -1;
+				continue;
 			}
 
 			$tag_start_pos = -1;
@@ -470,7 +472,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 		else // in LML tag
 		{
 			// Do nothing
-		}		
+		}
 	}
 
 	if ($tag_start_pos != -1) // tag is not closed
@@ -518,6 +520,7 @@ function lml_test()
 		": : A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789",
 		"\033[0m\033[I             \033[1;32m;,                                           ;,\033[m",
 		"\n01234567890123456789012345678901234567890123456789012345678901234567890123456789\n2\n01234567890123456789012345678901234567890123456789012345678901234567890123456789\n4\n5\n",
+		"A[012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789]B",
 	);
 
 	echo ("Test #1\n");
