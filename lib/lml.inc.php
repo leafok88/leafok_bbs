@@ -269,8 +269,19 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 			{
 				$tag_end_pos = $i - 1;
 				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
-				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
-				$line_width += $tag_output_len;
+
+				if ($line_width + $tag_output_len > $width)
+				{
+					$str_out .= "\n";
+					$new_line = true;
+					$line_width = 0;
+					$i--; // redo at current $i
+				}
+				else
+				{
+					$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
+					$line_width += $tag_output_len;
+				}
 			}
 
 			if ($fb_quote_level > 0)
@@ -283,10 +294,15 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 				$fb_quote_level = 0;
 			}
 
+			if ($new_line)
+			{
+				continue;
+			}
+
 			$tag_start_pos = -1;
 			$tag_name_pos = -1;
 			$new_line = true;
-			$line_width = 0;
+			$line_width = -1;
 		}
 		else if ($str_in[$i] == "\r" || $str_in[$i] == "\7")
 		{
@@ -358,6 +374,9 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 						{
 							$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, false);
 						}
+
+						$str_out .= $tag_output_buf;
+						// No change to $line_width becasue LML tag output as HTML tag should be 0-width
 					}
 					else // if ($quote_mode)
 					{
@@ -369,15 +388,36 @@ function LML(string | null $str_in, bool $lml_tag, int $width = 76, bool $quote_
 						{
 							$tag_output_buf = lml_tag_filter($tag_name, $tag_param_buf, true);
 						}
-						$line_width += strlen($tag_output_buf); // Add width of special tags, [plain] [left] [right]
-					}
 
-					$str_out .= $tag_output_buf;
+						$tag_output_len = strlen($tag_output_buf);
+
+						if ($line_width + $tag_output_len > $width)
+						{
+							$str_out .= "\n";
+							$new_line = true;
+							$line_width = 0;
+							$i--; // redo at current $i
+							continue;
+						}
+
+						$str_out .= $tag_output_buf;
+						$line_width += $tag_output_len; // Add width of special tags, [plain] [left] [right]
+					}
 				}
 			}
 			else // undefined tag
 			{
 				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
+
+				if ($line_width + $tag_output_len > $width)
+				{
+					$str_out .= "\n";
+					$new_line = true;
+					$line_width = 0;
+					$i--; // redo at current $i
+					continue;
+				}
+
 				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
 				$line_width += $tag_output_len;
 			}
@@ -468,6 +508,7 @@ function lml_test()
 		"ABCD]EFG",
 		": : A123456789B123456789C123456789D123456789E123456789F123456789G123456789H123456789I123456789J123456789",
 		"\033[0m\033[I             \033[1;32m;,                                           ;,\033[m",
+		"\n01234567890123456789012345678901234567890123456789012345678901234567890123456789\n2\n01234567890123456789012345678901234567890123456789012345678901234567890123456789\n4\n5\n",
 	);
 
 	echo ("Test #1\n");
