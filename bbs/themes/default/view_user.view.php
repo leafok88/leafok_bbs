@@ -460,7 +460,7 @@ window.addEventListener("load", () => {
 					<table border="0" cellspacing="0" cellpadding="0" width="80%">
 						<tr>
 							<td style="color:gray; font-size:14px;">
-								<pre><?= split_line(LML($result_set["data"]["introduction"], true, 80), "", 80, 10); ?></pre>
+								<pre><?= split_line(LML($result_set["data"]["introduction"], true, 80), "", 0, 10); ?></pre>
 							</td>
 						</tr>
 					</table>
