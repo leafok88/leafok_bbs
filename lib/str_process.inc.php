@@ -13,18 +13,18 @@ function str_length(string $str, bool $skip_ctrl_seq = false) : int
 			continue;
 		}
 
-		if ($skip_ctrl_seq && $c == "\033" && isset($str[$i + 1]) && $str[$i + 1] == "[") // Skip control sequence
+		if ($skip_ctrl_seq && $c == "\033" && $i + 1 < $len && $str[$i + 1] == "[") // Skip control sequence
 		{
 			for ($i = $i + 2; 
-				isset($str[$i]) && (ctype_digit($str[$i]) || $str[$i] == ';' || $str[$i] == '?');
+				$i < $len && (ctype_digit($str[$i]) || $str[$i] == ';' || $str[$i] == '?');
 				$i++)
 				;
 
-			if (isset($str[$i]) && $str[$i] == 'm') // valid
+			if ($i < $len && $str[$i] == 'm') // valid
 			{
 				// skip
 			}
-			else if (isset($str[$i]) && ctype_alpha($str[$i]))
+			else if ($i < $len && ctype_alpha($str[$i]))
 			{
 				// unsupported ANSI CSI command
 			}

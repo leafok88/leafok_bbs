@@ -45,15 +45,9 @@
 
 	$user_tz = (new DateTimeImmutable("", $_SESSION["BBS_user_tz"]))->format("e (\U\T\C P)");
 
-	// Log end time
-	$time_end = microtime(true);
-	$page_load_duration = round(($time_end - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
-	$page_exec_duration = round(($time_end - $time_start) * 1000, 2);
-	$lml_exec_duration = 0;
-	if (defined("_BBS_LML_LIB_"))
-	{
-		$lml_exec_duration = round($lml_total_exec_duration * 1000, 2);
-	}
+	// Calculate executing durations
+	$page_exec_duration = round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
+	$lml_exec_duration = defined("_BBS_LML_LIB_") ? round($lml_total_exec_duration * 1000, 2) : 0;
 
 	echo <<<HTML
 		| <a class="s4" href="view_article.php?id=472080" target=_blank>常见问题</a> |
@@ -61,6 +55,6 @@
 	<p align="center" style="color:gray;">
 		Copyright &copy; {$BBS_copyright_duration} <a class="s8" href="/" target=_blank>{$BBS_name}({$BBS_host_name})</a> All Rights Reserved<br />
 		时间显示基于用户时区设置：<a class="s8" href="update_pref.php" target=_blank>{$user_tz}</a><br />
-		页面加载使用{$page_load_duration}毫秒，程序运行{$page_exec_duration}毫秒，LML渲染{$lml_exec_duration}毫秒
+		页面运行使用{$page_exec_duration}毫秒，LML渲染使用{$lml_exec_duration}毫秒
 	</p>
 	HTML;

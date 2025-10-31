@@ -44,6 +44,11 @@
 	{
 		font-size: 16px;
 	}
+	TD.copyright
+	{
+		font-size: 14px;
+		color: gray;
+	}
 	IMG.auto_adjust
 	{
 		display: none;
@@ -242,6 +247,11 @@
 		HTML;
 	}
 
+	$current_tm = (new DateTimeImmutable())->format("Y-m-d H:i:s (\U\T\C P)");
+
+	// Calculate executing durations
+	$page_exec_duration = round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
+
 	echo <<<HTML
 			<table border="0" cellpadding="5" cellspacing="0" width="1050">
 				<tr bgcolor="#d0d3F0" height="10">
@@ -258,9 +268,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td align="center">
-						Copyright &copy; {$BBS_copyright_duration} {$BBS_name}({$BBS_host_name})<br />
-						All Rights Reserved
+					<td class="copyright" align="center">
+						Copyright &copy; {$BBS_copyright_duration} {$BBS_name}({$BBS_host_name}) All Rights Reserved<br />
+						页面生成于{$current_tm}，使用{$page_exec_duration}毫秒
 					</td>
 				</tr>
 			</table>

@@ -144,6 +144,8 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 		$str_in = "";
 	}
 
+	$str_in_len = strlen($str_in);
+
 	$str_out = "";
 
 	$tag_start_pos = -1;
@@ -164,7 +166,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 		$width = PHP_INT_MAX;
 	}
 
-	for ($i = 0; isset($str_in[$i]) && $str_in[$i] != "\0"; $i++)
+	for ($i = 0; $i < $str_in_len && $str_in[$i] != "\0"; $i++)
 	{
 		if (!$lml_tag_disabled && $new_line)
 		{
@@ -199,7 +201,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 			$new_line = false;
 		}
 		
-		if (!$quote_mode && !$lml_tag_disabled && $str_in[$i] == "\033" && isset($str_in[$i + 1]) && $str_in[$i + 1] == "[") // Escape sequence
+		if (!$quote_mode && !$lml_tag_disabled && $str_in[$i] == "\033" && $i + 1 < $str_in_len && $str_in[$i + 1] == "[") // Escape sequence
 		{
 			$valid_ansi_color = false;
 			$highlight = false;
@@ -208,7 +210,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 
 			$ansi_color = 0;
 			for ($k = $i + 2;
-				isset($str_in[$k]) && (ctype_digit($str_in[$k]) || $str_in[$k] == ";" || $str_in[$k] == "?" || $str_in[$k] == "m");
+				$k < $str_in_len && (ctype_digit($str_in[$k]) || $str_in[$k] == ";" || $str_in[$k] == "?" || $str_in[$k] == "m");
 				$k++)
 			{
 				if ($str_in[$k] == ";" || $str_in[$k] == "m")
@@ -238,7 +240,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 				}
 			}
 
-			if (isset($str_in[$k]) && $str_in[$k] == "m") // valid
+			if ($k < $str_in_len && $str_in[$k] == "m") // valid
 			{
 				if ($fg_color > 0)
 				{
@@ -255,7 +257,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 					$str_out .= $tag_output_buf;
 				}
 			}
-			else if (isset($str_in[$k]) && ctype_alpha($str_in[$k]))
+			else if ($k < $str_in_len && ctype_alpha($str_in[$k]))
 			{
 				// unsupported ANSI CSI command
 			}
@@ -332,13 +334,13 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 			$tag_end_pos = $i;
 
 			// Skip space characters
-			while (isset($str_in[$tag_name_pos]) && $str_in[$tag_name_pos] == " ")
+			while ($tag_name_pos < $str_in_len && $str_in[$tag_name_pos] == " ")
 			{
 				$tag_name_pos++;
 			}
 
 			$k = $tag_name_pos;
-			while ($k < $tag_end_pos && isset($str_in[$k]) && $str_in[$k] != " ")
+			while ($k < $tag_end_pos && $k < $str_in_len && $str_in[$k] != " ")
 			{
 				$k++;
 			}
@@ -353,7 +355,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 				if ($str_in[$k] == " ")
 				{
 					$tag_param_pos = $k + 1;
-					while (isset($str_in[$tag_param_pos]) && $str_in[$tag_param_pos] == " ")
+					while ($tag_param_pos < $str_in_len && $str_in[$tag_param_pos] == " ")
 					{
 						$tag_param_pos++;
 					}
@@ -452,7 +454,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 				while ($v & 0x80)
 				{
 					$i++;
-					if (!isset($str_in[$i]))
+					if ($i >= $str_in_len)
 					{
 						break;
 					}
@@ -547,14 +549,10 @@ function lml_test()
 
 if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")
 {
-	$time_start = microtime(true);
-
 	lml_test();
 
-	$time_end = microtime(true);
-	$page_load_duration = round(($time_end - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
-	$page_exec_duration = round(($time_end - $time_start) * 1000, 2);
+	$page_exec_duration = round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) * 1000, 2);
 	$lml_exec_duration = round($lml_total_exec_duration * 1000, 2);
 
-	echo "\npage_load_duration=$page_load_duration, page_exec_duration=$page_exec_duration, lml_exec_duration=$lml_exec_duration\n";
+	echo "\npage_exec_duration=$page_exec_duration, lml_exec_duration=$lml_exec_duration\n";
 }

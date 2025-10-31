@@ -72,9 +72,6 @@ if (!defined("_BBS_SESSION_INIT_"))
 		return true;
 	}
 
-	// Log begin time
-	$time_start = microtime(true);
-
 	// Initiate Session
 	session_name("BBS");
 	session_set_cookie_params($BBS_session_lifetime, "/");
