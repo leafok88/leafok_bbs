@@ -348,7 +348,7 @@
 				$buffer = file_get_contents("./doc/license/" . (new DateTime($BBS_license_dt))->format("Ymd") . ".txt");
 
 				$result_set["return"]["code"] = 4;
-				$result_set["return"]["message"] = LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, 1024);
+				$result_set["return"]["message"] = LML($buffer, 1024, false);
 
 				mysqli_close($db_conn);
 				exit(json_encode($result_set));

@@ -210,7 +210,7 @@ window.addEventListener("load", () => {
 						<span id="err_msg_agreement" name="err_msg" style="color: red;"></span>
 <?php
 	$buffer = file_get_contents("./doc/license/" . (new DateTime($BBS_license_dt))->format("Ymd") . ".txt");
-	$license_f = (LML(htmlspecialchars($buffer, ENT_HTML401, 'UTF-8'), false, 1024));
+	$license_f = (LML($buffer, 1024, false));
 
 	echo <<<HTML
 						<textarea rows="15" cols="130">{$license_f}</textarea>
