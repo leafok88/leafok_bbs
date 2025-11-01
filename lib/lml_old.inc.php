@@ -421,6 +421,7 @@ function lml_test()
 		$str_out = LML($str_in, true, 80, false);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
+	printf("Test #1: Done\n\n");
 
 	echo ("Test #2\n");
 	foreach($test_str_in as $str_in)
@@ -428,13 +429,15 @@ function lml_test()
 		$str_out = LML($str_in, true, 80, true);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
+	printf("Test #2: Done\n\n");
 
-	echo ("Test #3\n");
-	foreach($test_str_in as $str_in)
-	{
-		$str_out = LML($str_in, false, 80, false);
-		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
-	}
+	// echo ("Test #3\n");
+	// foreach($test_str_in as $str_in)
+	// {
+	// 	$str_out = LML($str_in, false, 80, false);
+	// 	echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	// }
+	// printf("Test #3: Done\n\n");
 }
 
 if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")

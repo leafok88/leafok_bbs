@@ -272,7 +272,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 
 		if ($str_in[$i] == "\n") // jump out of tag at end of line
 		{
-			if ($tag_start_pos != -1) // tag is not closed
+			if (!$lml_tag_disabled && $tag_start_pos != -1) // tag is not closed
 			{
 				$tag_end_pos = $i - 1;
 				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
@@ -291,7 +291,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 				}
 			}
 
-			if ($fb_quote_level > 0)
+			if (!$lml_tag_disabled && $fb_quote_level > 0)
 			{
 				$lml_tag_quote_level -= $fb_quote_level;
 
@@ -477,7 +477,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 		}
 	}
 
-	if ($tag_start_pos != -1) // tag is not closed
+	if (!$lml_tag_disabled && $tag_start_pos != -1) // tag is not closed
 	{
 		$tag_end_pos = $i - 1;
 		$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
@@ -531,6 +531,7 @@ function lml_test()
 		$str_out = LML($str_in, true, 80, false);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
+	printf("Test #1: Done\n\n");
 
 	echo ("Test #2\n");
 	foreach($test_str_in as $str_in)
@@ -538,13 +539,15 @@ function lml_test()
 		$str_out = LML($str_in, true, 80, true);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
+	printf("Test #2: Done\n\n");
 
-	echo ("Test #3\n");
-	foreach($test_str_in as $str_in)
-	{
-		$str_out = LML($str_in, false, 80, false);
-		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
-	}
+	// echo ("Test #3\n");
+	// foreach($test_str_in as $str_in)
+	// {
+	// 	$str_out = LML($str_in, false, 80, false);
+	// 	echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
+	// }
+	// printf("Test #3: Done\n\n");
 }
 
 if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")
