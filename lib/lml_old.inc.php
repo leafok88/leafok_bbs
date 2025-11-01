@@ -7,9 +7,8 @@ define("_BBS_LML_LIB_", 1);
 
 $lml_total_exec_duration = 0; // For testing purpose
 
-function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $quote_mode = false) : string
+function LML(string | null $source_str, int $width = 76, bool $quote_mode = false) : string
 {
-	//$lml_tag		whether LML tag should be processed
 	//$width		length of line, 0 means unlimited
 	//$quote_mode	whether output text is used as quoted content in text editor
 
@@ -29,6 +28,7 @@ function LML(string | null $source_str, bool $lml_tag, int $width = 76, bool $qu
 		$source_str = FB2LML($source_str);
 	}
 
+	$lml_tag = true;
 	$lml_disabled = !$lml_tag;
 	$result_str = "";
 	$pre = 0;
@@ -418,7 +418,7 @@ function lml_test()
 	echo ("Test #1\n");
 	foreach($test_str_in as $str_in)
 	{
-		$str_out = LML($str_in, true, 80, false);
+		$str_out = LML($str_in, 80, false);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
 	printf("Test #1: Done\n\n");
@@ -426,18 +426,10 @@ function lml_test()
 	echo ("Test #2\n");
 	foreach($test_str_in as $str_in)
 	{
-		$str_out = LML($str_in, true, 80, true);
+		$str_out = LML($str_in, 80, true);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
 	printf("Test #2: Done\n\n");
-
-	// echo ("Test #3\n");
-	// foreach($test_str_in as $str_in)
-	// {
-	// 	$str_out = LML($str_in, false, 80, false);
-	// 	echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
-	// }
-	// printf("Test #3: Done\n\n");
 }
 
 if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")

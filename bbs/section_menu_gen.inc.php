@@ -55,7 +55,7 @@
 
 				foreach ($section_class["sections"] as $s_index => $section)
 				{
-					$comment_f = LML($section['comment'], false, 80);
+					$comment_f = LML($section['comment'], 80, true);
 					echo <<<HTML
 						<a class="s6" href="list.php?sid={$section['sid']}" title="{$comment_f}">{$section['title']}</a><br />
 					HTML;

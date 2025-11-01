@@ -71,7 +71,7 @@
 	$announcement_info = "";
 	if ($result_set["data"]["announcement"] != "")
 	{
-		$annoucement = LML($result_set["data"]["announcement"], true, 100);
+		$annoucement = LML($result_set["data"]["announcement"], 100);
 
 		$announcement_info .= <<<HTML
 			<tr>

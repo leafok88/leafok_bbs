@@ -99,7 +99,7 @@
 		$username = htmlspecialchars($article["username"], ENT_HTML401, 'UTF-8');
 		$nickname = htmlspecialchars($article["nickname"], ENT_HTML401, 'UTF-8');
 		$title_f = split_line(htmlspecialchars($article["title"], ENT_HTML401, 'UTF-8'), "", 65, 2, "<br />");
-		$content_f = LML($article["content"], true, 80);
+		$content_f = LML($article["content"], 80);
 
 		$transship_info = "";
 		if ($article["transship"])

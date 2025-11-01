@@ -124,9 +124,8 @@ function lml_tag_filter(string $tag_name, string | null $tag_arg, bool $quote_mo
 	return $tag_result;
 }
 
-function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool $quote_mode = false, bool $html_trans = true) : string
+function LML(string | null $str_in, int $width = 80, bool $quote_mode = false, bool $html_trans = true) : string
 {
-	//$lml_tag		whether LML tag should be processed
 	//$width		length of line, 0 means unlimited
 	//$quote_mode	whether output text is used as quoted content in text editor
 
@@ -156,7 +155,7 @@ function LML(string | null $str_in, bool $lml_tag = true, int $width = 80, bool 
 	$fb_quote_level = 0;
 	$tag_name_found = false;
 
-	$lml_tag_disabled = !$lml_tag;
+	$lml_tag_disabled = false;
 	$lml_tag_quote_level = 0;
 
 	$line_width = 0;
@@ -528,7 +527,7 @@ function lml_test()
 	echo ("Test #1\n");
 	foreach($test_str_in as $str_in)
 	{
-		$str_out = LML($str_in, true, 80, false);
+		$str_out = LML($str_in, 80, false);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
 	printf("Test #1: Done\n\n");
@@ -536,18 +535,10 @@ function lml_test()
 	echo ("Test #2\n");
 	foreach($test_str_in as $str_in)
 	{
-		$str_out = LML($str_in, true, 80, true);
+		$str_out = LML($str_in, 80, true);
 		echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
 	}
 	printf("Test #2: Done\n\n");
-
-	// echo ("Test #3\n");
-	// foreach($test_str_in as $str_in)
-	// {
-	// 	$str_out = LML($str_in, false, 80, false);
-	// 	echo ("Input(len=" . strlen($str_in) . "): " . $str_in . "\nOutput(len=" . strlen($str_out) . "): " . $str_out . "\n");
-	// }
-	// printf("Test #3: Done\n\n");
 }
 
 if (isset($_SERVER["argv"][1]) && $_SERVER["argv"][1] == "test")
