@@ -33,9 +33,6 @@ if (!defined("_BBS_THEME_INIT_"))
 			"css/default" => "../www/css/default.css",
 			"view/view_article" => "view_article.view.php",
 		),
-		"test" => array(
-			"view/view_article" => "view_article.view.php",
-		),
 	);
 
 	$BBS_theme_current = "";
