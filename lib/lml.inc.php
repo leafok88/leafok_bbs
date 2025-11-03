@@ -23,7 +23,7 @@ $lml_tag_ansi_color = array(
 	34 => "blue",
 	35 => "magenta",
 	36 => "cyan",
-	37 => "white",
+	37 => "sienna", // white -> sienna
 );
 
 $lml_tag_def = array(
