@@ -34,7 +34,7 @@
 	header("Content-Type:application/json; charset=utf-8");
 
 	// Validate input data
-	if (!preg_match("/^[A-Za-z][A-Za-z0-9]{4,11}$/", $username))
+	if (!preg_match("/^[A-Za-z][A-Za-z0-9_]{4,11}$/", $username))
 	{
 		$result_set["return"]["code"] = -1;
 		array_push($result_set["return"]["errorFields"], array(

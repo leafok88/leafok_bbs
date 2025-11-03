@@ -101,7 +101,7 @@ window.addEventListener("load", () => {
 					<td width="75%">
 						<span id="err_msg_username" name="err_msg" style="color: red;"></span><input id="username" name="username" value="">
 						<font color="red">*</font>
-						5-12位英文子母、数字的组合，必须以字母开头，不可更改
+						5-12位英文子母、数字、下划线的组合，必须以字母开头，不可更改
 					</td>
 				</tr>
 				<tr>
