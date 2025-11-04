@@ -40,7 +40,7 @@
 
 	if ($username != "")
 	{
-		if (!preg_match("/^[A-Za-z][A-Za-z0-9_]{4,11}$/", $username))
+		if (!preg_match("/^[A-Za-z][A-Za-z0-9_]{2,11}$/", $username))
 		{
 			$result_set["return"]["code"] = -1;
 			$result_set["return"]["message"] = "用户名格式非法";
