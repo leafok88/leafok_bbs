@@ -1,10 +1,42 @@
 <?php
 	require_once "../lib/db_open.inc.php";
+	require_once "../lib/lml.inc.php";
 	require_once "../lib/str_process.inc.php";
 	require_once "./session_init.inc.php";
 	require_once "./check_sub.inc.php";
 
 	force_login();
+
+	function check_input_data(string $input_str, string $id_str, array & $result_set, int $max_line_cnt) : bool
+	{
+		$r_input_str = check_badwords($input_str, "****");
+		if ($input_str != $r_input_str)
+		{
+			$result_set["return"]["code"] = -1;
+			array_push($result_set["return"]["errorFields"], array(
+				"id" => $id_str,
+				"errMsg" => "非法内容已被过滤",
+				"updateValue" => $r_input_str,
+			));
+
+			return false;
+		}
+
+		$r_input_str = LML($input_str, 80);
+		if (split_line($r_input_str, "", 256, $max_line_cnt) != $r_input_str)
+		{
+			$result_set["return"]["code"] = -1;
+			array_push($result_set["return"]["errorFields"], array(
+				"id" => $id_str,
+				"errMsg" => "内容超过长度限制",
+				"updateValue" => $input_str,
+			));
+
+			return false;
+		}
+
+		return true;
+	}
 
 	$user_tz = (isset($_POST["user_tz"]) ? $_POST["user_tz"] : "");
 	$photo = (isset($_POST["photo"]) ? intval($_POST["photo"]) : 0);
@@ -34,49 +66,11 @@
 		));
 	}
 
-	$r_introduction = check_badwords(split_line($introduction, "", 256, 10), "****");
-	if ($introduction != $r_introduction)
-	{
-		$result_set["return"]["code"] = -1;
-		array_push($result_set["return"]["errorFields"], array(
-			"id" => "introduction",
-			"errMsg" => "不符合要求",
-			"updateValue" => $r_introduction,
-		));
-	}
+	check_input_data($introduction, "introduction", $result_set, 10);
 
-	$r_sign_1 = check_badwords(split_line($sign_1, "", 256, 10), "****");
-	if ($sign_1 != $r_sign_1)
-	{
-		$result_set["return"]["code"] = -1;
-		array_push($result_set["return"]["errorFields"], array(
-			"id" => "sign_1",
-			"errMsg" => "不符合要求",
-			"updateValue" => $r_sign_1,
-		));
-	}
-
-	$r_sign_2 = check_badwords(split_line($sign_2, "", 256, 10), "****");
-	if ($sign_2 != $r_sign_2)
-	{
-		$result_set["return"]["code"] = -1;
-		array_push($result_set["return"]["errorFields"], array(
-			"id" => "sign_2",
-			"errMsg" => "不符合要求",
-			"updateValue" => $r_sign_2,
-		));
-	}
-
-	$r_sign_3 = check_badwords(split_line($sign_3, "", 256, 10), "****");
-	if ($sign_3 != $r_sign_3)
-	{
-		$result_set["return"]["code"] = -1;
-		array_push($result_set["return"]["errorFields"], array(
-			"id" => "sign_3",
-			"errMsg" => "不符合要求",
-			"updateValue" => $r_sign_3,
-		));
-	}
+	check_input_data($sign_1, "sign_1", $result_set, 10);
+	check_input_data($sign_2, "sign_2", $result_set, 10);
+	check_input_data($sign_3, "sign_3", $result_set, 10);
 
 	if ($result_set["return"]["code"] != 0)
 	{
