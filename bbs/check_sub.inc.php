@@ -1,5 +1,5 @@
 <?php
-function check_badwords(string $str_check, string $bw_replace = "") : string | null
+function check_badwords(string $str_check, string $bw_replace = "", int & $bw_count = null) : string | null
 {
 	$badwords_dict = "../conf/badwords_strict.conf";
 
@@ -13,14 +13,18 @@ function check_badwords(string $str_check, string $bw_replace = "") : string | n
 	// Builds the ban words array
 	$word_list = explode("\n", str_replace("\r\n", "\n", $contents));
 
+	$bw_patterns = array();
+
 	// Do the checking
-	foreach ($word_list as $reg_exp)
+	foreach ($word_list as $word)
 	{
-	    if ($reg_exp != "")
+	    if ($word != "")
 	    {
-			$str_check = preg_replace("/" . $reg_exp . "/i", $bw_replace, $str_check);
+			array_push($bw_patterns, "/" . $word . "/i");
 		}
 	}
+
+	$str_check = preg_replace($bw_patterns, $bw_replace, $str_check, -1, $bw_count);
 
 	return $str_check;
 }

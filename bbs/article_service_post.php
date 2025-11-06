@@ -52,8 +52,9 @@
 		));
 	}
 
-	$r_title = check_badwords($title, "****");
-	if ($title != $r_title)
+	$bw_count = 0;
+	$r_title = check_badwords($title, "****", $bw_count);
+	if ($bw_count > 0)
 	{
 		$result_set["return"]["code"] = -1;
 		array_push($result_set["return"]["errorFields"], array(
@@ -63,8 +64,9 @@
 		));
 	}
 
-	$r_content = check_badwords($content, "****");
-	if ($content != $r_content)
+	$bw_count = 0;
+	$r_content = check_badwords($content, "****", $bw_count);
+	if ($bw_count > 0)
 	{
 		$result_set["return"]["code"] = -1;
 		array_push($result_set["return"]["errorFields"], array(

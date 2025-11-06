@@ -81,8 +81,9 @@
 		exit(json_encode($result_set));
 	}
 
-	$r_reason = check_badwords($reason, "****");
-	if ($reason != $r_reason)
+	$bw_count = 0;
+	$r_reason = check_badwords($reason, "****", $bw_count);
+	if ($bw_count > 0)
 	{
 		$result_set["return"]["code"] = -1;
 		$result_set["return"]["message"] = "理由包含非法内容";

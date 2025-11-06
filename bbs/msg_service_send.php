@@ -38,8 +38,10 @@
 	}
 
 	$content = split_line($content, "", 256, 10);
-	$r_content = check_badwords($content, "****");
-	if ($content != $r_content)
+
+	$bw_count = 0;
+	$r_content = check_badwords($content, "****", $bw_count);
+	if ($bw_count > 0)
 	{
 		$result_set["return"]["code"] = -1;
 		$result_set["return"]["message"] = "内容不符合要求";
