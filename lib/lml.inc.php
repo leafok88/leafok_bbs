@@ -273,21 +273,21 @@ function LML(string | null $str_in, int $width = 80, bool $quote_mode = false, b
 		{
 			if (!$lml_tag_disabled && $tag_start_pos != -1) // tag is not closed
 			{
-				$tag_end_pos = $i - 1;
-				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
-
-				if ($line_width + $tag_output_len > $width)
+				if ($line_width + 1 > $width)
 				{
 					$str_out .= "\n";
 					$new_line = true;
 					$line_width = 0;
 					$i--; // redo at current $i
+					continue;
 				}
-				else
-				{
-					$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
-					$line_width += $tag_output_len;
-				}
+
+				$str_out .= "[";
+				$line_width++;
+				$i = $tag_start_pos; // restart from $tag_start_pos + 1
+				$tag_start_pos = -1;
+				$tag_name_pos = -1;
+				continue;
 			}
 
 			if (!$lml_tag_disabled && $fb_quote_level > 0)
@@ -319,10 +319,21 @@ function LML(string | null $str_in, int $width = 80, bool $quote_mode = false, b
 		{
 			if ($tag_start_pos != -1) // tag is not closed
 			{
-				$tag_end_pos = $i - 1;
-				$tag_output_len = $tag_end_pos - $tag_start_pos + 1;
-				$str_out .= substr($str_in, $tag_start_pos, $tag_output_len);
-				$line_width += $tag_output_len;
+				if ($line_width + 1 > $width)
+				{
+					$str_out .= "\n";
+					$new_line = true;
+					$line_width = 0;
+					$i--; // redo at current $i
+					continue;
+				}
+
+				$str_out .= "[";
+				$line_width++;
+				$i = $tag_start_pos; // restart from $tag_start_pos + 1
+				$tag_start_pos = -1;
+				$tag_name_pos = -1;
+				continue;
 			}
 
 			$tag_start_pos = $i;
