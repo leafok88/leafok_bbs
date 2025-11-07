@@ -1,7 +1,7 @@
 <?php
 function check_badwords(string $str_check, string $bw_replace = "", int & $bw_count = null) : string | null
 {
-	$badwords_dict = "../conf/badwords_strict.conf";
+	$badwords_dict = "../conf/badwords.conf";
 
 	$contents = file_get_contents($badwords_dict);
 	if ($contents == false)
