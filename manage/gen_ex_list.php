@@ -228,6 +228,11 @@
 	}
 
 	mysqli_close($db_conn);
+
+	$current_tm = (new DateTimeImmutable())->format("Y-m-d H:i:s (\U\T\C P)");
+
+	// Calculate executing durations
+	$page_exec_duration = round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]), 2);
 ?>
 				<tr height="10">
 					<td colspan="3" align="center">
@@ -249,8 +254,8 @@
 				</tr>
 				<tr>
 					<td colspan="3" align="center">
-						Copyright &copy; <?= $BBS_copyright_duration; ?> <?= $BBS_name . "(" . $BBS_host_name . ")"; ?><br />
-						All Rights Reserved
+						Copyright &copy; <?= $BBS_copyright_duration; ?> <?= $BBS_name . "(" . $BBS_host_name . ")"; ?>	All Rights Reserved<br />
+						目录更新于<?=$current_tm?>，使用<?=$page_exec_duration?>秒
 					</td>
 				</tr>
 			</table>
