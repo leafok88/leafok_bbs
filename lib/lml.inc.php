@@ -124,7 +124,7 @@ function lml_tag_filter(string $tag_name, string | null $tag_arg, bool $quote_mo
 	return $tag_result;
 }
 
-function LML(string | null $str_in, int $width = 80, bool $quote_mode = false, bool $html_trans = true) : string
+function LML(string | null $str_in, int $width = 80, bool $quote_mode = false, bool $html_trans = true, int $tab_size = 4) : string
 {
 	//$width		length of line, 0 means unlimited
 	//$quote_mode	whether output text is used as quoted content in text editor
@@ -313,6 +313,22 @@ function LML(string | null $str_in, int $width = 80, bool $quote_mode = false, b
 		else if ($str_in[$i] == "\r" || $str_in[$i] == "\7")
 		{
 			continue; // Skip special characters
+		}
+		else if ($str_in[$i] == "\t")
+		{
+			$tab_width = $tab_size - ($line_width % $tab_size);
+			if ($line_width + $tab_width > $width)
+			{
+				$str_out .= "\n";
+				$new_line = true;
+				$line_width = 0;
+				// skip current Tab
+				continue;
+			}
+
+			$str_out .= str_repeat(" ", $tab_width);
+			$line_width += $tab_width;
+			continue;
 		}
 
 		if (!$lml_tag_disabled && $str_in[$i] == "[")
