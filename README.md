@@ -11,7 +11,7 @@ Copyright (C) LeafOK.com, 2001-2025
 软件性质：源代码采用 GNU GPL 授权发布  
 功能说明：  
     基于Web的文章浏览、发表、查找等基本功能和其它各种实用功能，可开设多类别多版块，各版块分设讨论区、文摘区、精华区，并提供全面的版主管理支持。  
-    Telnet方式的登陆访问、文章查看、游戏等功能（可选，详见[lbbs](https://github.com/leafok88/lbbs)）  
+    Telnet方式的登陆访问、文章查看、游戏等功能（可选，详见[lbbs](https://github.com/leafok/lbbs)）  
 
 
 使用说明：
