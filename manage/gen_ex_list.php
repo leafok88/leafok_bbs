@@ -75,7 +75,7 @@
 
 	if (!file_exists("../gen_ex/$sid/$dir"))
 	{
-		mkdir("../gen_ex/$sid/$dir", 0755)
+		mkdir("../gen_ex/$sid/$dir", 0750)
 			or die("Create dir error!");
 	}
 ?>

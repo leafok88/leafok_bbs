@@ -37,9 +37,24 @@
 
 	set_time_limit(3600);
 
+	$shared_dirs = array(
+		"../gen_ex/static/",
+		"../gen_ex/attachment/",
+		"../gen_ex/pack/"
+	);
+
+	foreach($shared_dirs as $dir)
+	{
+		if (!file_exists($dir))
+		{
+			mkdir($dir, 0750)
+				or die("Create dir error!");
+		}
+	}
+
 	if (!file_exists("../gen_ex/$sid/"))
 	{
-		mkdir("../gen_ex/$sid/", 0755)
+		mkdir("../gen_ex/$sid/", 0750)
 			or die("Create dir error!");
 	}
 
